@@ -5,11 +5,10 @@ const app = express();
 
 
 // DATABASE STARTS HERE 
+require("dotenv").config();
 const mongoose = require("mongoose");
 
-const uri = "mongodb+srv://wad-users-01:YgaT6b6duLWrTHoC@wad.caqywub.mongodb.net/MovieHub?retryWrites=true&w=majority";
-
-mongoose.connect(uri)
+mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("✅ MongoDB connected"))
   .catch(err => console.error("❌ MongoDB error:", err));
 // DATABASE ENDS HERE 
