@@ -110,8 +110,14 @@ router.post("/login", (req, res) =>{
 
 // END OF ADDING YOUR CODE
 */ 
+function alreadyLoggedIn(req, res, next) {
+  if (req.session.userId) {
+    return res.redirect("/profile");
+  }
+  next();
+}
 
-router.get("/signup", (req, res) => { 
+router.get("/signup", alreadyLoggedIn, (req, res) => { 
   res.render("signup", {error: null}); 
 }); 
 
@@ -145,7 +151,7 @@ router.post("/signup", async(req, res) => {
 
     await newUser.save(); 
 
-    res.redirect("/login"); 
+    res.redirect("/profile"); 
 
   } catch(err){ 
     console.error(err);
@@ -153,7 +159,7 @@ router.post("/signup", async(req, res) => {
   }
 })
 
-router.get("/login", (req, res) => { 
+router.get("/login", alreadyLoggedIn, (req, res) => { 
   res.render("login", {error: null}); 
 }); 
 
@@ -189,10 +195,15 @@ router.post("/login", async(req, res) => {
   }
 })
 
-router.get("/logout", (req, res)=>{ 
-  req.session.destroy(() => { 
-    res.redirect("/login"); 
-  })
+router.get("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return res.send("Error logging out.");
+    }
+
+    res.clearCookie("connect.sid");
+    res.redirect("/login");
+  });
 });
 
 module.exports = router;

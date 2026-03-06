@@ -19,7 +19,10 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(session({
   secret: process.env.SESSION_SECRET || "moviehubsecret",
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24 * 30 //30 days 
+  }
 }));
 
 app.set("view engine", "ejs");
