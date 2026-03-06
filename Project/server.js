@@ -1,11 +1,11 @@
+require("dotenv").config();
 const path = require("path");
 const express = require("express");
-
+const session = require("express-session"); 
 const app = express();
 
 
 // DATABASE STARTS HERE 
-require("dotenv").config();
 const mongoose = require("mongoose");
 
 mongoose.connect(process.env.MONGO_URI)
@@ -16,6 +16,15 @@ mongoose.connect(process.env.MONGO_URI)
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use(session({
+  secret: process.env.SESSION_SECRET || "moviehubsecret",
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24 * 30 //30 days 
+  }
+}));
+
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
@@ -24,11 +33,15 @@ const movie = require("./routes/movie");
 const review = require("./routes/review");
 const user = require("./routes/user")
 const watchlist = require("./routes/watchlist");
+const profile = require("./routes/profile"); 
+
+
 app.use("/", auth);
 app.use("/", movie);
 app.use("/", review);
 app.use("/users", user);
 app.use("/", watchlist);
+app.use("/", profile)
 
 app.get("/", (req, res) => {
   res.send(`

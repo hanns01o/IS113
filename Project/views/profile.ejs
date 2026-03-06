@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Profile | MovieHub</title>
+    <link rel="stylesheet" href="/profile.css" />
+  </head>
+  <body>
+    <nav class="top-nav">
+      <div class="logo">MovieHub</div>
+      <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/movies">Movies</a>
+        <a href="/watchlist">Watchlist</a>
+        <a href="/logout" class="logout-btn">Logout</a>
+      </div>
+    </nav>
+
+    <main class="profile-page">
+      <section class="profile-card">
+        <div class="profile-header">
+          <div class="avatar"><%= user.username.charAt(0).toUpperCase() %></div>
+
+          <div class="profile-main-info">
+            <h1><%= user.username %></h1>
+            <p class="email"><%= user.email %></p>
+            <span class="role-badge"><%= user.role %></span>
+          </div>
+        </div>
+
+        <div class="profile-body">
+          <div class="info-box">
+            <h3>About Me</h3>
+            <p><%= user.bio || "No bio added yet." %></p>
+          </div>
+
+          <div class="info-grid">
+            <div class="info-item">
+              <span class="label">Favourite Genre</span>
+              <span class="value"><%= user.favouriteGenre || "Not set" %></span>
+            </div>
+
+            <div class="info-item">
+              <span class="label">Joined</span>
+              <span class="value">
+                <%= new Date(user.createdAt).toLocaleDateString() %>
+              </span>
+            </div>
+          </div>
+
+          <div class="profile-actions">
+            <a href="/profile/edit" class="primary-btn">Edit Profile</a>
+            <a href="/movies" class="secondary-btn">Browse Movies</a>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
