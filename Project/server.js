@@ -8,7 +8,9 @@ const app = express();
 // DATABASE STARTS HERE 
 const mongoose = require("mongoose");
 
-mongoose.connect(process.env.MONGO_URI)
+mongoose.connect(process.env.MONGO_URI, { 
+  serverSelectionTimeoutMS: 10000
+})
   .then(() => console.log("✅ MongoDB connected"))
   .catch(err => console.error("❌ MongoDB error:", err));
 // DATABASE ENDS HERE 
@@ -29,6 +31,7 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 const auth = require("./routes/auth");
+const home = require("./routes/home");
 const movie = require("./routes/movie");
 const review = require("./routes/review");
 const user = require("./routes/user")
@@ -37,6 +40,7 @@ const profile = require("./routes/profile");
 
 
 app.use("/", auth);
+app.use("/", home); 
 app.use("/", movie);
 app.use("/", review);
 app.use("/users", user);

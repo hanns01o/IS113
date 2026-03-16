@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MovieHub | Home</title>
+  <link rel="stylesheet" href="/home.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-left">
+      <a href="/home" class="logo">MovieHub</a>
+      <a href="/home">Home</a>
+      <a href="/watchlist">My Watchlist</a>
+      <a href="/movies">Movies</a>
+    </div>
+
+    <div class="nav-right">
+      <a href="/profile"><%= username %></a>
+      <a href="/logout" class="logout-btn">Logout</a>
+    </div>
+  </nav>
+
+  <% if (featuredMovie) { %>
+    <section class="hero" style="background-image: linear-gradient(to right, rgba(0,0,0,0.85), rgba(0,0,0,0.3)), url('<%= featuredMovie.bannerUrl %>');">
+      <div class="hero-content">
+        <h1><%= featuredMovie.title %></h1>
+        <p class="genre"><%= featuredMovie.genre %></p>
+        <p class="description"><%= featuredMovie.description %></p>
+
+        <div class="hero-buttons">
+          <a href="/movies/<%= featuredMovie._id %>" class="primary-btn">View Details</a>
+          <a href="/watchlist" class="secondary-btn">My Watchlist</a>
+        </div>
+      </div>
+    </section>
+  <% } else { %>
+    <section class="hero empty-hero">
+      <div class="hero-content">
+        <h1>Welcome to MovieHub</h1>
+        <p class="description">Start adding movies to your watchlist to personalize your homepage.</p>
+        <div class="hero-buttons">
+          <a href="/movies" class="primary-btn">Browse Movies</a>
+        </div>
+      </div>
+    </section>
+  <% } %>
+
+  <main class="content-section">
+    <section class="movie-row-section">
+      <h2>My Watchlist</h2>
+
+      <% if (watchlistMovies.length > 0) { %>
+        <div class="movie-row">
+          <% watchlistMovies.forEach(movie => { %>
+            <a href="/movies/<%= movie._id %>" class="movie-card">
+              <img src="<%= movie.posterUrl %>" alt="<%= movie.title %>">
+              <div class="movie-overlay">
+                <h3><%= movie.title %></h3>
+                <p><%= movie.genre %></p>
+              </div>
+            </a>
+          <% }) %>
+        </div>
+      <% } else { %>
+        <p class="empty-text">Your watchlist is empty. Add some movies to see them here.</p>
+      <% } %>
+    </section>
+  </main>
+</body>
+</html>

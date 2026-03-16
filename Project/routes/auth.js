@@ -112,7 +112,7 @@ router.post("/login", (req, res) =>{
 */ 
 function alreadyLoggedIn(req, res, next) {
   if (req.session.userId) {
-    return res.redirect("/profile");
+    return res.redirect("/home");
   }
   next();
 }
@@ -150,7 +150,9 @@ router.post("/signup", async(req, res) => {
     })
 
     await newUser.save(); 
-
+    req.session.userId = newUser._id;
+    req.session.username = newUser.username;
+    req.session.role = newUser.role;
     res.redirect("/profile"); 
 
   } catch(err){ 
