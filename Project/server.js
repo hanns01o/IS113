@@ -27,6 +27,15 @@ app.use(session({
   }
 }));
 
+app.use((req, res, next) => {
+  res.locals.currentUser = {
+    userId: req.session.userId || null,
+    username: req.session.username || null,
+    role: req.session.role || null
+  };
+  next();
+});
+
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
@@ -48,11 +57,12 @@ app.use("/", watchlist);
 app.use("/", profile)
 
 app.get("/", (req, res) => {
-  res.send(`
-    <h1>Movies Watchlist</h1>
-    <a href="signup">Sign Up</a>
-    <a href="login">Login</a>
-  `);
+  // res.send(`
+  //   <h1>Movies Watchlist</h1>
+  //   <a href="signup">Sign Up</a>
+  //   <a href="login">Login</a>
+  // `);
+  res.redirect("/movies")
 });
 
 const hostname = "127.0.0.1";
