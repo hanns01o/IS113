@@ -8,5 +8,5 @@ https://docs.google.com/document/d/1zZ4mjdTS9JwLNTCrDTQEP_zih4MVrjYWyMxYAxCLS-c/
 .env file is sent in the group chat. Do not push env file inside github!
 
 # First Time Set-up 
-npm install dotenv 
-put .env file on the same level as server.js
+1. npm install dotenv 
+2. put .env file on the same level as server.js
