@@ -2,8 +2,6 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
 
-const API_KEY = "3a9ab3c99c72703de8fcfa95eac4b0eb";
-
 function requireLogin(req, res, next) {
     if (!req.session.userId) {
         return res.redirect("/login");
@@ -22,7 +20,7 @@ router.get("/watchlist", requireLogin, async (req, res) => {
         const watchlistMovies = [];
 
         for (const movieId of user.watchList) {
-            const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}`);
+            const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.API_KEY}`);
             const movieData = await response.json();
             watchlistMovies.push({
                 id: movieData.id,
