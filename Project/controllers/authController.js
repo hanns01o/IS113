@@ -59,8 +59,9 @@ exports.postLogin = async (req, res) => {
             return res.render("login", {error: "Please enter both email and password."})
         }
     
-        const user = await User.findOne({email}); 
-    
+        // const user = await User.findOne({email}); 
+        const user = await User.getUserByEmail(email)
+        
         if(!user){ 
             return res.render("login", {error: "Invalid email or password."})
         }
