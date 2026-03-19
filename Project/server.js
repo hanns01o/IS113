@@ -10,11 +10,22 @@ const app = express();
 // DATABASE STARTS HERE 
 const mongoose = require("mongoose");
 
-mongoose.connect(process.env.MONGO_URI, { 
-  serverSelectionTimeoutMS: 10000
-})
-  .then(() => console.log("✅ MongoDB connected"))
-  .catch(err => console.error("❌ MongoDB error:", err));
+// This is using PROMISE 
+// mongoose.connect(process.env.MONGO_URI, { 
+//   serverSelectionTimeoutMS: 10000
+// })
+//   .then(() => console.log("✅ MongoDB connected"))
+//   .catch(err => console.error("❌ MongoDB error:", err));
+
+async function connectDB() { 
+  try{ 
+    await mongoose.connect(process.env.MONGO_URI); 
+    console.log("✅ MongoDB connected")
+  } catch(error) { 
+    console.log("Database cannot connect!", error )
+  }
+}
+connectDB() 
 // DATABASE ENDS HERE 
 
 app.use(express.urlencoded({ extended: true }));
