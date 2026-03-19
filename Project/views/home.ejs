@@ -10,24 +10,39 @@
 <body>
   <%- include("partials/header") %>
 
-  <% if (featuredMovie) { %>
-    <section class="hero" style="background-image: linear-gradient(to right, rgba(0,0,0,0.85), rgba(0,0,0,0.3)), url('<%= featuredMovie.bannerUrl %>');">
-      <div class="hero-content page-with-header">
-        <h1><%= featuredMovie.title %></h1>
-        <p class="genre"><%= featuredMovie.genre %></p>
-        <p class="description"><%= featuredMovie.description %></p>
+  <% if (featuredMovies && featuredMovies.length > 0) { %>
+    <section class="hero-slider page-with-header">
+      <% featuredMovies.forEach((movie, index) => { %>
+        <div
+          class="hero-slide <%= index === 0 ? 'active' : '' %>"
+          style="background-image: linear-gradient(to right, rgba(0,0,0,0.88), rgba(0,0,0,0.25)), url('<%= movie.backdropUrl %>');"
+        >
+          <div class="hero-content">
+            <h1><%= movie.title %></h1>
+            <p class="hero-meta">
+              ⭐ <%= movie.rating.toFixed(1) %> &nbsp; | &nbsp; <%= movie.releaseDate %>
+            </p>
+            <p class="description">
+              <%= movie.overview ? movie.overview.substring(0, 180) + "..." : "No description available." %>
+            </p>
 
-        <div class="hero-buttons">
-          <a href="/movies/<%= featuredMovie._id %>" class="primary-btn">View Details</a>
-          <% if (currentUser && currentUser.userId) { %>
-            <a href="/watchlist" class="secondary-btn">My Watchlist</a>
-          <% } %>
+            <div class="hero-buttons">
+              <a href="/details?id=<%= movie.id %>" class="primary-btn">View Details</a>
+              <a href="/movies" class="secondary-btn">Browse Movies</a>
+            </div>
+          </div>
         </div>
+      <% }) %>
+
+      <div class="hero-indicators">
+        <% featuredMovies.forEach((movie, index) => { %>
+          <button class="indicator <%= index === 0 ? 'active' : '' %>" data-index="<%= index %>"></button>
+        <% }) %>
       </div>
     </section>
   <% } else { %>
-    <section class="hero empty-hero">
-      <div class="hero-content page-with-header">
+    <section class="hero empty-hero page-with-header">
+      <div class="hero-content">
         <h1>Welcome to MovieHub</h1>
         <p class="description">Start adding movies to your watchlist to personalize your homepage.</p>
         <div class="hero-buttons">
@@ -40,12 +55,15 @@
   <% if (currentUser && currentUser.userId) { %>
     <main class="content-section">
       <section class="movie-row-section">
-        <h2>My Watchlist</h2>
+        <div class="section-header">
+          <h2>My Watchlist</h2>
+          <a href="/watchlist" class="see-more-btn">See More</a>
+        </div>
 
         <% if (watchlistMovies.length > 0) { %>
           <div class="movie-row">
             <% watchlistMovies.forEach(movie => { %>
-              <a href="/movies/<%= movie._id %>" class="movie-card">
+              <a href="/details?id=<%= movie._id %>" class="movie-card">
                 <img src="<%= movie.posterUrl %>" alt="<%= movie.title %>">
                 <div class="movie-overlay">
                   <h3><%= movie.title %></h3>
@@ -60,5 +78,37 @@
       </section>
     </main>
   <% } %>
+
+  <script>
+    const slides = document.querySelectorAll(".hero-slide");
+    const indicators = document.querySelectorAll(".indicator");
+    let currentIndex = 0;
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle("active", i === index);
+      });
+
+      indicators.forEach((dot, i) => {
+        dot.classList.toggle("active", i === index);
+      });
+
+      currentIndex = index;
+    }
+
+    if (slides.length > 0) {
+      setInterval(() => {
+        const nextIndex = (currentIndex + 1) % slides.length;
+        showSlide(nextIndex);
+      }, 4000);
+    }
+
+    indicators.forEach(dot => {
+      dot.addEventListener("click", () => {
+        const index = Number(dot.dataset.index);
+        showSlide(index);
+      });
+    });
+  </script>
 </body>
 </html>
