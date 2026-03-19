@@ -68,6 +68,7 @@ body {
 
 /* BACK BUTTON */
 .back-row {
+    margin: 80px 0px 0px 0px;
     width: 100%;
     padding: 20px 40px 0;
 }

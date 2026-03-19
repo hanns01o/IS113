@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="/header.css">
     <style>
         :root {
             --bg: #0a0a0f;
@@ -34,6 +35,7 @@
         }
 
         .backdrop {
+            margin: 40px 0px 0px 0px;
             padding: 50px 25px;
             background-image: url("https://image.tmdb.org/t/p/w1280<%= movie.backdrop_path %>");
             background-size: cover;
@@ -202,6 +204,8 @@
         <a href="/logout" class="logout-btn">Logout</a>
       </div>
     </nav> -->
+    
+    <%- include("partials/header") %>
     <div class="backdrop">
         <table>
             <tr>

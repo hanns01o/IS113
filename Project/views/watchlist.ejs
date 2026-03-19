@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= user.username %>'s Watchlist | MovieHub</title>
     <link rel="stylesheet" href="/watchlist.css">
+    <link rel="stylesheet" href="/header.css">
 </head>
 
 <body>
-    <nav class="top-nav">
+    <!-- <nav class="top-nav">
       <div class="logo">MovieHub</div>
       <div class="nav-links">
         <a href="/">Home</a>
@@ -16,7 +17,9 @@
         <a href="/watchlist">Watchlist</a>
         <a href="/logout" class="logout-btn">Logout</a>
       </div>
-    </nav>
+    </nav> -->
+    
+    <%- include("partials/header") %>
 
     <div class="back-row">
         <a href="javascript:history.back()" class="back-btn">← Back</a>

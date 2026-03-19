@@ -24,7 +24,7 @@ router.get("/details", async (req, res) => {
     const movieID = Number(req.query.id);
 
     try {
-        const response = await fetch(`https://api.themoviedb.org/3/movie/${movieID}?api_key=${API_KEY}`);
+        const response = await fetch(`https://api.themoviedb.org/3/movie/${movieID}?api_key=${process.env.API_KEY}`);
         const data = await response.json();
         movie = data;
 
