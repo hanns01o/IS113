@@ -39,4 +39,15 @@ const userSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.models.User || mongoose.model("User", userSchema);
+// module.exports = mongoose.models.User || mongoose.model("User", userSchema);
+userSchema.statics.createUser = function(newUser) {
+  return this.create(newUser);
+};
+
+userSchema.statics.getUserByEmail = function(email) {
+  return this.findOne({ email });
+};
+
+const User = mongoose.models.User || mongoose.model("User", userSchema, "users");
+
+module.exports = User;
