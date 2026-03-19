@@ -38,9 +38,15 @@
           <input type="email" id="email" name="email" value="<%= user.email %>" required>
         </div>
 
-        <div class="input-group">
-          <label for="favouriteGenre">Favourite Genre</label>
-          <input type="text" id="favouriteGenre" name="favouriteGenre" value="<%= user.favouriteGenre %>">
+        <label >Favourite Genre</label>
+        <div class="genre-container">
+          <% genres.forEach(g => { %>
+            <label class="genre-tag">
+              <input type="checkbox" name="favouriteGenre" value="<%= g.id %>"
+                <%= user.favouriteGenre && user.favouriteGenre.includes(String(g.id)) ? "checked" : "" %>>
+              <span><%= g.name %></span>
+            </label>
+          <% }) %>
         </div>
 
         <div class="input-group">

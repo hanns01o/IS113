@@ -26,8 +26,8 @@ const userSchema = new mongoose.Schema({
     default: "Movie lover and reviewer."
   },
   favouriteGenre: {
-    type: String,
-    default: "Not set"
+    type: Array,
+    default: []
   },
   createdAt: {
     type: Date,

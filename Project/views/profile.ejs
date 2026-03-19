@@ -30,7 +30,7 @@
           <div class="info-grid">
             <div class="info-item">
               <span class="label">Favourite Genre</span>
-              <span class="value"><%= user.favouriteGenre || "Not set" %></span>
+              <span> <%= favouriteGenreNames.length > 0 ? favouriteGenreNames.join(", ") : "Not Set" %> </span>
             </div>
 
             <div class="info-item">
