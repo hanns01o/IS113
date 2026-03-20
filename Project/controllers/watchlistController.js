@@ -1,7 +1,8 @@
 const User = require("../models/User");
 const Watchlist = require("../models/Watchlist");
 
-exports.getWatchlist = async (req, res) => {
+// read
+exports.getWatchlist = async (req, res) => {  
     try {
         const user = await User.getUserById(req.session.userId);
 
@@ -19,7 +20,8 @@ exports.getWatchlist = async (req, res) => {
     }
 }
 
-exports.addToWatchlist = async (req, res) => {
+// create
+exports.addToWatchlist = async (req, res) => {  
     try {
         const user = await User.getUserById(req.session.userId);
         const movieId = Number(req.params.movieId);
@@ -43,7 +45,8 @@ exports.addToWatchlist = async (req, res) => {
     }
 }
 
-exports.removeFromWatchlist = async (req, res) => {
+// delete 
+exports.removeFromWatchlist = async (req, res) => { 
     try {
         const user = await User.getUserById(req.session.userId);
         const movieId = Number(req.params.movieId);
@@ -64,3 +67,46 @@ exports.removeFromWatchlist = async (req, res) => {
     }
 }
 
+// update (add)
+exports.updateAddWatched = async (req, res) => {
+    try {
+        const user = await User.getUserById(req.session.userId);
+        const movieId = Number(req.params.movieId);
+
+        if (!user){
+            return res.redirect("/login");
+        }
+
+        await Watchlist.findOneAndUpdate(
+            { userId: req.session.userId, movieId: movieId },
+            { watchedDate: new Date() }
+        )
+
+        res.redirect(`/details?id=${movieId}`);
+    } catch (err) {
+        console.error(err);
+        res.send("Error updating (add) watched status of movie.")
+    }
+}
+
+// update (remove)
+exports.updateRemoveWatched = async (req, res) => {
+    try {
+        const user = await User.getUserById(req.session.userId);
+        const movieId = Number(req.params.movieId);
+
+        if (!user){
+            return res.redirect("/login");
+        }
+
+        await Watchlist.findOneAndUpdate(            
+            { userId: req.session.userId, movieId: movieId },
+            { watchedDate: null }
+        )
+
+        res.redirect(`/details?id=${movieId}`);
+    } catch (err) {
+        console.error(err);
+        res.send("Error updating (remove) watched status of movie.")
+    }
+}

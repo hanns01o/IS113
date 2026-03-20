@@ -231,6 +231,15 @@
                         <form method="POST" action="/watchlist/remove/<%= movie.id %>">
                             <button type="submit" class="watchlist-btn remove">Remove from Watchlist</button>
                         </form>
+                        <% if (!watchedStatus) { %>
+                            <form method="POST" action="/watchlist/updateadd/<%= movie.id %>">
+                                <button type="submit" class="watchlist-btn">Mark as Watched</button>
+                            </form>
+                        <% } else { %>
+                            <form method="POST" action="/watchlist/updateremove/<%= movie.id %>">
+                                <button type="submit" class="watchlist-btn remove">Mark as Unwatched</button>
+                            </form>
+                        <% } %>
                     <% } else { %>
                         <form method="POST" action="/watchlist/add/<%= movie.id %>">
                             <input type="hidden" name="movieTitle" value="<%= movie.title %>">

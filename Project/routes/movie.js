@@ -42,8 +42,9 @@ router.get("/details", async (req, res) => {
         });
 
         const inWatchlist = !!watchlistItem;
+        const watchedStatus = !watchlistItem.watchedDate ? false : true;
         
-        res.render("movieDetails", {movie, inWatchlist})
+        res.render("movieDetails", {movie, inWatchlist, watchedStatus})
     } catch (error) {
         console.log("Error has occured");
     }
