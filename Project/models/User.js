@@ -39,4 +39,23 @@ const userSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.models.User || mongoose.model("User", userSchema);
+// module.exports = mongoose.models.User || mongoose.model("User", userSchema);
+userSchema.statics.createUser = function(newUser) {
+  return this.create(newUser);
+};
+
+userSchema.statics.getUserByEmail = function(email) {
+  return this.findOne({ email });
+};
+
+userSchema.statics.getUserById = function(userId) { 
+  return this.findById(userId)
+}
+
+userSchema.statics.editUserDetails = function(sessionId, newUserDetails){ 
+  return this.findByIdAndUpdate(sessionId, newUserDetails);
+}
+
+const User = mongoose.model("User", userSchema, "users");
+
+module.exports = User;

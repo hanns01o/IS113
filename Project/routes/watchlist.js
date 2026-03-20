@@ -11,7 +11,7 @@ function requireLogin(req, res, next) {
 
 router.get("/watchlist", requireLogin, async (req, res) => {
     try {
-        const user = await User.findById(req.session.userId);
+        const user = await User.getUserById(req.session.userId);
 
         if (!user) {
             return res.redirect("/login");
@@ -38,7 +38,7 @@ router.get("/watchlist", requireLogin, async (req, res) => {
 
 router.post("/watchlist/add/:movieId", requireLogin, async (req, res) => {
     try {
-        const user = await User.findById(req.session.userId);
+        const user = await User.getUserById(req.session.userId);
         const movieId = Number(req.params.movieId);
 
         if (!user) {
@@ -60,7 +60,7 @@ router.post("/watchlist/add/:movieId", requireLogin, async (req, res) => {
 
 router.post("/watchlist/remove/:movieId", requireLogin, async (req, res) => {
     try {
-        const user = await User.findById(req.session.userId);
+        const user = await User.getUserById(req.session.userId);
         const movieId = Number(req.params.movieId);
 
         if (!user) {

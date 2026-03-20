@@ -2,8 +2,8 @@ const User = require("../models/User");
 
 exports.getProfile = async (req, res) => {
     try {
-        const user = await User.findById(req.session.userId);
-
+        // const user = await User.findById(req.session.userId);
+        const user = await User.getUserById(req.session.userId)
         if (!user) {
             return res.redirect("/login");
         }
@@ -27,7 +27,7 @@ exports.getProfile = async (req, res) => {
 
 exports.getEditProfile = async (req, res) => {
     try {
-        const user = await User.findById(req.session.userId);
+        const user = await User.getUserById(req.session.userId);
         if (!user) {
             return res.redirect("/login");
         }
@@ -52,8 +52,7 @@ exports.postEditProfile = async (req, res) => {
         const { username, email, bio, favouriteGenre } = req.body;
 
         if (!username || !email) {
-            const user = await User.findById(req.session.userId);
-
+            const user = await User.getUserById(req.session.userId);
             return res.render("editProfile", {
                 user,
                 error: "Username and email cannot be empty."
@@ -62,7 +61,7 @@ exports.postEditProfile = async (req, res) => {
 
         const genres = Array.isArray(favouriteGenre) ? favouriteGenre : [favouriteGenre]; 
 
-        await User.findByIdAndUpdate(req.session.userId, {
+        await User.editUserDetails(req.session.userId, {
             username,
             email,
             bio,

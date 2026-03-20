@@ -29,7 +29,7 @@ router.get("/details", async (req, res) => {
         movie = data;
 
         // watchlist 
-        const user = await User.findById(req.session.userId);
+        const user = await User.getUserById(req.session.userId);
 
         if (!user) {
             return res.redirect("/login");

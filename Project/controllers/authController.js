@@ -21,8 +21,9 @@ exports.postSignup = async(req, res) => {
             return res.render("signup", { error: "Password must be at least 6 characters." });
         }
     
-        const existingUser = await User.findOne({ email }); 
-    
+        // const existingUser = await User.findOne({ email }); 
+        const existingUser = await User.getUserByEmail(email)
+
         if(existingUser){ 
             return res.render("signup", {error: "Email is already registered."}); 
         }
@@ -32,8 +33,9 @@ exports.postSignup = async(req, res) => {
         const newUser = new User({ 
             username, email, password: hashedPassword, role:"user"
         })
-    
-        await newUser.save(); 
+        
+        await User.createUser(newUser)
+        // await newUser.save(); 
         req.session.userId = newUser._id;
         req.session.username = newUser.username;
         req.session.role = newUser.role;
@@ -57,8 +59,9 @@ exports.postLogin = async (req, res) => {
             return res.render("login", {error: "Please enter both email and password."})
         }
     
-        const user = await User.findOne({email}); 
-    
+        // const user = await User.findOne({email}); 
+        const user = await User.getUserByEmail(email)
+        
         if(!user){ 
             return res.render("login", {error: "Invalid email or password."})
         }
