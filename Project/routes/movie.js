@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
+const Watchlist = require("../models/Watchlist");
 
 router.get("/movies", async (req, res) => {
     let movies = []
@@ -34,8 +35,13 @@ router.get("/details", async (req, res) => {
         if (!user) {
             return res.redirect("/login");
         }
-        const watchlist = user.watchList || [];
-        const inWatchlist = watchlist.includes(movieID);
+
+        const watchlistItem = await Watchlist.findOne({
+            userId: req.session.userId,
+            movieId: movieID
+        });
+
+        const inWatchlist = !!watchlistItem;
         
         res.render("movieDetails", {movie, inWatchlist})
     } catch (error) {

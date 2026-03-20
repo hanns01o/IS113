@@ -8,17 +8,7 @@
     <link rel="stylesheet" href="/header.css">
 </head>
 
-<body>
-    <!-- <nav class="top-nav">
-      <div class="logo">MovieHub</div>
-      <div class="nav-links">
-        <a href="/">Home</a>
-        <a href="/movies">Movies</a>
-        <a href="/watchlist">Watchlist</a>
-        <a href="/logout" class="logout-btn">Logout</a>
-      </div>
-    </nav> -->
-    
+<body>    
     <%- include("partials/header") %>
 
     <div class="back-row">
@@ -27,8 +17,6 @@
 
     <div class="page-content">
         
-    <!-- <h1><%= user.username %>'s Watchlist</h1> -->
-
         <% if (watchlistMovies.length === 0) { %>
             <p class="empty">
             Your watchlist is empty.  
@@ -42,14 +30,14 @@
 
                         <% for (let j = i; j < i + 5 && j < watchlistMovies.length; j++) { %>
                             <td>
-                                <a href="/details?id=<%= watchlistMovies[j].id %>">
-                                    <img src="https://image.tmdb.org/t/p/w500<%= watchlistMovies[j].poster_path %>" 
-                                        alt="<%= watchlistMovies[j].title %>">
+                                <a href="/details?id=<%= watchlistMovies[j].movieId %>">
+                                    <img src="https://image.tmdb.org/t/p/w500<%= watchlistMovies[j].posterPath %>" 
+                                         alt="<%= watchlistMovies[j].movieTitle %>">
                                 </a>
 
                                 <div class="movie-title">
-                                    <a href="/details?id=<%= watchlistMovies[j].id %>">
-                                        <%= watchlistMovies[j].title %>
+                                    <a href="/details?id=<%= watchlistMovies[j].movieId %>">
+                                        <%= watchlistMovies[j].movieTitle %>
                                     </a>
                                 </div>
                             </td>

@@ -195,16 +195,6 @@
 </head>
 
 <body>
-    <!-- <nav class="top-nav">
-      <div class="logo">MovieHub</div>
-      <div class="nav-links">
-        <a href="/">Home</a>
-        <a href="/movies">Movies</a>
-        <a href="/watchlist">Watchlist</a>
-        <a href="/logout" class="logout-btn">Logout</a>
-      </div>
-    </nav> -->
-    
     <%- include("partials/header") %>
     <div class="backdrop">
         <table>
@@ -239,10 +229,15 @@
 
                     <% if (inWatchlist) { %>
                         <form method="POST" action="/watchlist/remove/<%= movie.id %>">
-                            <button type="submit" class="watchlist-btn remove">Remove from Watchlist</button>                        </form>
+                            <button type="submit" class="watchlist-btn remove">Remove from Watchlist</button>
+                        </form>
                     <% } else { %>
                         <form method="POST" action="/watchlist/add/<%= movie.id %>">
-                            <button type="submit" class="watchlist-btn add">Add to Watchlist</button>                    <% } %>
+                            <input type="hidden" name="movieTitle" value="<%= movie.title %>">
+                            <input type="hidden" name="posterPath" value="<%= movie.poster_path %>">
+                            <button type="submit" class="watchlist-btn">Add to Watchlist</button>
+                        </form>
+                    <% } %>
                 </td>
             </tr>
         </table>
