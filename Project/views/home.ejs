@@ -60,22 +60,37 @@
           <a href="/watchlist" class="see-more-btn">See More</a>
         </div>
 
-        <% if (watchlistMovies.length > 0) { %>
-          <div class="movie-row">
-            <% watchlistMovies.forEach(movie => { %>
-              <a href="/details?id=<%= movie._id %>" class="movie-card">
-                <img src="<%= movie.posterUrl %>" alt="<%= movie.title %>">
-                <div class="movie-overlay">
-                  <h3><%= movie.title %></h3>
-                  <p><%= movie.genre %></p>
-                </div>
-              </a>
-            <% }) %>
-          </div>
+        <% if (watchlistMovies.length === 0) { %>
+            <p class="empty">
+            Your watchlist is empty.  
+            Let's add some <a href="/movies">movies</a>!
+            </p>          
         <% } else { %>
-          <p class="empty-text">Your watchlist is empty. Add some 
-            <a href="/movies">movies</a> to see them here.</p>
+          <table class="watchlist-preview-table">
+            <tr>
+              <% watchlistMovies.forEach(movie => { %>
+                <td>
+                  <a href="/details?id=<%= movie.movieId %>">
+                    <img
+                      src="https://image.tmdb.org/t/p/w500<%= movie.posterPath %>"
+                      alt="<%= movie.movieTitle %>"
+                    >
+                  </a>
+
+                  <div class="movie-title">
+                    <a href="/details?id=<%= movie.movieId %>">
+                      <%= movie.movieTitle %>
+                    </a>
+                  </div>
+                </td>
+              <% }) %>
+              <% for (let i = watchlistMovies.length; i < 5; i++) { %>
+                <td class="empty-cell"></td>
+              <% } %>
+            </tr>
+          </table>
         <% } %>
+
       </section>
 
       <section>

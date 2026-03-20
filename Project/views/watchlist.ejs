@@ -38,7 +38,8 @@
                                 <div class="movie-title">
                                     <a href="/details?id=<%= watchlistMovies[j].movieId %>">
                                         <%= watchlistMovies[j].movieTitle %>
-                                    </a>
+                                    </a> </br>
+                                    Added on: <%= (watchlistMovies[j].addedAt).toLocaleDateString("en-GB") %>
                                 </div>
                             </td>
                             <% cellsInRow++; %>

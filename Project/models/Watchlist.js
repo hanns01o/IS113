@@ -8,7 +8,6 @@ const watchlistSchema = new mongoose.Schema({
     },
     movieId: {
         type: Number,
-        // ref: "Movie",
         required: true
     },
     movieTitle: {
@@ -19,10 +18,6 @@ const watchlistSchema = new mongoose.Schema({
         type: String,
         required: true
     },  
-    // status: {
-    //     type: String,
-    //     default: "saved"
-    // },
     addedAt: {
         type: Date,
         default: Date.now

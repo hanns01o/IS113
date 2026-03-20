@@ -6,12 +6,16 @@ exports.getHomePage = async (req, res) => {
     let featuredMovies = [];
 
     if (req.session.userId) {
-      const watchlistItems = await Watchlist.find({ userId: req.session.userId })
-        .populate("movieId");
+    //   const watchlistItems = await Watchlist.find({ userId: req.session.userId })
+    //     .populate("movieId");
 
-      watchlistMovies = watchlistItems
-        .map(item => item.movieId)
-        .filter(movie => movie);
+    //   watchlistMovies = watchlistItems
+    //     .map(item => item.movieId)
+    //     .filter(movie => movie);
+    // }
+      watchlistMovies = await Watchlist.find({ userId: req.session.userId })
+        .sort({ addedAt: -1 })
+        .limit(5);
     }
 
     const category = "popular";
@@ -36,11 +40,11 @@ exports.getHomePage = async (req, res) => {
         }));
     }
 
-    const previewWatchlist = watchlistMovies.slice(0, 5);
+    // const previewWatchlist = watchlistMovies.slice(0, 5);
 
     res.render("home", {
       featuredMovies,
-      watchlistMovies: previewWatchlist
+      watchlistMovies //: previewWatchlist
     });
   } catch (err) {
     console.error(err);

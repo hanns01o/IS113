@@ -135,7 +135,7 @@ body {
 .see-more-btn:hover {
   background: #c90812;
 }
-
+/* 
 .movie-row {
   display: flex;
   gap: 18px;
@@ -201,7 +201,53 @@ body {
   color: #bdbdbd;
   font-size: 1rem;
   margin-top: 10px;
+} */
+
+.watchlist-preview-table {
+  width: 100%;
+  border-spacing: 20px;
+  table-layout: fixed;
 }
+
+.watchlist-preview-table td {
+  width: 25%;
+  vertical-align: top;
+}
+
+.watchlist-preview-table td a:has(img):hover img {
+  transform: scale(1.04);
+}
+
+.watchlist-preview-table td img {
+    display: block;
+    width: 100%;             
+    height: 350px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    border: 1px solid #1e1e28;
+}
+
+.movie-title {
+  margin-top: 8px;
+  text-align: center;
+}
+
+.movie-title a {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.movie-title a:hover {
+  color: var(--accent);
+}
+
+.empty-cell {
+  visibility: hidden;
+} 
 
 @media (max-width: 768px) {
   .hero-slider,
