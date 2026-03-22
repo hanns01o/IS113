@@ -1,18 +1,21 @@
 const Watchlist = require("../models/Watchlist");
 const User = require("../models/User"); 
+const {getRecentlyViewed} = require("../utils/recentlyViewedHelper")
 
 exports.getHomePage = async (req, res) => {
   try {
     let watchlistMovies = [];
     let featuredMovies = [];
     let recommendedMovies = []; 
+    let recentlyViewedMovies = []; 
 
     let user = null; 
 
     if (req.session.userId) {
       user = await User.findById(req.session.userId); 
 
-    //   const watchlistItems = await Watchlist.find({ userId: req.session.userId })
+      recentlyViewedMovies = await getRecentlyViewed(String(req.session.userId)); 
+      //   const watchlistItems = await Watchlist.find({ userId: req.session.userId })
     //     .populate("movieId");
 
     //   watchlistMovies = watchlistItems
@@ -46,8 +49,9 @@ exports.getHomePage = async (req, res) => {
         }));
     }
 
-    if (user && user.favouriteGenre && user.favouriteGenre.length > 0){ 
-      const genreIds = user.favouriteGenre.join(","); 
+    if (user && user.favouriteGenre && user.favouriteGenre.length > 0){
+      // if the user set their fav genre, it will be the latest show containing at least one of the fav genre. If not random show with the latest release date will be shown. 
+      const genreIds = user.favouriteGenre.join("|"); 
       const recommendResponse = await fetch(
         `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.API_KEY}&with_genres=${genreIds}&sort_by=primary_release_date.desc`
       );
@@ -77,7 +81,8 @@ exports.getHomePage = async (req, res) => {
     res.render("home", {
       featuredMovies,
       watchlistMovies,  //: previewWatchlist
-      recommendedMovies
+      recommendedMovies, 
+      recentlyViewedMovies
     });
   } catch (err) {
     console.error(err);

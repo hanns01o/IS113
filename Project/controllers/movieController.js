@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const Watchlist = require("../models/Watchlist");
+const { addRecentlyViewed } = require("../utils/recentlyViewedHelper"); 
 
 exports.getMovies = async (req, res) => {
     let movies = [];
@@ -44,6 +45,17 @@ exports.getMovieDetails = async (req, res) => {
 
         if (!user) {
             return res.redirect("/login");
+        }
+
+        if(req.session.userId){ 
+            // addIntoRecentlyViewed 
+            await addRecentlyViewed(String(req.session.userId), { 
+                id: movie.id, 
+                title: movie.title, 
+                posterUrl: movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : "", 
+                genre: movie.genres ? movie.genres.map(g => g.name).join(", ") : "", 
+                releaseDate: movie.release_date || ""
+            })
         }
 
         const watchlistItem = await Watchlist.findOne({
