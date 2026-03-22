@@ -46,8 +46,9 @@ exports.getHomePage = async (req, res) => {
         }));
     }
 
-    if (user && user.favouriteGenre && user.favouriteGenre.length > 0){ 
-      const genreIds = user.favouriteGenre.join(","); 
+    if (user && user.favouriteGenre && user.favouriteGenre.length > 0){
+      // if the user set their fav genre, it will be the latest show containing at least one of the fav genre. If not random show with the latest release date will be shown. 
+      const genreIds = user.favouriteGenre.join("|"); 
       const recommendResponse = await fetch(
         `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.API_KEY}&with_genres=${genreIds}&sort_by=primary_release_date.desc`
       );
