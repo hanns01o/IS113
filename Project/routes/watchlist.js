@@ -8,5 +8,6 @@ router.post("/watchlist/add/:movieId", requireLogin, watchlistController.addToWa
 router.post("/watchlist/remove/:movieId", requireLogin, watchlistController.removeFromWatchlist);
 router.post("/watchlist/updateadd/:movieId", requireLogin, watchlistController.updateAddWatched);
 router.post("/watchlist/updateremove/:movieId", requireLogin, watchlistController.updateRemoveWatched);
+router.post("/watchlist/clear", requireLogin, watchlistController.clearWatchlist);
 
 module.exports = router;
