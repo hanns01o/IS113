@@ -6,7 +6,7 @@
 }
 
 :root {
-    --accent: #e8c84a;   /* light blue */
+    --accent: #e8c84a;  
     --muted: #f0ede6;
     --text: #f0ede6;
     --radius: 10px;
@@ -18,59 +18,14 @@ body {
 
 }
 
-/* NAVBAR */
-.top-nav {
-    width: 100%;
-    padding: 18px 48px;
-    background: rgba(15, 23, 42, 0.95);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-.logo {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #fff;
-}
-
-.nav-links {
-    display: flex;
-    gap: 24px;
-    align-items: center;
-}
-
-.nav-links a {
-    color: #cbd5e1;
-    text-decoration: none;
-    font-size: 0.95rem;
-    transition: 0.2s ease;
-}
-
-.nav-links a:hover {
-    color: #fff;
-}
-
-.logout-btn {
-    padding: 10px 16px;
-    background: #ef4444;
-    border-radius: 10px;
-    color: white !important;
-}
-
-.logout-btn:hover {
-    background: #dc2626;
-}
-
 /* BACK BUTTON */
 .back-row {
     margin: 80px 0px 0px 0px;
     width: 100%;
     padding: 20px 40px 0;
+    display: flex;                   
+    justify-content: space-between; 
+    align-items: center;             
 }
 
 .back-btn {
@@ -82,6 +37,10 @@ body {
 
 .back-btn:hover {
     color: var(--accent);
+}
+
+.back-row form {
+    margin: 0;
 }
 
 .page-content {
@@ -113,14 +72,6 @@ td img {
     border: 1px solid #1e1e28;
 }
 
-
-/* TITLE */
-h1 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 42px;
-    letter-spacing: 2px;
-    margin-bottom: 30px;
-}
 
 /* EMPTY TEXT */
 .empty {
@@ -158,4 +109,17 @@ h1 {
 
 .movie-title a:hover {
     color: var(--accent);
+}
+
+.clear-btn {
+    padding: 8px 15px;
+    border-radius: 999px;
+    border: 1px solid #ef4444;
+    background: transparent;
+    color: #ef4444;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 1.5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.25s ease;
 }

@@ -13,6 +13,11 @@
 
     <div class="back-row">
         <a href="javascript:history.back()" class="back-btn">← Back</a>
+        <% if (watchlistMovies.length !== 0){ %>
+            <form method="POST" action="/watchlist/clear">
+                <button type="submit" class="clear-btn">Clear Watchlist</button>
+            </form>
+        <% } %>
     </div>
 
     <div class="page-content">

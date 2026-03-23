@@ -93,9 +93,39 @@
 
       </section>
 
-      <section>
-        <div>
-          <h2>You Might Also Like</h2>
+      <section class="content-section">
+        <div class="section-header">
+          <h2>You Might Like This</h2>
+        </div>
+
+        <div class="movie-row">
+          <% recommendedMovies.forEach(movie => { %>
+            <a href="/details?id=<%= movie.id %>" class="movie-card">
+              <img src="<%= movie.posterUrl %>" alt="<%= movie.title %>">
+              <div class="movie-overlay">
+                <h3><%= movie.title %></h3>
+                <p>⭐ <%= movie.rating.toFixed(1) %></p>
+              </div>
+            </a>
+          <% }) %>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <div class="section-header">
+          <h2>Recently Viewed</h2>
+        </div>
+
+        <div class="movie-row">
+          <% recentlyViewedMovies.forEach(movie => { %>
+            <a href="/details?id=<%= movie.id %>" class="movie-card">
+              <img src="<%= movie.posterUrl %>" alt="<%= movie.title %>">
+              <div class="movie-overlay">
+                <h3><%= movie.title %></h3>
+                <p><%= movie.genre %></p>
+              </div>
+            </a>
+          <% }) %>
         </div>
       </section>
     </main>

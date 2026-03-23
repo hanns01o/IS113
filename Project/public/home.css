@@ -135,7 +135,7 @@ body {
 .see-more-btn:hover {
   background: #c90812;
 }
-/* 
+
 .movie-row {
   display: flex;
   gap: 18px;
@@ -201,7 +201,7 @@ body {
   color: #bdbdbd;
   font-size: 1rem;
   margin-top: 10px;
-} */
+} 
 
 .watchlist-preview-table {
   width: 100%;
