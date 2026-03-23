@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reported Reviews | MovieHub Admin</title>
+    <link rel="stylesheet" href="/header.css">
+    <link rel="stylesheet" href="/adminReports.css">
+</head>
+
+<body>
+    <%- include("partials/header") %>
+
+    <div class="page-content">
+        <h1>Reported Reviews</h1>
+
+        
+        <div class="tabs">
+            <a href="/admin/reports?status=pending"
+                class="tab <%= filter === 'pending' ? 'active' : '' %>">
+                Pending (<%= pendingCount %>)
+            </a>
+            <a href="/admin/reports?status=actioned"
+                class="tab <%= filter === 'actioned' ? 'active' : '' %>">
+                Actioned
+            </a>
+            <a href="/admin/reports?status=dismissed"
+                class="tab <%= filter === 'dismissed' ? 'active' : '' %>">
+                Dismissed
+            </a>
+        </div>
+
+        <% if (reports.length === 0) { %>
+            <p class="empty">No <%= filter %> reports.</p>
+        <% } else { %>
+            <% for (let report of reports) { %>
+                <div class="report-card">
+                    <div class="report-header">
+                        <span class="reason-badge"><%= report.reason %></span>
+                        <span class="date"><%= report.createdAt.toLocaleDateString("en-GB") %></span>
+                    </div>
+
+                    <div class="report-body">
+                        <p class="label">Reported by:</p>
+                        <p><%= report.reportedBy ? report.reportedBy.username : "Deleted user" %></p>
+
+                        <p class="label">Review content:</p>
+                        <% if (report.reviewId) { %>
+                            <p class="review-text">
+                                "<%= report.reviewId.text
+                                    ? report.reviewId.text.substring(0, 200)
+                                    : "No text" %>"
+                            </p>
+                            <p class="review-author">
+                                — by <%= report.reviewId.userId
+                                    ? report.reviewId.userId.username
+                                    : "Deleted user" %>
+                            </p>
+                        <% } else { %>
+                            <p class="review-text">Review has been deleted.</p>
+                        <% } %>
+
+                        <% if (report.details) { %>
+                            <p class="label">Additional details:</p>
+                            <p><%= report.details %></p>
+                        <% } %>
+                    </div>
+
+                    <% if (filter === "pending") { %>
+                        <div class="report-actions">
+                            <form method="POST" action="/admin/reports/<%= report._id %>/dismiss">
+                                <button type="submit" class="btn-dismiss">Dismiss</button>
+                            </form>
+                            <form method="POST" action="/admin/reports/<%= report._id %>/delete-review"
+                                onsubmit="return confirm('Delete this review permanently?')">
+                                <button type="submit" class="btn-delete">Delete Review</button>
+                            </form>
+                        </div>
+                    <% } else { %>
+                        <div class="report-status">
+                            Status: <span class="status-<%= report.status %>"><%= report.status %></span>
+                        </div>
+                    <% } %>
+                </div>
+            <% } %>
+        <% } %>
+    </div>
+</body>
+
+</html>
