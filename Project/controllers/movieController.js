@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const Review = require("../models/Review");
 const Watchlist = require("../models/Watchlist");
 const { addRecentlyViewed } = require("../utils/recentlyViewedHelper"); 
 
@@ -24,6 +25,7 @@ exports.getMovies = async (req, res) => {
 exports.getMovieDetails = async (req, res) => {
     let movie = {};
     const movieID = Number(req.query.id);
+    // let errors = [];
 
     try {
         const response = await fetch(
@@ -33,11 +35,17 @@ exports.getMovieDetails = async (req, res) => {
         const data = await response.json();
         movie = data;
 
+        const reviews = await Review.find({ movie: movieID })
+            .populate('user')
+            .sort({ createdAt: -1 });
+
         if (!req.session.userId) {
             return res.render("movieDetails", {
                 movie,
+                reviews,
                 inWatchlist: false,
-                watchedStatus: false
+                watchedStatus: false,
+                movieId: movieID
             });
         }
 
@@ -68,8 +76,10 @@ exports.getMovieDetails = async (req, res) => {
 
         res.render("movieDetails", {
             movie,
+            reviews,
             inWatchlist,
-            watchedStatus
+            watchedStatus,
+            movieId: movieID
         });
     } catch (error) {
         console.error(error);

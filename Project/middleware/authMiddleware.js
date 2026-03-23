@@ -1,6 +1,7 @@
 const { requireAdmin } = require("../../../../../../Downloads/report-feature_2/middleware/authMiddleware");
 
 function requireLogin(req, res, next){
+    console.log("Session User ID:", req.session.userId);
     if (!req.session.userId) {
         return res.redirect("/login");
     }

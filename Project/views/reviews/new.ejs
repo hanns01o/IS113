@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Write a Review</title>
+    <link rel="stylesheet" href="/header.css">
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --surface: #13131a;
+            --accent: #e8c84a;
+            --text: #f0ede6;
+            --border: #1e1e28;
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            padding: 40px;
+        }
+        .form-container {
+            background: var(--surface);
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 600px;
+            margin: 50px auto;
+            border: 1px solid var(--border);
+        }
+        h1 { font-family: 'Bebas Neue', sans-serif; color: var(--accent); }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; color: #b0adb8; }
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: white;
+            border-radius: 8px;
+        }
+        .btn-submit {
+            background: var(--accent);
+            color: var(--bg);
+            padding: 12px 24px;
+            border: none;
+            border-radius: 999px;
+            font-family: 'Bebas Neue', sans-serif;
+            cursor: pointer;
+            width: 100%;
+        }
+        .error-msg { color: #ef4444; font-size: 14px; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+    <%- include("../partials/header") %>
+
+    <div class="form-container">
+        <h1>Add Your Review!</h1>
+        
+        <% if (errors && errors.length > 0) { %>
+            <div class="error-container">
+                <% errors.forEach(error => { %>
+                    <p class="error-msg">⚠️ <%= error.msg %></p>
+                <% }) %>
+            </div>
+        <% } %>
+
+        <form action="/movies/<%= movieId %>/reviews" method="POST">
+            <div class="form-group">
+                <label>Rating (1 - 10)</label>
+                <input type="number" name="rating" min="1" max="10" required placeholder="Give your rating!">
+            </div>
+
+            <div class="form-group">
+                <label>What Are Your Thoughts On It!</label>
+                <textarea name="comment" rows="5" required placeholder="(Min 10 chars)"></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit">Post Review</button>
+            <a href="/details?id=<%= movieId %>" style="color: var(--muted); display: block; text-align: center; margin-top: 15px; text-decoration: none;">Cancel</a>
+        </form>
+    </div>
+</body>
+</html>
