@@ -2,15 +2,18 @@ const mongoose = require("mongoose");
 
 const reviewSchema = new mongoose.Schema({
     movie: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Movie',
+        type: Number,
         required: true
     },
-    userId: {
+    user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         required: true
     },
+    username: {
+        type: String,
+        required: true
+    }, 
     rating: {
         type: Number,
         required: true,
@@ -30,14 +33,8 @@ const reviewSchema = new mongoose.Schema({
     },
     updatedAt: {
         type: Date
-    }
-});
-
-// const Review = mongoose.model("Review", reviewSchema, "reviews");
-
-// exports.createReview = (newReview) => {
-//     return Student.create(newReview);
-// }
+    }, 
+}, {timestamps: true});
 
 // Prevent a user from reviewing the same movie twice
 reviewSchema.index({ movie: 1, user: 1 }, { unique: true });

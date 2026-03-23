@@ -1,5 +1,5 @@
 const express = require("express");
-const router = express.Router({mergeParams: true}); // important for nested routes
+const router = express.Router({mergeParams: true});
 const reviewController = require("../controllers/reviewController");
 const { requireLogin } = require("../middleware/authMiddleware");
 const { body } = require('express-validator');
@@ -15,13 +15,22 @@ const reviewValidation = [
     .withMessage('Comment must be between 10 and 1000 characters')
 ];
 
-// Routes
+// ROUTES
+
+// Read
 router.get('/', reviewController.getReview);
+
+// Create
 router.post('/', requireLogin, reviewValidation, reviewController.createReview);
-router.get('/:reviewId/edit', requireLogin, (req, res) =>
-  res.render('reviews/edit', { reviewId: req.params.reviewId, errors: [] })
-);
-// router.post('/:reviewId/update', requireLogin, reviewValidation, reviewController.updateReview);
-// router.post('/:reviewId/delete', requireLogin, reviewController.deleteReview);
+router.get('/new', requireLogin, (req, res) => {
+    res.render('reviews/new', { movieId: req.params.movieId, errors: [] });
+});
+
+// Update
+router.get('/:reviewId/update', requireLogin, reviewController.getEditForm);
+router.post('/:reviewId/update', requireLogin, reviewController.updateReview);
+
+// Delete
+router.post('/:reviewId/delete', requireLogin, reviewController.deleteReview);
 
 module.exports = router;

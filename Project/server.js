@@ -31,11 +31,15 @@ connectDB()
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
+console.log("Mongo URI Check:", process.env.MONGO_URI);
+
 app.use(session({
   secret: process.env.SESSION_SECRET || "moviehubsecret",
   resave: false,
   saveUninitialized: false,
   cookie: {
+    secure: false,
+    httpOnly: true,
     maxAge: 1000 * 60 * 60 * 24 * 30 //30 days 
   }
 }));

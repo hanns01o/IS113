@@ -9,11 +9,13 @@ exports.getReview = async (req, res) => {
         if (!user) {
             return res.redirect("/login");
         }
-        const reviews = await Review.find({ movie: req.params.movieId })
-            .populate('user', 'username') // Display username of reviewer instead of random ID
-            .sort({ createdAt: -1 }); // Ensures latest reviews appear at the top (descending order)
 
-        res.render('reviews/index', { reviews, movieId: req.params.movieId });
+        res.render('movieDetails', { 
+            movie: movie, 
+            review: review, 
+            movieId: req.params.movieId,
+            errors: [] 
+        });
     } catch (err) {
         console.error(err);
         res.send("Error loading review");
@@ -24,10 +26,7 @@ exports.getReview = async (req, res) => {
 exports.createReview = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).render('reviews/new', {
-            errors: errors.array(),
-            movieId: req.params.movieId
-        });
+        return res.redirect(`/details?id=${req.params.movieId}&error=validation`);
     }
 
     try {
@@ -35,20 +34,20 @@ exports.createReview = async (req, res) => {
             movie: req.params.movieId,
             user: req.session.userId
         });
-        
+
         if (existing) {
-            return res.status(409).render('reviews/new', {
-                errors: [{ msg: 'You have already reviewed this movie.' }],
-                movieId: req.params.movieId
-            });
+            return res.redirect(`/details?id=${req.params.movieId}&error=already_reviewed`);
         }
 
         await Review.create({
             movie: req.params.movieId,
             user: req.session.userId,
+            username: req.session.username,
             rating: req.body.rating,
             comment: req.body.comment
         });
+
+        res.redirect(`/details?id=${req.params.movieId}`);
     } catch (err) {
         console.error(err);
         res.send("Unable to save review");
@@ -56,11 +55,54 @@ exports.createReview = async (req, res) => {
 };
 
 // Update - Edit a review
-exports.updateReview = async (req, res) => {
 
+// GET Update
+exports.getEditForm = async (req, res) => {
+    try {
+        const review = await Review.findById(req.params.reviewId);
+
+        if (!review || review.user.toString() !== req.session.userId.toString()) {
+            return res.status(403).send("Unauthorized or Review not found");
+        }
+
+        res.render('reviews/edit', { 
+            review, 
+            movieId: req.params.movieId,
+            errors: [] 
+        });
+    } catch (err) {
+        res.status(500).send("Server Error");
+    }
+};
+
+// POST Update
+exports.updateReview = async (req, res) => {
+    try {
+        const { rating, comment } = req.body;
+        
+        const updatedReview = await Review.findOneAndUpdate(
+            { _id: req.params.reviewId, user: req.session.userId },
+            { rating, comment },
+            { new: true }
+        );
+
+        if (!updatedReview) return res.status(403).send("Action denied.");
+
+        res.redirect(`/details?id=${req.params.movieId}`);
+    } catch (err) {
+        res.status(500).send("Error Updating Review");
+    }
 };
 
 // Delete - Remove a review
-exports.removeReview = async (req, res) => {
-
+exports.deleteReview = async (req, res) => {
+    try {
+        const { reviewId, movieId } = req.params;
+        
+        await Review.findByIdAndDelete(reviewId);
+        
+        res.redirect(`/details?id=${movieId}`);
+    } catch (err) {
+        res.status(500).send("Error deleting review");
+    }
 };
