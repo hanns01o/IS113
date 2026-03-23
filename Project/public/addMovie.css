@@ -1,0 +1,144 @@
+:root {
+    --bg: #0f172a;
+    --panel: #111c44;
+    --panel-2: #0b1535;
+    --text: #ffffff;
+    --muted: #cbd5e1;
+    --accent: #ef4444;
+    --border: #24304f;
+    --radius: 14px;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+}
+
+.add-movie-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 110px 24px 48px;
+}
+
+.add-movie-card {
+    background: linear-gradient(180deg, var(--panel) 0%, var(--panel-2) 100%);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.add-movie-card h1 {
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+    color: var(--text);
+}
+
+.add-movie-subtitle {
+    color: var(--muted);
+    margin-bottom: 28px;
+    line-height: 1.5;
+}
+
+.form-message {
+    margin-bottom: 18px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.form-message.error {
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    color: #fecaca;
+}
+
+.form-message.success {
+    background: rgba(34, 197, 94, 0.12);
+    border: 1px solid rgba(34, 197, 94, 0.35);
+    color: #bbf7d0;
+}
+
+.add-movie-form {
+    display: grid;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: var(--text);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text);
+    font-size: 1rem;
+    outline: none;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #94a3b8;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+}
+
+.form-group select option {
+    color: #000;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.submit-btn {
+    width: fit-content;
+    padding: 12px 22px;
+    border: none;
+    border-radius: 12px;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.submit-btn:hover {
+    background: #dc2626;
+    transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+    .add-movie-page {
+        padding: 95px 16px 32px;
+    }
+
+    .add-movie-card {
+        padding: 22px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}

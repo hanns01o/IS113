@@ -13,7 +13,16 @@ function alreadyLoggedIn(req, res, next) {
     next();
 }
 
+function requireAdmin(req, res, next) {
+    if(!req.session.userId || req.session.role !== "admin") {
+        return res.status(403).send("Access denied. Admins only.");
+    }
+
+    next();
+}
+
 module.exports = {
     alreadyLoggedIn, 
-    requireLogin
+    requireLogin,
+    requireAdmin
 };
