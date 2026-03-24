@@ -1,6 +1,6 @@
 const Watchlist = require("../models/Watchlist");
 const User = require("../models/User"); 
-const {getRecentlyViewed} = require("../utils/recentlyViewedHelper")
+const {getRecentlyViewed, clearRecentlyViewed} = require("../utils/recentlyViewedHelper")
 
 exports.getHomePage = async (req, res) => {
   try {
@@ -89,3 +89,13 @@ exports.getHomePage = async (req, res) => {
     res.send("Error loading home page.");
   }
 };
+
+exports.clearRecentlyViewedController = (req, res) => { 
+  try{ 
+    clearRecentlyViewed(String(req.session.userId)); 
+    res.redirect("/home"); 
+  } catch (err) { 
+    console.log(err); 
+    res.send("Error clearing recently viewed")
+  }
+}

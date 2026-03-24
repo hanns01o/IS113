@@ -114,18 +114,25 @@
       <section class="content-section">
         <div class="section-header">
           <h2>Recently Viewed</h2>
+          <form method="POST" action="/recentlyViewed/clear">
+            <button type="submit" class="see-more-btn">Clear Recently Viewed</button>
+          </form>
         </div>
 
         <div class="movie-row">
-          <% recentlyViewedMovies.forEach(movie => { %>
-            <a href="/details?id=<%= movie.id %>" class="movie-card">
-              <img src="<%= movie.posterUrl %>" alt="<%= movie.title %>">
-              <div class="movie-overlay">
-                <h3><%= movie.title %></h3>
-                <p><%= movie.genre %></p>
-              </div>
-            </a>
-          <% }) %>
+          <% if(recentlyViewedMovies.length != 0){ %>
+            <% recentlyViewedMovies.forEach(movie => { %>
+              <a href="/details?id=<%= movie.id %>" class="movie-card">
+                <img src="<%= movie.posterUrl %>" alt="<%= movie.title %>">
+                <div class="movie-overlay">
+                  <h3><%= movie.title %></h3>
+                  <p><%= movie.genre %></p>
+                </div>
+              </a>
+            <% }) %>
+          <% }else{ %>
+            <p>You haven't viewed any movie review yet</p>
+          <% } %>
         </div>
       </section>
     </main>
