@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= movie.title %></title>
+    <link rel="stylesheet" href="/header.css">
+    <link rel="stylesheet" href="/movieDetails.css">
+</head>
+<body>
+    <%- include('partials/header') %>
+
+    <div class="page-content">
+        <h1><%= movie.title %></h1>
+
+        <img class="movie-poster" src="<%= movie.posterUrl %>" alt="<%= movie.title %>"" />
+
+        <p><strong>Genre:</strong> <%= movie.genre %></p>
+        <p><strong>Description:</strong> <%= movie.description %></p>
+
+        <% if (movie.bannerUrl) { %>
+            <div style="margin-top: 20px;">
+                <img src="<%= movie.bannerUrl %>" alt="<%= movie.title %> Banner" style="max-width: 100%; max-width: 100%; border-radius: 10px;" />
+            </div>
+        <% } %>
+    </div>
+</body>
+</html>

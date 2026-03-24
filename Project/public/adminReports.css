@@ -1,0 +1,187 @@
+:root {
+    --bg: #0a0a0f;
+    --surface: #13131a;
+    --accent: #e8c84a;
+    --text: #f0ede6;
+    --muted: #6b6878;
+    --border: #1e1e28;
+    --danger: #ef4444;
+    --radius: 10px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+}
+
+.page-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    letter-spacing: 2px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+/* Filter tabs */
+.tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 12px;
+}
+
+.tab {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 14px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.tab:hover {
+    color: var(--text);
+    background: var(--surface);
+}
+
+.tab.active {
+    color: var(--accent);
+    background: var(--surface);
+}
+
+.empty {
+    color: var(--muted);
+    font-size: 15px;
+    margin-top: 40px;
+    text-align: center;
+}
+
+/* Report cards */
+.report-card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 16px;
+    border: 1px solid var(--border);
+}
+
+.report-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.reason-badge {
+    background: var(--danger);
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 40px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.date {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.report-body .label {
+    color: var(--muted);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 12px;
+    margin-bottom: 4px;
+}
+
+.report-body p {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text);
+}
+
+.review-text {
+    color: #b0adb8 !important;
+    font-style: italic;
+}
+
+.review-author {
+    color: var(--muted) !important;
+    font-size: 13px !important;
+}
+
+/* Action buttons */
+.report-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+}
+
+.btn-dismiss {
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: 1px solid var(--muted);
+    background: transparent;
+    color: var(--muted);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-dismiss:hover {
+    border-color: var(--text);
+    color: var(--text);
+}
+
+.btn-delete {
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: 1px solid var(--danger);
+    background: transparent;
+    color: var(--danger);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-delete:hover {
+    background: var(--danger);
+    color: white;
+}
+
+/* Status labels */
+.report-status {
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.status-actioned {
+    color: #22c55e;
+}
+
+.status-dismissed {
+    color: var(--muted);
+}
