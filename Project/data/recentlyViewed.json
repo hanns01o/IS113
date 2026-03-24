@@ -116,5 +116,21 @@
       "genre": "Action, Crime, Thriller",
       "releaseDate": "2026-01-28"
     }
+  ],
+  "69b286582e166ddf9c8e6af3": [
+    {
+      "id": 1265609,
+      "title": "War Machine",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/tlPgDzwIE7VYYIIAGCTUOnN4wI1.jpg",
+      "genre": "Action, Science Fiction, Thriller",
+      "releaseDate": "2026-02-12"
+    },
+    {
+      "id": 1193501,
+      "title": "Whistle",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/eGxPyseSnEZBMJaopGfRUO9HSYx.jpg",
+      "genre": "Horror, Mystery",
+      "releaseDate": "2026-01-20"
+    }
   ]
 }
