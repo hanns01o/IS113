@@ -59,7 +59,7 @@ exports.getMovieDetails = async (req, res) => {
     const inWatchlist = !!watchlistItem;
     const watchedStatus = watchlistItem ? !!watchlistItem.watchedDate : false;
 
-    res.render("details", {
+    res.render("movieDetails", {
       movie,
       reviews,
       inWatchlist,
