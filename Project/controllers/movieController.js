@@ -64,25 +64,25 @@ exports.getMovieDetails = async (req, res) => {
         })
         
 
-        const watchlistItem = await Watchlist.findOne({
-            userId: req.session.userId,
-            movieId: movieID
-        });
+    const watchlistItem = await Watchlist.findOne({
+      userId: req.session.userId,
+      movieId: movieID
+    });
 
-        const inWatchlist = !!watchlistItem;
-        const watchedStatus = watchlistItem ? !!watchlistItem.watchedDate : false;
+    const inWatchlist = !!watchlistItem;
+    const watchedStatus = watchlistItem ? !!watchlistItem.watchedDate : false;
 
-        res.render("movieDetails", {
-            movie,
-            reviews,
-            inWatchlist,
-            watchedStatus,
-            movieId: movieID
-        });
-    } catch (error) {
-        console.error(error);
-        res.status(500).send("Error loading movie details.");
-    }
+    res.render("movieDetails", {
+      movie,
+      reviews,
+      inWatchlist,
+      watchedStatus,
+      movieId: movieID
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error loading movie details.");
+  }
 };
 
 exports.getAddMovieForm = async (req, res) => {
