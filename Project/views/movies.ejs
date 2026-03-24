@@ -21,6 +21,38 @@
             <a href="/movies?category=upcoming">Upcoming</a>
         </nav>
         
+    <div class="community-section">
+        <% if (customMovies && customMovies.length >0) { %>
+            <h2>Community Submissions</h2>
+            <table>
+                <% for (let i=0; i < customMovies.length; i +=4) { %>
+                    <tr>
+                        <% let cellsInRow = 0; %>
+
+                        <% for (let j = i; j < i + 4 && j < customMovies.length; j++) { %>
+                            <td>
+                                <a href="/movies/custom/<%=customMovies[j]._id%>">
+                                    <img src="<%= customMovies[j].posterUrl %>" alt="<%= customMovies[j].title %>"/>
+                                </a>
+                                <div class="movie-title">
+                                    <a href="/movies/custom/<%=customMovies[j]._id%>"><%= customMovies[j].title %></a>
+                                </div>
+                                <div>
+                                    <small><%= customMovies[j].genre %></small>
+                                </div>
+                                <br />
+                            </td>
+                            <% cellsInRow++; %>
+                        <% } %>
+                        
+                        <%for (let k = cellsInRow; k < 4; k++) { %>
+                            <td></td>
+                        <% } %>
+                    </tr>
+                <% } %>
+        </table>
+        <% } %>
+    </div>
         <table>
             <% for (let i=0; i < movies.length; i +=4) { %>
                 <tr>
@@ -36,7 +68,7 @@
                         </td>
                         <% } %>
                 </tr>
-                <% } %>
+            <% } %>
         </table>
     </div>
 </body>

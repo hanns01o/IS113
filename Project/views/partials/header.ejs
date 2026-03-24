@@ -7,6 +7,11 @@
 
       <% if (currentUser && currentUser.userId) { %>
         <a href="/watchlist">My Watchlist</a>
+        <a href="/movies/add">Add New Movie</a>
+      <% } %>
+
+      <% if (currentUser && currentUser.role === "admin") { %>
+        <a href="/admin/submissions">Review Submissions</a>
       <% } %>
     </div>
 
