@@ -31,11 +31,15 @@ connectDB()
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
+console.log("Mongo URI Check:", process.env.MONGO_URI);
+
 app.use(session({
   secret: process.env.SESSION_SECRET || "moviehubsecret",
   resave: false,
   saveUninitialized: false,
   cookie: {
+    secure: false,
+    httpOnly: true,
     maxAge: 1000 * 60 * 60 * 24 * 30 //30 days 
   }
 }));
@@ -56,18 +60,19 @@ const auth = require("./routes/auth");
 const home = require("./routes/home");
 const movie = require("./routes/movie");
 const review = require("./routes/review");
-const user = require("./routes/user")
+const user = require("./routes/user");
 const watchlist = require("./routes/watchlist");
 const profile = require("./routes/profile"); 
-
+const report = require("./routes/report");
 
 app.use("/", auth);
 app.use("/", home); 
 app.use("/", movie);
-app.use("/", review);
 app.use("/users", user);
 app.use("/", watchlist);
 app.use("/", profile)
+app.use('/movies/:movieId/reviews', review);
+app.use("/", report);
 
 app.get("/", (req, res) => {
   // res.send(`

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Movie Submissions | MovieHub</title>
+    <link rel="stylesheet" href="/header.css">
+    <link rel="stylesheet" href="/adminMovieSubmissions.css">
+</head>
+<body>
+    <%- include("partials/header") %>
+
+    <main class="admin-page">
+        <div class="admin-header">
+            <h1>Movie Submissions</h1>
+            <p>Review and manage movies submitted by the community.</p>
+        </div>
+
+        <% if (submissions.length === 0) { %>
+            <div class="empty-state">
+                <p>No movie submissions found.</p>
+            </div>
+        <% } else { %>
+            <div class="submission-list">
+                <% submissions.forEach(submission => { %>
+                    <div class="submission-card">
+                        <h2><%= submission.title %></h2>
+
+                        <div class="submission-status status-<%= submission.status %>">
+                            <%= submission.status.charAt(0).toUpperCase() + submission.status.slice(1) %>
+                        </div>
+
+                        <div class="submission-meta">
+                            <div><strong>Genre:</strong> <%= submission.genre %></div>
+                            <div>
+                                <strong>Submitted By:</strong>
+                                <%= submission.submittedBy ? submission.submittedBy.username : "Unknown User" %>
+                            </div>
+                        </div>
+
+                        <div class="submission-description">
+                            <strong>Description:</strong><br>
+                            <%= submission.description %>
+                        </div>
+
+                        <div class="action-row">
+                            <% if (submission.status === "pending") { %>
+                                <form action="/admin/submissions/<%= submission._id %>/approve" method="POST">
+                                    <button type="submit" class="btn btn-approve">Approve</button>
+                                </form>
+
+                                <form action="/admin/submissions/<%= submission._id %>/reject" method="POST">
+                                    <button type="submit" class="btn btn-reject">Reject</button>
+                                </form>
+                            <% } %>
+
+                            <form action="/admin/submissions/<%= submission._id %>/delete" method="POST">
+                                <button type="submit" class="btn btn-delete">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        <% } %>
+    </main>
+</body>
+</html>
