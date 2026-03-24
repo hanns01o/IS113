@@ -10,75 +10,67 @@
 </head>
 
 <body>
-
+    
     <%- include("partials/header") %>
 
-        <div class="page-content">
-            <nav class="movie-filters">
-                <a href="/movies">Popular</a>
-                <a href="/movies?category=now_playing">Now Playing</a>
-                <a href="/movies?category=top_rated">Top Rated</a>
-                <a href="/movies?category=upcoming">Upcoming</a>
-            </nav>
-
-            <div class="community-section">
-                <% if (customMovies && customMovies.length>0) { %>
-                    <h2>Community Submissions</h2>
-                    <table>
-                        <% for (let i=0; i < customMovies.length; i +=4) { %>
-                            <tr>
-                                <% let cellsInRow=0; %>
-
-                                    <% for (let j=i; j < i + 4 && j < customMovies.length; j++) { %>
-                                        <td>
-                                            <a href="/movies/custom/<%=customMovies[j]._id%>">
-                                                <img src="<%= customMovies[j].posterUrl %>"
-                                                    alt="<%= customMovies[j].title %>" />
-                                            </a>
-                                            <div class="movie-title">
-                                                <a href="/movies/custom/<%=customMovies[j]._id%>">
-                                                    <%= customMovies[j].title %>
-                                                </a>
-                                            </div>
-                                            <div>
-                                                <small>
-                                                    <%= customMovies[j].genre %>
-                                                </small>
-                                            </div>
-                                            <br />
-                                        </td>
-                                        <% cellsInRow++; %>
-                                            <% } %>
-
-                                                <%for (let k=cellsInRow; k < 4; k++) { %>
-                                                    <td></td>
-                                                    <% } %>
-                            </tr>
-                            <% } %>
-                    </table>
-                    <% } %>
-            </div>
+    <div class="page-content">
+        <nav class="movie-filters">
+            <a href="/movies">Popular</a>
+            <a href="/movies?category=now_playing">Now Playing</a>
+            <a href="/movies?category=top_rated">Top Rated</a>
+            <a href="/movies?category=upcoming">Upcoming</a>
+        </nav>
+        
+    <div class="community-section">
+        <% if (customMovies && customMovies.length >0) { %>
+            <h2>Community Submissions</h2>
             <table>
-                <% for (let i=0; i < movies.length; i +=4) { %>
+                <% for (let i=0; i < customMovies.length; i +=4) { %>
                     <tr>
-                        <% for (let j=i; j < i + 4 && j < movies.length; j++) { %>
+                        <% let cellsInRow = 0; %>
+
+                        <% for (let j = i; j < i + 4 && j < customMovies.length; j++) { %>
                             <td>
-                                <a href="/details?id=<%=movies[j].id%>" name="movieID" value="">
-                                    <img src="https://image.tmdb.org/t/p/w500<%= movies[j].poster_path %>"
-                                        alt="<%= movies[j].title %>" width="150" />
+                                <a href="/movies/custom/<%=customMovies[j]._id%>">
+                                    <img src="<%= customMovies[j].posterUrl %>" alt="<%= customMovies[j].title %>"/>
                                 </a>
                                 <div class="movie-title">
-                                    <a href="/details?id=<%= movies[j].id %>">
-                                        <%= movies[j].title %>
-                                    </a>
+                                    <a href="/movies/custom/<%=customMovies[j]._id%>"><%= customMovies[j].title %></a>
+                                </div>
+                                <div>
+                                    <small><%= customMovies[j].genre %></small>
                                 </div>
                                 <br />
                             </td>
-                            <% } %>
+                            <% cellsInRow++; %>
+                        <% } %>
+                        
+                        <%for (let k = cellsInRow; k < 4; k++) { %>
+                            <td></td>
+                        <% } %>
                     </tr>
-                    <% } %>
-            </table>
-        </div>
+                <% } %>
+        </table>
+        <% } %>
+    </div>
+        <table>
+            <% for (let i=0; i < movies.length; i +=4) { %>
+                <tr>
+                    <% for (let j=i; j < i + 4 && j < movies.length; j++) { %>
+                        <td>
+                            <a href="/details?id=<%=movies[j].id%>" name="movieID" value="">
+                                <img src="https://image.tmdb.org/t/p/w500<%= movies[j].poster_path %>" alt="<%= movies[j].title %>" width="150" />
+                            </a>
+                            <div class="movie-title">
+                                <a href="/details?id=<%= movies[j].id %>"><%= movies[j].title %></a>
+                            </div>
+                            <br />
+                        </td>
+                        <% } %>
+                </tr>
+            <% } %>
+        </table>
+    </div>
 </body>
 
 </html>
