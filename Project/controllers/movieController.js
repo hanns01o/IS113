@@ -1,31 +1,24 @@
 const User = require("../models/User");
 const Review = require("../models/Review");
 const Watchlist = require("../models/Watchlist");
-const Movie = require("../models/Movie");
+const Movie = require("../models/movie-model");
 const MovieSubmission = require("../models/MovieSubmission");
 const { addRecentlyViewed } = require("../utils/recentlyViewedHelper"); 
+const tmdb = require('../utils/tmdb');
 
 exports.getMovies = async (req, res) => {
-    let movies = [];
-    let customMovies = [];
-    const movieCategory = req.query.category ? req.query.category : "popular";
+  const movieCategory = req.query.category || 'popular';
 
-    try {
-        const response = await fetch(
-            `https://api.themoviedb.org/3/movie/${movieCategory}?api_key=${process.env.API_KEY}`
-        );
+  try {
+    const movies = await tmdb.getMovies(movieCategory);
+    const customMovies = []
 
-        const data = await response.json();
-        movies = data.results || [];
-
-        customMovies = await Movie.find().sort({ createdAt: -1 });
-
-        res.render("movies", { movies, customMovies });
-    } catch (error) {
-        console.error(error);
-        res.status(500).send("Error loading movies.");
-    }
-};
+    res.render('movies', { movies, customMovies });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error loading movies.');
+  }
+}
 
 exports.getMovieDetails = async (req, res) => {
     let movie = {};
@@ -64,25 +57,25 @@ exports.getMovieDetails = async (req, res) => {
         })
         
 
-        const watchlistItem = await Watchlist.findOne({
-            userId: req.session.userId,
-            movieId: movieID
-        });
+    const watchlistItem = await Watchlist.findOne({
+      userId: req.session.userId,
+      movieId: movieID
+    });
 
-        const inWatchlist = !!watchlistItem;
-        const watchedStatus = watchlistItem ? !!watchlistItem.watchedDate : false;
+    const inWatchlist = !!watchlistItem;
+    const watchedStatus = watchlistItem ? !!watchlistItem.watchedDate : false;
 
-        res.render("movieDetails", {
-            movie,
-            reviews,
-            inWatchlist,
-            watchedStatus,
-            movieId: movieID
-        });
-    } catch (error) {
-        console.error(error);
-        res.status(500).send("Error loading movie details.");
-    }
+    res.render("movieDetails", {
+      movie,
+      reviews,
+      inWatchlist,
+      watchedStatus,
+      movieId: movieID
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error loading movie details.");
+  }
 };
 
 exports.getAddMovieForm = async (req, res) => {

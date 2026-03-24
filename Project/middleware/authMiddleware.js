@@ -1,17 +1,13 @@
-// const { requireAdmin } = require("../../../../../../Downloads/report-feature_2/middleware/authMiddleware");
-
-function requireLogin(req, res, next){
-    console.log("Session User ID:", req.session.userId);
-    if (!req.session.userId) {
-        return res.redirect("/login");
-    }
-
-    next();
-};
-
 function alreadyLoggedIn(req, res, next) {
     if (req.session.userId) {
         return res.redirect("/home");
+    }
+    next();
+}
+
+function requireLogin(req, res, next) {
+    if (!req.session.userId) {
+        return res.redirect("/login");
     }
     next();
 }
@@ -26,8 +22,4 @@ function requireAdmin(req, res, next) {
     next();
 }
 
-module.exports = {
-    alreadyLoggedIn, 
-    requireLogin,
-    requireAdmin
-};
+module.exports = { alreadyLoggedIn, requireLogin, requireAdmin };
