@@ -1,4 +1,7 @@
+const { requireAdmin } = require("../../../../../../Downloads/report-feature_2/middleware/authMiddleware");
+
 function requireLogin(req, res, next){
+    console.log("Session User ID:", req.session.userId);
     if (!req.session.userId) {
         return res.redirect("/login");
     }
@@ -14,10 +17,12 @@ function alreadyLoggedIn(req, res, next) {
 }
 
 function requireAdmin(req, res, next) {
-    if(!req.session.userId || req.session.role !== "admin") {
-        return res.status(403).send("Access denied. Admins only.");
+    if (!req.session.userId) {
+        return res.redirect("/login");
     }
-
+    if (req.session.role !== "admin") {
+        return res.send("Access denied. Admins only.");
+    }
     next();
 }
 
