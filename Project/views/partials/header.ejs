@@ -13,7 +13,12 @@
       <% if (currentUser && currentUser.role === "admin") { %>
         <a href="/admin/submissions">Review Submissions</a>
       <% } %>
+      <% if (currentUser && currentUser.role === "admin") { %>
+          <a href="/admin/reports">Reports</a>
+      <% } %>
     </div>
+
+    
 
     <div class="nav-right">
       <% if (currentUser && currentUser.userId) { %>

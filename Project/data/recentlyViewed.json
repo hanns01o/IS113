@@ -116,5 +116,21 @@
       "genre": "Action, Crime, Thriller",
       "releaseDate": "2026-01-28"
     }
+  ],
+  "69c02ad2f7c3331d357c973d": [
+    {
+      "id": 875828,
+      "title": "Peaky Blinders: The Immortal Man",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/gRMalasZEzsZi4w2VFuYusfSfqf.jpg",
+      "genre": "Crime, Drama",
+      "releaseDate": "2026-03-05"
+    },
+    {
+      "id": 1638215,
+      "title": "Luciferum",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/otuUJ689QEUVeYUoL6P4KhuFzQZ.jpg",
+      "genre": "Fantasy, Action, Adventure, Drama",
+      "releaseDate": "2031-06-24"
+    }
   ]
 }
