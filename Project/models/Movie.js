@@ -1,38 +1,35 @@
 const mongoose = require("mongoose");
 
 const movieSchema = new mongoose.Schema({
-    id: {
-        type: String,
-        required: true
-    },
     title: {
         type: String,
         required: true
     },
-    genre_ids: {
-        type: [String],
-        default: []
+    genre: {
+        type: String,
+        default: "Unknown"
     },
-    overview: {
+    description: {
         type: String,
         default: "No description available."
     },
-    poster_path: {
+    posterUrl: {
         type: String,
         default: "/images/default-poster.jpg"
     },
     bannerUrl: {
         type: String,
         default: "/images/default-banner.jpg"
+    },
+    uploadedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
     }
 });
 
-const Movie = mongoose.model('Movie', movieSchema, 'movies');
-
-// Methods
-
-exports.retrieveAll = () => {
-    
-    return Movie.find();
-};
-
+module.exports = mongoose.models.Movie || mongoose.model("Movie", movieSchema);

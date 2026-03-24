@@ -1,24 +1,31 @@
 const User = require("../models/User");
 const Review = require("../models/Review");
 const Watchlist = require("../models/Watchlist");
-const Movie = require("../models/movie-model");
+const Movie = require("../models/Movie");
 const MovieSubmission = require("../models/MovieSubmission");
 const { addRecentlyViewed } = require("../utils/recentlyViewedHelper"); 
-const tmdb = require('../utils/tmdb');
 
 exports.getMovies = async (req, res) => {
-  const movieCategory = req.query.category || 'popular';
+    let movies = [];
+    let customMovies = [];
+    const movieCategory = req.query.category ? req.query.category : "popular";
 
-  try {
-    const movies = await tmdb.getMovies(movieCategory);
-    const customMovies = []
+    try {
+        const response = await fetch(
+            `https://api.themoviedb.org/3/movie/${movieCategory}?api_key=${process.env.API_KEY}`
+        );
 
-    res.render('movies', { movies, customMovies });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Error loading movies.');
-  }
-}
+        const data = await response.json();
+        movies = data.results || [];
+
+        customMovies = await Movie.find().sort({ createdAt: -1 });
+
+        res.render("movies", { movies, customMovies });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error loading movies.");
+    }
+};
 
 exports.getMovieDetails = async (req, res) => {
     let movie = {};
