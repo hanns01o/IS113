@@ -5,6 +5,8 @@ const {getRecentlyViewed, clearRecentlyViewed} = require("../utils/recentlyViewe
 exports.getHomePage = async (req, res) => {
   try {
     let watchlistMovies = [];
+    let filterMovies = [];
+    let recentlyWatched = [];
     let featuredMovies = [];
     let recommendedMovies = []; 
     let recentlyViewedMovies = []; 
@@ -15,16 +17,16 @@ exports.getHomePage = async (req, res) => {
       user = await User.findById(req.session.userId); 
 
       recentlyViewedMovies = await getRecentlyViewed(String(req.session.userId)); 
-      //   const watchlistItems = await Watchlist.find({ userId: req.session.userId })
-    //     .populate("movieId");
 
-    //   watchlistMovies = watchlistItems
-    //     .map(item => item.movieId)
-    //     .filter(movie => movie);
-    // }
       watchlistMovies = await Watchlist.find({ userId: req.session.userId })
         .sort({ addedAt: -1 })
         .limit(5);
+
+      filterMovies = await Watchlist.find({ userId: req.session.userId})
+        .sort({ watchedDate: -1})
+      
+      recentlyWatched = filterMovies.filter(movie => movie.watchedDate)
+        .slice(0,5)
     }
 
     const category = "popular";
@@ -80,7 +82,9 @@ exports.getHomePage = async (req, res) => {
 
     res.render("home", {
       featuredMovies,
-      watchlistMovies,  //: previewWatchlist
+      filterMovies,
+      watchlistMovies,
+      recentlyWatched,
       recommendedMovies, 
       recentlyViewedMovies
     });
