@@ -46,7 +46,7 @@ exports.getMovieDetails = async (req, res) => {
             .populate('user')
             .sort({ createdAt: -1 });
 
-        if (!req.session.User) {
+        if (!req.session.userId) {
             console.log('User not found');
             return res.render("movieDetails", {
                 movie,
