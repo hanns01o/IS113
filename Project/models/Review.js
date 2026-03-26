@@ -16,15 +16,15 @@ const reviewSchema = new mongoose.Schema({
     }, 
     rating: {
         type: Number,
-        required: true,
+        required: [true, 'Rating is required'],
         min: 1,
         max: 10
     },
     comment: {
         type: String,
-        required: true,
-        minlength: 10,
-        maxlength: 1000,
+        required: [true, 'Comment cannot be empty'],
+        minlength: [10, 'Comment must be at least 10 characters'],
+        maxlength: [1000, 'Comment is too long'],
         trim: true
     },
     createdAt: {
