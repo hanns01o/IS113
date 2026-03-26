@@ -111,6 +111,32 @@ exports.updateRemoveWatched = async (req, res) => {
     }
 }
 
+exports.clearSelectedWatchlist = async (req, res) => {
+    try {
+        const user = await User.getUserById(req.session.userId);
+
+        if (!user) {
+            return res.redirect("/login");
+        }
+
+        let selectedIds = req.body.selectedIds || [];
+
+        if (!Array.isArray(selectedIds)) {
+            selectedIds = [selectedIds];
+        }
+
+        await Watchlist.deleteMany({
+            _id: { $in: selectedIds },
+            userId: req.session.userId
+        });
+
+        res.redirect("/watchlist");
+    } catch (err) {
+        console.error(err);
+        res.send("Error clearing selected watchlist movies.");
+    }
+};
+
 exports.clearWatchlist = async (req, res) => {
     try {
         const user = await User.getUserById(req.session.userId);
