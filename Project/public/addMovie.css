@@ -41,6 +41,35 @@ body {
     line-height: 1.5;
 }
 
+.genre-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.genre-tag {
+    cursor: pointer;
+}
+
+.genre-tag input {
+    display: none;
+}
+
+.genre-tag span {
+    display: inline-block;
+    padding: 8px 14px;
+    border-radius: 20px;
+    border: 1px solid #2a2a35;
+    color: #cbd5e1;
+    transition: 0.2s;
+}
+
+.genre-tag input:checked + span {
+    background: #e50914;
+    border-color: #e50914;
+    color: white;
+}
+
 .form-message {
     margin-bottom: 18px;
     padding: 12px 14px;
@@ -79,7 +108,7 @@ body {
 .form-group input,
 .form-group select,
 .form-group textarea {
-    width: 100%;
+    width: auto;
     padding: 14px 16px;
     border-radius: 12px;
     border: 1px solid var(--border);
