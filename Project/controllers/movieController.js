@@ -4,6 +4,9 @@ const Watchlist = require("../models/Watchlist");
 const Movie = require("../models/Movie");
 const MovieSubmission = require("../models/MovieSubmission");
 const { addRecentlyViewed } = require("../utils/recentlyViewedHelper"); 
+const BASE_URL = 'https://api.themoviedb.org/3';
+const API_KEY = process.env.API_KEY;
+
 
 exports.getMovies = async (req, res) => {
     let movies = [];
@@ -12,7 +15,7 @@ exports.getMovies = async (req, res) => {
 
     try {
         const response = await fetch(
-            `https://api.themoviedb.org/3/movie/${movieCategory}?api_key=${process.env.API_KEY}`
+            `${BASE_URL}/movie/${movieCategory}?api_key=${API_KEY}`
         );
 
         const data = await response.json();
@@ -29,12 +32,11 @@ exports.getMovies = async (req, res) => {
 
 exports.getMovieDetails = async (req, res) => {
     let movie = {};
-    const movieID = Number(req.query.id);
-    // let errors = [];
+    const movieID = req.query.id;
 
     try {
         const response = await fetch(
-            `https://api.themoviedb.org/3/movie/${movieID}?api_key=${process.env.API_KEY}`
+            `${BASE_URL}/movie/${movieID}?api_key=${API_KEY}`
         );
 
         const data = await response.json();
@@ -45,6 +47,7 @@ exports.getMovieDetails = async (req, res) => {
             .sort({ createdAt: -1 });
 
         if (!req.session.userId) {
+            console.log('User not found');
             return res.render("movieDetails", {
                 movie,
                 reviews,
@@ -54,13 +57,7 @@ exports.getMovieDetails = async (req, res) => {
             });
         }
 
-        const user = await User.findById(req.session.userId);
-
-        if (!user) {
-            return res.redirect("/login");
-        }
-
-        if(req.session.userId){ 
+        if(req.session.role != "admin"){ 
             // addIntoRecentlyViewed 
             await addRecentlyViewed(String(req.session.userId), { 
                 id: movie.id, 
@@ -71,31 +68,31 @@ exports.getMovieDetails = async (req, res) => {
             })
         }
 
-        const watchlistItem = await Watchlist.findOne({
-            userId: req.session.userId,
-            movieId: movieID
-        });
+    const watchlistItem = await Watchlist.findOne({
+      userId: req.session.userId,
+      movieId: movieID
+    });
 
-        const inWatchlist = !!watchlistItem;
-        const watchedStatus = watchlistItem ? !!watchlistItem.watchedDate : false;
+    const inWatchlist = !!watchlistItem;
+    const watchedStatus = watchlistItem ? !!watchlistItem.watchedDate : false;
 
-        res.render("movieDetails", {
-            movie,
-            reviews,
-            inWatchlist,
-            watchedStatus,
-            movieId: movieID
-        });
-    } catch (error) {
-        console.error(error);
-        res.status(500).send("Error loading movie details.");
-    }
+    res.render("movieDetails", {
+      movie,
+      reviews,
+      inWatchlist,
+      watchedStatus,
+      movieId: movieID
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error loading movie details.");
+  }
 };
 
 exports.getAddMovieForm = async (req, res) => {
     try {
         const response = await fetch(
-            `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.API_KEY}`
+            `${BASE_URL}/genre/movie/list?api_key=${API_KEY}`
         );
 
         const data = await response.json();
@@ -120,7 +117,7 @@ exports.postAddMovieForm = async (req, res) => {
         const { title, genre, description, posterUrl, bannerUrl } = req.body;
 
         const genresResponse = await fetch(
-            `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.API_KEY}`
+            `${BASE_URL}/genre/movie/list?api_key=${API_KEY}`
         );
         const genresData = await genresResponse.json();
         const genres = genresData.genres || [];
