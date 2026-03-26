@@ -8,11 +8,18 @@
       "releaseDate": "2026-02-25"
     },
     {
-      "id": 83533,
-      "title": "Avatar: Fire and Ash",
-      "posterUrl": "https://image.tmdb.org/t/p/w500/bRBeSHfGHwkEpImlhxPmOcUsaeg.jpg",
-      "genre": "Science Fiction, Adventure, Fantasy",
-      "releaseDate": "2025-12-17"
+      "id": 875828,
+      "title": "Peaky Blinders: The Immortal Man",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/gRMalasZEzsZi4w2VFuYusfSfqf.jpg",
+      "genre": "Crime, Drama",
+      "releaseDate": "2026-03-05"
+    },
+    {
+      "id": 1290821,
+      "title": "Shelter",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/buPFnHZ3xQy6vZEHxbHgL1Pc6CR.jpg",
+      "genre": "Action, Crime, Thriller",
+      "releaseDate": "2026-01-28"
     },
     {
       "id": 687163,
@@ -22,27 +29,48 @@
       "releaseDate": "2026-03-15"
     },
     {
+      "id": 83533,
+      "title": "Avatar: Fire and Ash",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/bRBeSHfGHwkEpImlhxPmOcUsaeg.jpg",
+      "genre": "Science Fiction, Adventure, Fantasy",
+      "releaseDate": "2025-12-17"
+    },
+    {
+      "id": 1598499,
+      "title": "The Under-Zoo",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/dAeKXS2fFpHp3tj3fTXbxPIbNQ.jpg",
+      "genre": "Animation, Science Fiction, Adventure, Comedy, Fantasy",
+      "releaseDate": "2029-06-22"
+    },
+    {
+      "id": 1629462,
+      "title": "In the Meantime",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/nqdvbPR2Yq1bVTwLLRMRNecrimm.jpg",
+      "genre": "Drama, Comedy, Adventure",
+      "releaseDate": "2029-01-01"
+    },
+    {
+      "id": 1638215,
+      "title": "Luciferum",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/otuUJ689QEUVeYUoL6P4KhuFzQZ.jpg",
+      "genre": "Fantasy, Action, Adventure, Drama",
+      "releaseDate": "2031-06-24"
+    },
+    {
       "id": 1265609,
       "title": "War Machine",
       "posterUrl": "https://image.tmdb.org/t/p/w500/tlPgDzwIE7VYYIIAGCTUOnN4wI1.jpg",
       "genre": "Action, Science Fiction, Thriller",
       "releaseDate": "2026-02-12"
-    },
-    {
-      "id": 1290821,
-      "title": "Shelter",
-      "posterUrl": "https://image.tmdb.org/t/p/w500/buPFnHZ3xQy6vZEHxbHgL1Pc6CR.jpg",
-      "genre": "Action, Crime, Thriller",
-      "releaseDate": "2026-01-28"
     }
   ],
   "69c0ddcf19aebc53449d53d1": [
     {
-      "id": 1265609,
-      "title": "War Machine",
-      "posterUrl": "https://image.tmdb.org/t/p/w500/tlPgDzwIE7VYYIIAGCTUOnN4wI1.jpg",
-      "genre": "Action, Science Fiction, Thriller",
-      "releaseDate": "2026-02-12"
+      "id": 1198994,
+      "title": "Send Help",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/mjkS2iAgWj3ik1DTjvI15nHZ7yl.jpg",
+      "genre": "Horror, Thriller, Comedy",
+      "releaseDate": "2026-01-22"
     },
     {
       "id": 1159559,
@@ -50,6 +78,27 @@
       "posterUrl": "https://image.tmdb.org/t/p/w500/jjyuk0edLiW8vOSnlfwWCCLpbh5.jpg",
       "genre": "Horror, Mystery, Crime",
       "releaseDate": "2026-02-25"
+    },
+    {
+      "id": 875828,
+      "title": "Peaky Blinders: The Immortal Man",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/gRMalasZEzsZi4w2VFuYusfSfqf.jpg",
+      "genre": "Crime, Drama",
+      "releaseDate": "2026-03-05"
+    },
+    {
+      "id": 83533,
+      "title": "Avatar: Fire and Ash",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/bRBeSHfGHwkEpImlhxPmOcUsaeg.jpg",
+      "genre": "Science Fiction, Adventure, Fantasy",
+      "releaseDate": "2025-12-17"
+    },
+    {
+      "id": 1265609,
+      "title": "War Machine",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/tlPgDzwIE7VYYIIAGCTUOnN4wI1.jpg",
+      "genre": "Action, Science Fiction, Thriller",
+      "releaseDate": "2026-02-12"
     },
     {
       "id": 687163,
@@ -64,20 +113,6 @@
       "posterUrl": "https://image.tmdb.org/t/p/w500/heMdO64ys1hR896YE2jvTv8JlBX.jpg",
       "genre": "Crime, Thriller",
       "releaseDate": "2026-02-11"
-    },
-    {
-      "id": 83533,
-      "title": "Avatar: Fire and Ash",
-      "posterUrl": "https://image.tmdb.org/t/p/w500/bRBeSHfGHwkEpImlhxPmOcUsaeg.jpg",
-      "genre": "Science Fiction, Adventure, Fantasy",
-      "releaseDate": "2025-12-17"
-    },
-    {
-      "id": 875828,
-      "title": "Peaky Blinders: The Immortal Man",
-      "posterUrl": "https://image.tmdb.org/t/p/w500/gRMalasZEzsZi4w2VFuYusfSfqf.jpg",
-      "genre": "Crime, Drama",
-      "releaseDate": "2026-03-05"
     },
     {
       "id": 1290821,

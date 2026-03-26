@@ -33,6 +33,7 @@ exports.getMovies = async (req, res) => {
 exports.getMovieDetails = async (req, res) => {
     let movie = {};
     const movieID = req.query.id;
+    let errors = [];
 
     try {
         const response = await fetch(
@@ -46,6 +47,13 @@ exports.getMovieDetails = async (req, res) => {
             .populate('user')
             .sort({ createdAt: -1 });
 
+        if (req.query.error === 'validation') {
+            errors.push({ msg: 'Please check your rating (1-10) and comment length (min 10 chars).' });
+        }
+        if (req.query.error === 'already_reviewed') {
+            errors.push({ msg: 'You have already reviewed this movie.' });
+        }
+        
         if (!req.session.userId) {
             console.log('User not found');
             return res.render("movieDetails", {
