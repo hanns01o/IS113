@@ -126,6 +126,12 @@
                                     </form>
                                 </div>
                                 <% } %>
+
+                                <% if (currentUser && currentUser.userId && review.user && review.user._id.toString() !== currentUser.userId.toString()) { %>
+                                <div class="mt-3">
+                                    <button class="report-btn" onclick="openReportModal('<%= review._id %>')">Report</button>
+                                </div>
+                                <% } %>
                         </div>
                     </div>
                     <% }) %>
@@ -136,7 +142,82 @@
                                 <div class="mt-4">
                                     <a href="/movies" class="btn btn-link">← Back to Watchlist</a>
                                 </div> -->
+
+
         </div>
+
+<div id="reportOverlay" style="display:none; position:fixed; top:0; left:0;
+    width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:999;"
+    onclick="closeReportModal()">
+</div>
+
+<!-- Report form popup -->
+<div id="reportModal" style="display:none; position:fixed; top:50%; left:50%;
+    transform:translate(-50%,-50%); background:#13131a; border:1px solid #1e1e28;
+    border-radius:10px; padding:24px; width:360px; z-index:1000;">
+
+    <h3 style="font-family:'Bebas Neue',sans-serif; font-size:22px;
+        letter-spacing:1.5px; color:#f0ede6; margin-bottom:16px;">
+        Report Review
+    </h3>
+
+    <form id="reportForm" method="POST" action="">
+        <input type="hidden" name="backUrl" value="/details?id=<%= movie.id %>">
+
+        <p style="color:#6b6878; font-size:13px; margin-bottom:12px;">
+            Why are you reporting this?
+        </p>
+
+        <label style="display:block; padding:8px 0; color:#f0ede6; font-size:14px; cursor:pointer;">
+            <input type="radio" name="reason" value="spam" required> Spam or fake review
+        </label>
+        <label style="display:block; padding:8px 0; color:#f0ede6; font-size:14px; cursor:pointer;">
+            <input type="radio" name="reason" value="spoilers"> Contains spoilers
+        </label>
+        <label style="display:block; padding:8px 0; color:#f0ede6; font-size:14px; cursor:pointer;">
+            <input type="radio" name="reason" value="offensive"> Offensive language
+        </label>
+        <label style="display:block; padding:8px 0; color:#f0ede6; font-size:14px; cursor:pointer;">
+            <input type="radio" name="reason" value="harassment"> Harassment
+        </label>
+        <label style="display:block; padding:8px 0; color:#f0ede6; font-size:14px; cursor:pointer;">
+            <input type="radio" name="reason" value="other"> Other
+        </label>
+
+        <textarea name="details" placeholder="Any extra details (optional)"
+            maxlength="300" rows="2"
+            style="width:100%; margin-top:12px; padding:8px; background:#0a0a0f;
+            border:1px solid #1e1e28; border-radius:6px; color:#f0ede6;
+            font-size:13px; resize:none;"></textarea>
+
+        <div style="display:flex; gap:10px; margin-top:16px;">
+            <button type="button" onclick="closeReportModal()"
+                style="flex:1; padding:10px; border-radius:6px; border:1px solid #6b6878;
+                background:transparent; color:#6b6878; cursor:pointer; font-size:13px;">
+                Cancel
+            </button>
+            <button type="submit"
+                style="flex:1; padding:10px; border-radius:6px; border:1px solid #ef4444;
+                background:#ef4444; color:white; cursor:pointer; font-size:13px;">
+                Submit Report
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+function openReportModal(reviewId) {
+    document.getElementById("reportForm").action = "/reviews/" + reviewId + "/report";
+    document.getElementById("reportOverlay").style.display = "block";
+    document.getElementById("reportModal").style.display = "block";
+}
+
+function closeReportModal() {
+    document.getElementById("reportOverlay").style.display = "none";
+    document.getElementById("reportModal").style.display = "none";
+    document.getElementById("reportForm").reset();
+}
+</script>
 
 </body>
 

@@ -177,3 +177,14 @@ h2 {
     background: #ef4444;
     color: white;
 }
+
+.report-btn {
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: 1px solid #ef4444;
+    background: transparent;
+    color: #ef4444;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
