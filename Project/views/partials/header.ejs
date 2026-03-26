@@ -2,16 +2,16 @@
   <nav class="navbar">
     <div class="nav-left">
       <a href="/home" class="logo">MovieHub</a>
-      <a href="/home">Home</a>
-      <a href="/movies">Movies</a>
+      <!-- <a href="/home">Home</a> -->
 
-      <% if (currentUser && currentUser.userId) { %>
+      <% if (currentUser && currentUser.userId && currentUser.role != "admin") { %>
+        <a href="/movies">Movies</a>  
         <a href="/watchlist">My Watchlist</a>
         <a href="/movies/add">Add New Movie</a>
       <% } %>
 
       <% if (currentUser && currentUser.role === "admin") { %>
-        <a href="/admin/submissions">Review Submissions</a>
+        <a href="/admin/submissions">Pending Movie Reviews</a>
       <% } %>
     </div>
 
