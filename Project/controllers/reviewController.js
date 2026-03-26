@@ -40,6 +40,11 @@ exports.createReview = async (req, res) => {
         if (errors.length > 0) {
             return res.redirect(`/details?id=${movieId}&error=validation`);
         }
+        
+        // Authorisation
+        if (req.session.role === 'admin') {
+            return res.redirect(`/details?id=${movieId}&error=admin_denied`);
+        }
 
         // Validation
         const existing = await Review.findOne({
