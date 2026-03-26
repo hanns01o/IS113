@@ -160,15 +160,3 @@ td img {
 .bulk-actions.show-checkbox {
     display: flex;
 }
-
-/* .cancel-btn {
-    background: transparent;
-    border: none;             
-    color: var(--muted);      
-    font-size: 14px;
-    cursor: pointer;
-}
-
-.cancel-btn:hover {
-    color: var(--accent);
-} */

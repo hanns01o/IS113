@@ -39,7 +39,7 @@
 
                             <% for (let j = i; j < i + 5 && j < watchlistMovies.length; j++) { %>
                                 <td>
-                                    <label class="select-box checkbox-hidden">
+                                    <label class="select-box checkbox-hidden" style="display: none;">
                                         <input type="checkbox" name="selectedIds" value="<%= watchlistMovies[j]._id %>">
                                         Select
                                     </label>                                    
@@ -64,7 +64,7 @@
                         </tr>
                     <% } %>
                 </table>
-                <div class="bulk-actions checkbox-hidden" id="bulkActions">
+                <div class="bulk-actions checkbox-hidden" id="bulkActions" style="display: none;">
                     <button type="submit" class="clear-btn">Delete Selected</button>
                     <button type="button" class="back-btn" onclick="toggleSelectMode()">Cancel</button>
                 </div>
@@ -76,7 +76,14 @@
 <script>
     function toggleSelectMode() {
         const checkboxes = document.querySelectorAll(".checkbox-hidden");
-        checkboxes.forEach(item => item.classList.toggle("show-checkbox"));
+
+        checkboxes.forEach(item => {
+            if (item.style.display === "none") {
+                item.style.display = "block";
+            } else {
+                item.style.display = "none";
+            }
+        });
     }
 </script>
 
