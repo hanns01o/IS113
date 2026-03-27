@@ -47,7 +47,15 @@
                 </tr>
                 <tr>
                     <td>
-                        <%=movie.vote_average.toFixed(1)%>/10
+                        <% let displayRating="0.0" ; 
+                        if (reviews && reviews.length> 0) {
+                            const total = reviews.reduce((sum, r) => sum + r.rating, 0);
+                            displayRating = (total / reviews.length).toFixed(1);
+                            }
+                            %>
+                            <span class="text-warning">★</span>
+                            <%= displayRating %>/10
+                            <small class="text-secondary ms-2">(<%= reviews.length %> reviews)</small>
                     </td>
                 </tr>
                 <tr>
@@ -98,13 +106,13 @@
         <h2>Reviews</h2>
         <div class="container mt-5">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <% if (currentUser && currentUser.userId && currentUser.role !== 'admin') { %>
+                <% if (currentUser && currentUser.userId && currentUser.role !=='admin' ) { %>
                     <a href="/movies/<%= movieId %>/reviews/new" class="btn btn-primary">+ Write a Review</a>
-                    <% } else if (currentUser && currentUser.role === 'admin') { %>
+                    <% } else if (currentUser && currentUser.role==='admin' ) { %>
                         <div class="alert alert-info">Admin mode: Viewing Only</div>
-                    <% } else { %>
-                        <a href="/login" class="btn btn-outline-secondary">Login to write a review</a>
-                    <% } %>
+                        <% } else { %>
+                            <a href="/login" class="btn btn-outline-secondary">Login to write a review</a>
+                            <% } %>
             </div>
 
             <hr>
