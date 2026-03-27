@@ -48,19 +48,17 @@
                 <tr>
                     <td>
                         <% 
-                        let totalScore=movie.vote_average; 
-                        let totalCount=1; 
+                        let totalScore=(movie.vote_average*movie.vote_count); 
+                        let totalCount=movie.vote_count; 
 
                         if (reviews && reviews.length> 0) {
                             const userTotal = reviews.reduce((sum, r) => sum + r.rating, 0);
                             totalScore += userTotal;
                             totalCount += reviews.length;
                             }
-
-                            
+  
                         let combinedRating = (totalScore / totalCount).toFixed(1);
                         %>
-
                             <span style="color: #ffc107; font-size: 1.2rem;">★</span>
                             <strong style="font-size: 1.2rem;">
                                 <%= combinedRating %>
@@ -135,7 +133,7 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
                                 <h5 class="card-title">
-                                    <u><b>A Review By @<%= review.user.username %></b></u>
+                                    <u><b>A Review By @<%= review.user ? review.user.username : 'Anonymous' %></b></u>
                                 </h5>
                                 <span class="badge bg-dark text-light rating-badge">
                                     ⭐ <%= review.rating %>/10
