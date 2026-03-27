@@ -36,7 +36,6 @@ exports.getHomePage = async (req, res) => {
     );
 
     const movies = await getMovies();
-    console.log(movies)
     if (movies) {
       featuredMovies = movies
         .filter(movie => movie.backdrop_path)

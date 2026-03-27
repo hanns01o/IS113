@@ -64,6 +64,7 @@ const user = require("./routes/user");
 const watchlist = require("./routes/watchlist");
 const profile = require("./routes/profile"); 
 const report = require("./routes/report");
+const admin = require("./routes/admin");
 
 app.use("/", auth);
 app.use("/", home); 
@@ -73,6 +74,7 @@ app.use("/", watchlist);
 app.use("/", profile)
 app.use('/movies/:movieId/reviews', review);
 app.use("/", report);
+app.use("/", admin);
 
 app.get("/", (req, res) => {
   // res.send(`

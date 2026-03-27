@@ -4,18 +4,17 @@
       <a href="/home" class="logo">MovieHub</a>
       <!-- <a href="/home">Home</a> -->
 
-      <% if (currentUser && currentUser.userId && currentUser.role != "admin") { %>
+      <% if (currentUser && currentUser.userId && currentUser.role) { %>
         <a href="/movies">Movies</a>  
         <a href="/watchlist">My Watchlist</a>
         <a href="/movies/add">Add New Movie</a>
       <% } %>
-
-      <% if (currentUser && currentUser.role === "admin") { %>
-        <a href="/admin/submissions">Pending Movie Reviews</a>
-      <% } %>
     </div>
 
     <div class="nav-right">
+      <% if (currentUser && currentUser.role === "admin") { %>
+        <a href="/admin">Admin Dashboard</a>
+      <% } %>
       <% if (currentUser && currentUser.userId) { %>
         <a href="/profile" class="profile-circle" title="Profile">
           <%= currentUser.username ? currentUser.username.charAt(0).toUpperCase() : "U" %>
