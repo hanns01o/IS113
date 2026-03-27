@@ -11,6 +11,7 @@ router.get("/details", movieController.getMovieDetails);
 router.get("/movies/add", requireLogin, movieController.getAddMovieForm);
 router.post("/movies/add", requireLogin, movieController.postAddMovieForm);
 router.get("/movies/custom/:id", movieController.getCustomMovieDetails);
+router.get("/movies/loadMore", movieController.loadMore);
 
 router.get("/admin/submissions", requireAdmin,movieController.getAdminSubmissions);
 router.post("/admin/submissions/:id/approve", requireAdmin, movieController.approveSubmission);

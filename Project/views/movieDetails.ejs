@@ -47,7 +47,28 @@
                 </tr>
                 <tr>
                     <td>
-                        <%=movie.vote_average.toFixed(1)%>/10
+                        <% 
+                        let totalScore=movie.vote_average; 
+                        let totalCount=1; 
+
+                        if (reviews && reviews.length> 0) {
+                            const userTotal = reviews.reduce((sum, r) => sum + r.rating, 0);
+                            totalScore += userTotal;
+                            totalCount += reviews.length;
+                            }
+
+                            
+                        let combinedRating = (totalScore / totalCount).toFixed(1);
+                        %>
+
+                            <span style="color: #ffc107; font-size: 1.2rem;">★</span>
+                            <strong style="font-size: 1.2rem;">
+                                <%= combinedRating %>
+                            </strong>/10
+
+                            <div class="text-secondary" style="font-size: 0.85rem; margin-top: 4px;">
+                                Based on Official Rating + <%= reviews.length %> User Reviews
+                            </div>
                     </td>
                 </tr>
                 <tr>
@@ -98,13 +119,13 @@
         <h2>Reviews</h2>
         <div class="container mt-5">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <% if (currentUser && currentUser.userId && currentUser.role !== 'admin') { %>
+                <% if (currentUser && currentUser.userId && currentUser.role !=='admin' ) { %>
                     <a href="/movies/<%= movieId %>/reviews/new" class="btn btn-primary">+ Write a Review</a>
-                    <% } else if (currentUser && currentUser.role === 'admin') { %>
+                    <% } else if (currentUser && currentUser.role==='admin' ) { %>
                         <div class="alert alert-info">Admin mode: Viewing Only</div>
-                    <% } else { %>
-                        <a href="/login" class="btn btn-outline-secondary">Login to write a review</a>
-                    <% } %>
+                        <% } else { %>
+                            <a href="/login" class="btn btn-outline-secondary">Login to write a review</a>
+                            <% } %>
             </div>
 
             <hr>

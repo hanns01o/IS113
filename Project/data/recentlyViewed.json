@@ -1,18 +1,18 @@
 {
   "69ba6119494c0639cfec9837": [
     {
-      "id": 1159559,
-      "title": "Scream 7",
-      "posterUrl": "https://image.tmdb.org/t/p/w500/jjyuk0edLiW8vOSnlfwWCCLpbh5.jpg",
-      "genre": "Horror, Mystery, Crime",
-      "releaseDate": "2026-02-25"
-    },
-    {
       "id": 875828,
       "title": "Peaky Blinders: The Immortal Man",
       "posterUrl": "https://image.tmdb.org/t/p/w500/gRMalasZEzsZi4w2VFuYusfSfqf.jpg",
       "genre": "Crime, Drama",
       "releaseDate": "2026-03-05"
+    },
+    {
+      "id": 1159559,
+      "title": "Scream 7",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/jjyuk0edLiW8vOSnlfwWCCLpbh5.jpg",
+      "genre": "Horror, Mystery, Crime",
+      "releaseDate": "2026-02-25"
     },
     {
       "id": 1290821,
