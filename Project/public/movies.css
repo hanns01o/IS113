@@ -1,3 +1,12 @@
+:root {
+            --bg: #0a0a0f;
+            --surface: #13131a;
+            --accent: #e8c84a;
+            --text: #f0ede6;
+            --muted: #6b6878;
+            --radius: 10px;
+        }
+        
 * {
     margin: 0;
     padding: 0;
@@ -62,18 +71,56 @@ body {
     background: #dc2626;
 }
 
-/* BACK BUTTON
-.back-btn {
-    display: inline-block;
-    margin: 20px 0;
-    font-size: 14px;
-    color: var(--muted);
-    text-decoration: none;
+/* ── Search ── */
+form {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    margin-bottom: 36px;
 }
 
-.back-btn:hover {
-    color: var(--accent);
-} */
+form input[type="text"] {
+    flex: 1;
+    background-color: var(--surface);
+    color: var(--text);
+    border: 1px solid #2a2a35;
+    border-radius: 40px;
+    padding: 10px 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+form input[type="text"]::placeholder {
+    color: var(--muted);
+}
+
+form input[type="text"]:focus {
+    border-color: var(--accent);
+}
+
+form button {
+    background-color: var(--accent);
+    color: #0a0a0f;
+    border: none;
+    border-radius: 40px;
+    padding: 10px 24px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 15px;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    transition: opacity 0.2s ease, transform 0.15s ease;
+}
+
+form button:hover {
+    opacity: 0.85;
+    transform: scale(1.03);
+}
+
+form button:active {
+    transform: scale(0.97);
+}
 
 .page-content {
     max-width: 1200px;
@@ -120,7 +167,7 @@ td a:has(img):hover img {
 
 td img {
     display: block;
-    width: 100%;             
+    width: 100%;
     height: 350px;
     object-fit: cover;
     border-radius: var(--radius);
@@ -200,16 +247,13 @@ h1 {
 }
 
 /* ── Community Movies ── */
-.community-section {
-    margin-bottom: 40px;
-}
-
-.community-section h2 {
+body h2 {
     font-size: 2rem;
     margin-bottom: 20px;
     color: #fff;
 }
-.community-section td{
+
+.community-section td {
     vertical-align: top;
     width: 25%;
 }
@@ -223,7 +267,7 @@ h1 {
 
 .community-section td img {
     display: block;
-    width: 100%;             
+    width: 100%;
     height: 350px;
     object-fit: cover;
     object-position: center;
@@ -252,4 +296,35 @@ h1 {
     height: 225px;
     object-fit: cover;
     border-radius: var(--radius);
+}
+
+#load-more-btn {
+    display: block;
+    margin: 5px auto 0;
+    padding: 12px 40px;
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 40px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 15px;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease, opacity 0.2s ease;
+}
+
+#load-more-btn:hover {
+    background: var(--accent);
+    color: #0a0a0f;
+    transform: scale(1.03);
+}
+
+#load-more-btn:active {
+    transform: scale(0.97);
+}
+
+#load-more-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
 }

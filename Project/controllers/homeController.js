@@ -1,6 +1,7 @@
 const Watchlist = require("../models/Watchlist");
 const User = require("../models/User"); 
-const {getRecentlyViewed, clearRecentlyViewed} = require("../utils/recentlyViewedHelper")
+const {getRecentlyViewed, clearRecentlyViewed} = require("../utils/recentlyViewedHelper");
+const { getMovies } = require("../utils/tmdb");
 
 exports.getHomePage = async (req, res) => {
   try {
@@ -34,10 +35,10 @@ exports.getHomePage = async (req, res) => {
       `https://api.themoviedb.org/3/movie/${category}?api_key=${process.env.API_KEY}`
     );
 
-    const data = await response.json();
-
-    if (data.results) {
-      featuredMovies = data.results
+    const movies = await getMovies();
+    console.log(movies)
+    if (movies) {
+      featuredMovies = movies
         .filter(movie => movie.backdrop_path)
         .slice(0, 3)
         .map(movie => ({
