@@ -271,3 +271,47 @@ exports.getCustomMovieDetails = async (req, res) => {
         res.status(500).send("Error loading movie details.");
     }
 };
+
+exports.bulkAddWatchlist = async (req, res) => {
+    try {
+        const userId = req.session.userId;
+
+        if (!userId) {
+            return res.redirect("/login");
+        }
+
+        const selectedMovies = req.body.selectedMovies;
+
+        if (!selectedMovies) {
+            return res.redirect("/movies");
+        }
+
+        const moviesArray = Array.isArray(selectedMovies) ? selectedMovies : [selectedMovies];
+
+        const watchlistItems = moviesArray.map(item => {
+            const [id, source, title, poster] = item.split("|");
+
+            return {
+                userId,
+                movieId: id,
+                movieTitle: title,
+                posterPath: source === "api" 
+                    ? poster 
+                    : poster.replace("https://image.tmdb.org/t/p/w500", ""),
+                addedAt: new Date()
+            };
+        });
+
+        try {
+            await Watchlist.insertMany(watchlistItems, { ordered: false });
+        } catch (err) {
+            if (err.code !== 11000) throw err;
+        }
+
+        res.redirect("/movies");
+
+    } catch (err) {
+        console.error(err);
+        res.send("Error adding bulk movies.");
+    }
+};
