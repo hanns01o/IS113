@@ -12,8 +12,7 @@
 <body>
 
     <%- include("partials/header") %>
-
-        <div class="page-content">
+    <div class="page-content">
             <nav class="movie-filters">
                 <a href="/movies">Popular</a>
                 <a href="/movies?category=now_playing">Now Playing</a>
@@ -48,6 +47,11 @@
                     <% } %>
             </div>
 
+            <div class="watchlist-toggle">
+                <button type="button" onclick="toggleSelectMode()">Add to Watchlist</button>
+            </div>
+
+        <form method="POST" action="/movies/bulk-add" id="bulkForm">
             <div class="community-section">
                 <% if (customMovies && customMovies.length>0) { %>
                     <h2>Community Submissions</h2>
@@ -57,6 +61,11 @@
                                 <% let cellsInRow=0; %>
                                     <% for (let j=i; j < i + 4 && j < customMovies.length; j++) { %>
                                         <td>
+                                            <label class="select-box checkbox-hidden" style="display: none;">
+                                                <input type="checkbox" name="selectedMovies"
+                                                    value="<%= customMovies[j]._id %>|db|<%= customMovies[j].title %>|<%= customMovies[j].posterUrl %>">
+                                                Select
+                                            </label>
                                             <a href="/movies/custom/<%=customMovies[j]._id%>">
                                                 <img src="<%= customMovies[j].posterUrl %>"
                                                     alt="<%= customMovies[j].title %>" />
@@ -93,6 +102,11 @@
                     <tr>
                         <% for (let j=i; j < i + 4 && j < movies.length; j++) { %>
                             <td>
+                                <label class="select-box checkbox-hidden" style="display: none;">
+                                    <input type="checkbox" name="selectedMovies"
+                                        value="<%= movies[j].id %>|api|<%= movies[j].title %>|<%= movies[j].poster_path %>">
+                                    Select 
+                                </label>
                                 <a href="/details?id=<%=movies[j].id%>" name="movieID" value="">
                                     <img src="https://image.tmdb.org/t/p/w500<%= movies[j].poster_path %>"
                                         alt="<%= movies[j].title %>" width="150" />
@@ -108,6 +122,11 @@
                     </tr>
                     <% } %>
             </table>
+            <div class="bulk-actions checkbox-hidden" id="bulkActions" style="display: none;">
+                <button type="submit" class="clear-btn">Add Selected</button>
+                <button type="button" class="back-btn" onclick="toggleSelectMode()">Cancel</button>
+            </div>
+        </form>
 
             <button id="load-more-btn">Load More</button>
 
@@ -167,5 +186,19 @@
             </script>
         </div>
 </body>
+
+<script>
+function toggleSelectMode() {
+    const checkboxes = document.querySelectorAll(".checkbox-hidden");
+
+    checkboxes.forEach(item => {
+        if (item.style.display === "none") {
+            item.style.display = "block";
+        } else {
+            item.style.display = "none";
+        }
+    });
+}
+</script>
 
 </html>
