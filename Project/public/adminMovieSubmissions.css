@@ -1,15 +1,21 @@
-:root {
-    --bg: #0f172a;
-    --panel: #111c44;
-    --panel-2: #0b1535;
-    --text: #ffffff;
-    --muted: #cbd5e1;
-    --accent: #ef4444;
-    --success: #22c55e;
-    --warning: #f59e0b;
-    --border: #24304f;
-    --radius: 14px;
-}
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    :root {
+        --bg: #0b0b12;
+        --surface: #13131e;
+        --surface2: #1a1a28;
+        --border: #252535;
+        --accent: #e8b84b;
+        --text: #e8e8f0;
+        --muted: #7070a0;
+        --radius: 10px;
+    }
 
 body {
     background: var(--bg);
@@ -42,7 +48,7 @@ body {
 }
 
 .submission-card {
-    background: linear-gradient(180deg, var(--panel) 0%, var(--panel-2) 100%);
+    background: var(--surface2);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 24px;
@@ -135,7 +141,7 @@ body {
 }
 
 .btn-delete {
-    background: var(--accent);
+    background: #8d1919;
 }
 
 .btn-delete:hover {

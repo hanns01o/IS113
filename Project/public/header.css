@@ -1,3 +1,21 @@
+:root {
+    --bg: #0f172a;
+    --panel: #111c44;
+    --panel-2: #0b1535;
+    --text: #ffffff;
+    --muted: #cbd5e1;
+    --accent: #e8c84a;
+    --border: #24304f;
+    --radius: 14px;
+}
+        
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
 .site-header {
   width: 100%;
   position: fixed;

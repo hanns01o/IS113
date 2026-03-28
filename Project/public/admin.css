@@ -1,0 +1,287 @@
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    :root {
+        --bg: #0b0b12;
+        --surface: #13131e;
+        --surface2: #1a1a28;
+        --border: #252535;
+        --accent: #e8b84b;
+        --text: #e8e8f0;
+        --muted: #7070a0;
+        --radius: 10px;
+    }
+
+    body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: 'DM Sans', sans-serif;
+        min-height: 100vh;
+        padding: 5rem 10rem 5rem;
+    }
+
+    /* ── WELCOME ─────────────────────────────────────────── */
+    .welcome {
+        margin-top: 50px;
+        margin-bottom: 2.5rem;
+    }
+
+    .welcome-eyebrow {
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 0.4rem;
+    }
+
+    .welcome h2 {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 2.8rem;
+        letter-spacing: 0.04em;
+        line-height: 1;
+    }
+
+    .welcome p {
+        margin-top: 0.5rem;
+        color: var(--muted);
+        font-size: 0.88rem;
+        font-weight: 300;
+    }
+
+    .hero{
+        width: 100%;
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    .hero-inner {
+        text-align: center;
+        position: relative;
+        z-index: 2;
+        height: 100%;
+        margin-bottom: 3rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .hero-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.66rem;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--accent);
+        border: 1px solid rgba(232, 184, 75, 0.3);
+        padding: 0.28rem 0.8rem;
+        border-radius: 2px;
+        width: fit-content;
+    }
+
+    .hero-tag::before {
+        content: '';
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--accent);
+        animation: blink 2.2s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+
+        0%,
+        100% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0.25;
+        }
+    }
+
+    .hero-sub {
+        color: rgba(232, 232, 240, 0.55);
+        font-size: 0.88rem;
+        font-weight: 300;
+        max-width: 440px;
+        line-height: 1.65;
+    }
+
+    .hero-stats {
+        display: flex;
+        gap: 2.5rem;
+        margin-top: 0.4rem;
+    }
+
+    .stat-value {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 1.9rem;
+        letter-spacing: 0.04em;
+        line-height: 1;
+    }
+
+    .stat-label {
+        font-size: 0.65rem;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-top: 0.2rem;
+    }
+
+    /* Film-strip bottom edge */
+    .hero::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: repeating-linear-gradient(90deg,
+                var(--accent) 0, var(--accent) 18px,
+                transparent 18px, transparent 26px);
+        opacity: 0.5;
+        z-index: 3;
+    }
+
+    /* ── SECTION LABEL ────────────────────────────────────── */
+    .section-label {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 1.1rem;
+        letter-spacing: 0.14em;
+        color: var(--muted);
+        margin-bottom: 1.1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+    }
+
+    .section-label::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+    }
+
+    /* ── CARDS ────────────────────────────────────────────── */
+    .cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1rem;
+    }
+
+    .card {
+        position: relative;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 1.5rem 1.6rem 1.4rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        text-decoration: none;
+        color: inherit;
+        overflow: hidden;
+        transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+
+    .card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--accent), transparent 70%);
+        opacity: 0;
+        transition: opacity 0.2s;
+    }
+
+    .card:hover {
+        border-color: rgba(232, 184, 75, 0.22);
+        transform: translateY(-3px);
+        box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
+    }
+
+    .card:hover::before {
+        opacity: 1;
+    }
+
+    .card-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.05rem;
+        transition: background 0.2s, border-color 0.2s;
+    }
+
+    .card:hover .card-icon {
+        background: rgba(232, 184, 75, 0.09);
+        border-color: rgba(232, 184, 75, 0.28);
+    }
+
+    .card-title {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 1.2rem;
+        letter-spacing: 0.08em;
+    }
+
+    .card-desc {
+        font-size: 0.81rem;
+        color: var(--muted);
+        line-height: 1.65;
+        font-weight: 300;
+        flex: 1;
+    }
+
+    .card-link {
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        color: var(--accent);
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        margin-top: 0.1rem;
+        transition: gap 0.2s;
+    }
+
+    .card:hover .card-link {
+        gap: 0.55rem;
+    }
+
+    /* ── RESPONSIVE ───────────────────────────────────────── */
+    @media (max-width: 768px) {
+        body {
+            padding: 1.5rem 1.2rem 3rem;
+        }
+
+        .hero {
+            width: calc(100% + 2.4rem);
+            margin-left: -1.2rem;
+            height: 270px;
+        }
+
+        .hero-inner {
+            padding: 0 1.4rem;
+        }
+
+        .hero-stats {
+            gap: 1.4rem;
+        }
+    }

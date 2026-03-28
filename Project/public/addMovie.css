@@ -8,6 +8,14 @@
     --border: #24304f;
     --radius: 14px;
 }
+        
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
 
 body {
     background: var(--bg);
