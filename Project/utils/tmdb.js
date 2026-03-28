@@ -20,6 +20,12 @@ const tmdb = {
     const data = await res.json();
     return data.genres;
   },
+
+  searchMovies: async (query, page=1) => {
+    const res = await fetch(`${BASE_URL}/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(query)}&page=${page}`);
+    const data = await res.json();
+    return data.results || [];
+  }
 };
 
 module.exports = tmdb;

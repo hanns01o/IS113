@@ -3,6 +3,7 @@ const Review = require("../models/Review");
 const Watchlist = require("../models/Watchlist");
 const Movie = require("../models/Movie");
 const MovieSubmission = require("../models/MovieSubmission");
+const { getHistory } = require('./searchController');
 const { addRecentlyViewed } = require("../utils/recentlyViewedHelper");
 const BASE_URL = 'https://api.themoviedb.org/3';
 const API_KEY = process.env.API_KEY;
@@ -19,14 +20,19 @@ exports.getMovies = async (req, res) => {
     };
     let movies = [];
     let customMovies = [];
+    let searchHistory = []
     const movieCategory = req.query.category || 'popular';
     const formattedCategory = categoryTitles[movieCategory] || 'Popular';
+    const userId = req.session.userId;
 
     try {
         movies = await tmdb.getMovies(movieCategory);
         customMovies = await Movie.find().sort({ createdAt: -1 });
+        
+        // Get history for dropdown
+        searchHistory = userId ? await getHistory(userId) : [];
 
-        res.render("movies", { movies, customMovies, movieCategory, formattedCategory});
+        res.render("movies", { movies, customMovies, searchHistory, movieCategory, formattedCategory });
     } catch (error) {
         console.error(error);
         res.status(500).send("Error loading movies.");

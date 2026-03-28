@@ -329,3 +329,80 @@ body h2 {
     cursor: not-allowed;
     transform: none;
 }
+
+/* ── Search Wrapper ── */
+.search-wrapper {
+    position: relative;
+    width: 100%;
+    margin-bottom: 36px;
+}
+
+.search-wrapper form {
+    margin-bottom: 0; /* override the existing form margin-bottom: 36px */
+}
+
+/* ── History Dropdown ── */
+.history-dropdown {
+    display: none; /* hidden by default */
+    position: absolute;
+    top: calc(100% + 8px); /* floats just below the search bar */
+    left: 0;
+    right: 0;
+    background: var(--surface);
+    border: 1px solid #2a2a35;
+    border-radius: var(--radius);
+    list-style: none;
+    z-index: 999;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.history-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    border-bottom: 1px solid #1e1e28;
+    transition: background 0.15s ease;
+}
+
+.history-item:last-child {
+    border-bottom: none;
+}
+
+.history-item:hover {
+    background: #1a1a24;
+}
+
+.history-item a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 14px;
+    flex: 1;
+}
+
+.history-item a:hover {
+    color: var(--accent);
+}
+
+/* ── Delete button inside history ── */
+.history-item form {
+    margin: 0;
+    width: auto;
+}
+
+.delete-history-btn {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-size: 14px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: color 0.2s ease, background 0.2s ease;
+}
+
+.delete-history-btn:hover {
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.1);
+}
