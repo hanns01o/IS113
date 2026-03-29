@@ -85,7 +85,7 @@ exports.getMovieDetails = async (req, res) => {
             });
         }
 
-        const internalId = movie._id || movie.id;
+        const internalId = movie._id || movie.id; // ._id is what mongoDB reads, .id is what the api reads
         
         if (req.session.userId) {
             if (req.session.role !== "admin") {
