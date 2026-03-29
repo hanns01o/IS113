@@ -37,12 +37,11 @@ exports.getMovies = async (req, res) => {
 
 exports.getMovieDetails = async (req, res) => {
     const movieID = req.query.id;
-    const isFromDB = isNaN(movieID); // MongoDB ObjectIds are non-numeric
+    let movie = null;
+    const isFromDB = isNaN(movieID) || movieID.length === 24;
     let errors = [];
 
     try {
-        let movie;
-
         if (isFromDB) {
             movie = await Movie.findById(movieID).lean();
             if (!movie) return res.status(404).send("Movie not found.");
@@ -58,7 +57,7 @@ exports.getMovieDetails = async (req, res) => {
             movie.backdrop_path = `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`;
         }
 
-        const reviews = await Review.find({ movie: movieID })
+        const reviews = await Review.find({ movie: String(movieID) })
             .populate('user')
             .sort({ createdAt: -1 });
 
@@ -75,27 +74,37 @@ exports.getMovieDetails = async (req, res) => {
 
         if (!req.session.userId) {
             return res.render("movieDetails", {
-                movie, reviews, errors,
+                movie, 
+                reviews, 
+                errors,
                 inWatchlist: false,
                 watchedStatus: false,
                 movieId: movieID,
-                isFromDB
+                isFromDB,
+                currentUser: null
             });
         }
 
-        if (req.session.role !== "admin") {
-            await addRecentlyViewed(String(req.session.userId), {
-                id:          movie.id,
-                title:       movie.title,
-                posterUrl:   movie.poster_path || "", 
-                genre:       movie.genres ? movie.genres.map(g => g.name).join(", ") : "",
-                releaseDate: movie.release_date || ""
-            });
-        }
-
+        const internalId = movie._id || movie.id;
+        
+        if (req.session.userId) {
+            if (req.session.role !== "admin") {
+                try{
+                    await addRecentlyViewed(String(req.session.userId), {
+                        id:          String(internalId),
+                        title:       movie.title,
+                        posterUrl:   movie.poster_path || "", 
+                        genre:       movie.genres ? movie.genres.map(g => g.name).join(", ") : "",
+                        releaseDate: movie.release_date || ""
+                    });
+                } catch (revErr) {
+                    console.error("Recently Viewed Error:", revErr);
+                }
+            }
+        }   
         const watchlistItem = await Watchlist.findOne({
             userId:  req.session.userId,
-            movieId: `movieID`
+            movieId: String(internalId)
         });
 
         const inWatchlist   = !!watchlistItem;
@@ -106,7 +115,8 @@ exports.getMovieDetails = async (req, res) => {
             inWatchlist,
             watchedStatus,
             movieId: movieID,
-            isFromDB
+            isFromDB,
+            currentUser: { userId: req.session.userId, role: req.session.role }
         });
     } catch (error) {
         console.error('Error loading movie details:', error);
