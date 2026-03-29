@@ -29,6 +29,7 @@ body {
 }
 
 .back-btn {
+    background: transparent;
     display: inline-block;
     font-size: 14px;
     color: var(--muted);
@@ -122,4 +123,40 @@ td img {
     font-size: 14px;
     cursor: pointer;
     transition: all 0.25s ease;
+}
+
+.top-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.top-actions form {
+    margin: 0;
+}
+
+.select-box {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.checkbox-hidden {
+    display: none;
+}
+
+.show-checkbox {
+    display: block;
+}
+
+.bulk-actions {
+    margin-top: 20px;
+    display: none;
+    gap: 10px;
+    align-items: center;
+}
+
+.bulk-actions.show-checkbox {
+    display: flex;
 }

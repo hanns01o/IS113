@@ -3,27 +3,36 @@ const Review = require("../models/Review");
 const Watchlist = require("../models/Watchlist");
 const Movie = require("../models/Movie");
 const MovieSubmission = require("../models/MovieSubmission");
-const { addRecentlyViewed } = require("../utils/recentlyViewedHelper"); 
+const { getHistory } = require('./searchController');
+const { addRecentlyViewed } = require("../utils/recentlyViewedHelper");
 const BASE_URL = 'https://api.themoviedb.org/3';
 const API_KEY = process.env.API_KEY;
+const tmdb = require('../utils/tmdb');
+
 
 
 exports.getMovies = async (req, res) => {
+    const categoryTitles = {
+        'now_playing': 'Now Playing',
+        'top_rated': 'Top Rated',
+        'upcoming': 'Upcoming',
+        'popular': 'Popular'
+    };
     let movies = [];
     let customMovies = [];
-    const movieCategory = req.query.category ? req.query.category : "popular";
+    let searchHistory = []
+    const movieCategory = req.query.category || 'popular';
+    const formattedCategory = categoryTitles[movieCategory] || 'Popular';
+    const userId = req.session.userId;
 
     try {
-        const response = await fetch(
-            `${BASE_URL}/movie/${movieCategory}?api_key=${API_KEY}`
-        );
-
-        const data = await response.json();
-        movies = data.results || [];
-
+        movies = await tmdb.getMovies(movieCategory);
         customMovies = await Movie.find().sort({ createdAt: -1 });
+        
+        // Get history for dropdown
+        searchHistory = userId ? await getHistory(userId) : [];
 
-        res.render("movies", { movies, customMovies });
+        res.render("movies", { movies, customMovies, searchHistory, movieCategory, formattedCategory });
     } catch (error) {
         console.error(error);
         res.status(500).send("Error loading movies.");
@@ -33,18 +42,21 @@ exports.getMovies = async (req, res) => {
 exports.getMovieDetails = async (req, res) => {
     let movie = {};
     const movieID = req.query.id;
+    let errors = [];
 
     try {
-        const response = await fetch(
-            `${BASE_URL}/movie/${movieID}?api_key=${API_KEY}`
-        );
-
-        const data = await response.json();
-        movie = data;
+        movie = await tmdb.getMovieById(movieID);
 
         const reviews = await Review.find({ movie: movieID })
             .populate('user')
             .sort({ createdAt: -1 });
+
+        if (req.query.error === 'validation') {
+            errors.push({ msg: 'Please check your rating (1-10) and comment length (min 10 chars).' });
+        }
+        if (req.query.error === 'already_reviewed') {
+            errors.push({ msg: 'You have already reviewed this movie.' });
+        }
 
         if (!req.session.userId) {
             console.log('User not found');
@@ -57,51 +69,46 @@ exports.getMovieDetails = async (req, res) => {
             });
         }
 
-        if(req.session.role != "admin"){ 
+        if (req.session.role != "admin") {
             // addIntoRecentlyViewed 
-            await addRecentlyViewed(String(req.session.userId), { 
-                id: movie.id, 
-                title: movie.title, 
-                posterUrl: movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : "", 
-                genre: movie.genres ? movie.genres.map(g => g.name).join(", ") : "", 
+            await addRecentlyViewed(String(req.session.userId), {
+                id: movie.id,
+                title: movie.title,
+                posterUrl: movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : "",
+                genre: movie.genres ? movie.genres.map(g => g.name).join(", ") : "",
                 releaseDate: movie.release_date || ""
             })
         }
 
-    const watchlistItem = await Watchlist.findOne({
-      userId: req.session.userId,
-      movieId: movieID
-    });
+        const watchlistItem = await Watchlist.findOne({
+            userId: req.session.userId,
+            movieId: movieID
+        });
 
-    const inWatchlist = !!watchlistItem;
-    const watchedStatus = watchlistItem ? !!watchlistItem.watchedDate : false;
+        const inWatchlist = !!watchlistItem;
+        const watchedStatus = watchlistItem ? !!watchlistItem.watchedDate : false;
 
-    res.render("movieDetails", {
-      movie,
-      reviews,
-      inWatchlist,
-      watchedStatus,
-      movieId: movieID
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Error loading movie details.");
-  }
+        res.render("movieDetails", {
+            movie,
+            reviews,
+            inWatchlist,
+            watchedStatus,
+            movieId: movieID
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error loading movie details.");
+    }
 };
 
 exports.getAddMovieForm = async (req, res) => {
     try {
-        const response = await fetch(
-            `${BASE_URL}/genre/movie/list?api_key=${API_KEY}`
-        );
-
-        const data = await response.json();
-        const genres = data.genres || [];
-    res.render("addMovie", {
-        error: null,
-        success: null,
-        genres
-    });
+        const genres = await tmdb.getGenres();
+        res.render("addMovie", {
+            error: null,
+            success: null,
+            genres
+        });
     } catch (error) {
         console.error(error);
         res.render("addMovie", {
@@ -121,7 +128,7 @@ exports.postAddMovieForm = async (req, res) => {
         );
         const genresData = await genresResponse.json();
         const genres = genresData.genres || [];
-        
+
         if (!title || !genre || !description) {
             return res.render("addMovie", {
                 error: "Title, genre, and description are required.",
@@ -146,9 +153,9 @@ exports.postAddMovieForm = async (req, res) => {
             submittedBy: req.session.userId,
             status: "pending"
         });
-        
+
         await newSubmission.save();
-        
+
         res.render("addMovie", {
             error: null,
             success: "Movie submission sent successfully. It is now pending admin review.",
@@ -164,12 +171,25 @@ exports.postAddMovieForm = async (req, res) => {
     }
 };
 
+exports.loadMore = async (req, res) => {
+    const category = req.query.category;
+    const page = Number(req.query.page) || 2;
+
+    try {
+        const movies = await tmdb.getMovies(category, page);
+        res.json({ movies });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Failed to load more movies.' });
+    }
+};
+
 exports.getAdminSubmissions = async (req, res) => {
     try {
         const submissions = await MovieSubmission.find()
             .populate("submittedBy", "username email")
             .sort({ submissionDate: -1 });
-        
+
         res.render("adminMovieSubmissions", { submissions });
     } catch (error) {
         console.error(error);
@@ -249,5 +269,49 @@ exports.getCustomMovieDetails = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).send("Error loading movie details.");
+    }
+};
+
+exports.bulkAddWatchlist = async (req, res) => {
+    try {
+        const userId = req.session.userId;
+
+        if (!userId) {
+            return res.redirect("/login");
+        }
+
+        const selectedMovies = req.body.selectedMovies;
+
+        if (!selectedMovies) {
+            return res.redirect("/movies");
+        }
+
+        const moviesArray = Array.isArray(selectedMovies) ? selectedMovies : [selectedMovies];
+
+        const watchlistItems = moviesArray.map(item => {
+            const [id, source, title, poster] = item.split("|");
+
+            return {
+                userId,
+                movieId: id,
+                movieTitle: title,
+                posterPath: source === "api" 
+                    ? poster 
+                    : poster.replace("https://image.tmdb.org/t/p/w500", ""),
+                addedAt: new Date()
+            };
+        });
+
+        try {
+            await Watchlist.insertMany(watchlistItems, { ordered: false });
+        } catch (err) {
+            if (err.code !== 11000) throw err;
+        }
+
+        res.redirect("/movies");
+
+    } catch (err) {
+        console.error(err);
+        res.send("Error adding bulk movies.");
     }
 };
