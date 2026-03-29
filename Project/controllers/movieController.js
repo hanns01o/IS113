@@ -28,7 +28,7 @@ exports.getMovies = async (req, res) => {
     try {
         movies = await tmdb.getMovies(movieCategory);
         customMovies = await Movie.find().sort({ createdAt: -1 });
-        
+
         // Get history for dropdown
         searchHistory = userId ? await getHistory(userId) : [];
 
@@ -55,7 +55,11 @@ exports.getMovieDetails = async (req, res) => {
             errors.push({ msg: 'Please check your rating (1-10) and comment length (min 10 chars).' });
         }
         if (req.query.error === 'already_reviewed') {
-            errors.push({ msg: 'You have already reviewed this movie.' });
+            errors.push({ msg: 'You have already submitted a review for this movie.' });
+        } else if (req.query.error === 'admin_denied') {
+            errors.push({ msg: "Admins cannot post reviews." });
+        } else if (req.query.error === 'save_failed') {
+            errors.push({ msg: "Unable to save review. Please try again." });
         }
 
         if (!req.session.userId) {
@@ -295,8 +299,8 @@ exports.bulkAddWatchlist = async (req, res) => {
                 userId,
                 movieId: id,
                 movieTitle: title,
-                posterPath: source === "api" 
-                    ? poster 
+                posterPath: source === "api"
+                    ? poster
                     : poster.replace("https://image.tmdb.org/t/p/w500", ""),
                 addedAt: new Date()
             };
