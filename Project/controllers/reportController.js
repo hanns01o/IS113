@@ -37,7 +37,7 @@ exports.getReports = async (req, res) => {
       .populate("reportedBy", "username email")
       .populate({
         path: "reviewId",
-        populate: { path: "userId", select: "username" }
+        populate: { path: "user", select: "username" }
       })
       .sort({ createdAt: -1 });
 
