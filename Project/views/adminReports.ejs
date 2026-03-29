@@ -48,13 +48,13 @@
                         <p class="label">Review content:</p>
                         <% if (report.reviewId) { %>
                             <p class="review-text">
-                                "<%= report.reviewId.text
-                                    ? report.reviewId.text.substring(0, 200)
+                                "<%= report.reviewId.comment
+                                    ? report.reviewId.comment.substring(0, 200)
                                     : "No text" %>"
                             </p>
                             <p class="review-author">
-                                — by <%= report.reviewId.userId
-                                    ? report.reviewId.userId.username
+                                — by <%= report.reviewId.user
+                                    ? report.reviewId.user.username
                                     : "Deleted user" %>
                             </p>
                         <% } else { %>
