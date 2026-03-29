@@ -1,57 +1,117 @@
 const SearchHistory = require('../models/SearchHistory');
-const Movie = require('../models/Movie'); // add this
+const Movie = require('../models/Movie');
 const tmdb = require('../utils/tmdb');
 
 // CREATE or UPDATE search history
 const saveSearch = async (userId, query) => {
-    const existing = await SearchHistory.findOne({ userId, query });
-
-    if (existing) {
-        await SearchHistory.updateEntry(userId, query);
-    } else {
-        await SearchHistory.createEntry(userId, query);
+    try {
+        const existing = await SearchHistory.findOne({ userId, query });
+        if (existing) {
+            await SearchHistory.updateEntry(userId, query);
+        } else {
+            await SearchHistory.createEntry(userId, query);
+        }
+    } catch (err) {
+        console.error('Error saving search history:', err);
     }
 };
 
 // READ — get latest 5 searches
 const getHistory = async (userId) => {
-  return await SearchHistory.getHistory(userId); 
+    try {
+        return await SearchHistory.getHistory(userId);
+    } catch (err) {
+        console.error('Error fetching search history:', err);
+        return [];
+    }
 };
 
 exports.searchMovies = async (req, res) => {
     const searchQuery = req.query.search;
     const userId = req.session.userId;
 
-    // Update search history if the same search and userId is found
-    if (searchQuery && userId) {
-        await saveSearch(userId, searchQuery);
+    try {
+        if (searchQuery && userId) {
+            await saveSearch(userId, searchQuery);
+        }
+
+        const customMovies = searchQuery
+            ? await Movie.find({ title: { $regex: searchQuery, $options: 'i' } }).sort({ createdAt: -1 })
+            : [];
+
+        const movies = searchQuery ? await tmdb.searchMovies(searchQuery) : [];
+
+        const searchHistory = userId ? await getHistory(userId) : [];
+
+        res.render('search', {
+            movies,
+            customMovies,
+            searchHistory,
+            searchQuery,
+            mode: 'search'
+        });
+    } catch (err) {
+        console.error('Error searching movies:', err);
+        res.render('search', { error: 'Something went wrong while searching.' });
     }
-
-    // Search community movies from DB
-    const customMovies = searchQuery
-        ? await Movie.find({ title: { $regex: searchQuery, $options: 'i' } }).sort({ createdAt: -1 })
-        : [];
-
-
-    // Fetch results from TMDB
-    const movies = searchQuery ? await tmdb.searchMovies(searchQuery) : [];
-
-    // Get history for dropdown
-    const searchHistory = userId ? await getHistory(userId) : [];
-
-    res.render('search', {
-        movies,
-        customMovies,
-        searchHistory,
-        searchQuery,
-        formattedCategory: `Results for "${searchQuery}"`
-    });
 };
 
-// DELETE — remove one entry
+exports.searchByGenre = async (req, res) => {
+    const genreId = req.query.tag;
+    const userId = req.session.userId;
+
+    try {
+        const customMovies = await Movie.find({ genre_ids: genreId });
+        const movies = await tmdb.searchByGenre(genreId);
+        const searchHistory = userId ? await getHistory(userId) : [];
+
+        // Resolve genre name from TMDB
+        const genres = await tmdb.getGenres();
+        const currentGenre = genres.find(g => g.id === parseInt(genreId));
+        const genreName = currentGenre?.name || 'Unknown Genre';
+
+        res.render('search', {
+            movies,
+            customMovies,
+            searchHistory,
+            searchQuery: genreName,
+            genreId,
+            mode: 'genre'
+        });
+    } catch (err) {
+        console.error('Error searching by genre:', err);
+        res.render('search', { error: 'Something went wrong while filtering by genre.' });
+    }
+};
+
+exports.loadMore = async (req, res) => {
+    const { mode, query, tag, page } = req.query;
+    const pageNum = Number(page) || 2;
+
+    try {
+        let movies = [];
+
+        if (mode === 'genre') {
+            movies = await tmdb.searchByGenre(tag, pageNum);
+        } else if (mode === 'search') {
+            movies = await tmdb.searchMovies(query, pageNum);
+        }
+
+        res.json({ movies });
+    } catch (err) {
+        console.error('Load more error:', err);
+        res.status(500).json({ error: 'Failed to load more movies.' });
+    }
+};
+
 exports.deleteHistory = async (req, res) => {
-  await SearchHistory.deleteEntry(req.body.id, req.session.userId);
-  res.redirect('back');
+    try {
+        await SearchHistory.deleteEntry(req.body.id, req.session.userId);
+        res.redirect('back');
+    } catch (err) {
+        console.error('Error deleting search history:', err);
+        res.redirect('back');
+    }
 };
 
-exports.getHistory = getHistory; // export the same function
+exports.getHistory = getHistory;
