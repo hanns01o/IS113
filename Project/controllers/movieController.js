@@ -306,8 +306,8 @@ exports.bulkAddWatchlist = async (req, res) => {
                 movieId: id,
                 movieTitle: title,
                 posterPath: source === "api"
-                    ? poster
-                    : poster.replace("https://image.tmdb.org/t/p/w500", ""),
+                    ? `https://image.tmdb.org/t/p/w500${poster}`
+                    : poster,
                 addedAt: new Date()
             };
         });

@@ -73,8 +73,6 @@ exports.getHomePage = async (req, res) => {
 
     }
 
-    // const previewWatchlist = watchlistMovies.slice(0, 5);
-
     res.render("home", {
       featuredMovies,
       filterMovies,
