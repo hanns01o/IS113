@@ -47,12 +47,8 @@ exports.createReview = async (req, res) => {
         }
 
         // Validation
-        const existing = await Review.findOne({
-            movie: movieId,
-            user: req.session.userId
-        });
-
-        if (existing) {
+        const existingReview = await Review.findOne({ movie: movieId, user: req.session.userId });
+        if (existingReview) {
             return res.redirect(`/details?id=${movieId}&error=already_reviewed`);
         }
 
