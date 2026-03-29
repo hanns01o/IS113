@@ -53,7 +53,7 @@ exports.createReview = async (req, res) => {
         }
 
         await Review.create({
-            movie: movieId,
+            movie: String(movieId),
             user: req.session.userId,
             username: req.session.username,
             rating,
