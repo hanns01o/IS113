@@ -66,7 +66,11 @@ exports.getMovieDetails = async (req, res) => {
             errors.push({ msg: 'Please check your rating (1-10) and comment length (min 10 chars).' });
         }
         if (req.query.error === 'already_reviewed') {
-            errors.push({ msg: 'You have already reviewed this movie.' });
+            errors.push({ msg: 'You have already submitted a review for this movie.' });
+        } else if (req.query.error === 'admin_denied') {
+            errors.push({ msg: "Admins cannot post reviews." });
+        } else if (req.query.error === 'save_failed') {
+            errors.push({ msg: "Unable to save review. Please try again." });
         }
 
         if (!req.session.userId) {
@@ -265,5 +269,49 @@ exports.getCustomMovieDetails = async (req, res) => {
     } catch (error) {
         console.error('Error loading custom movie details:', error);
         res.status(500).send("Error loading movie details.");
+    }
+};
+
+exports.bulkAddWatchlist = async (req, res) => {
+    try {
+        const userId = req.session.userId;
+
+        if (!userId) {
+            return res.redirect("/login");
+        }
+
+        const selectedMovies = req.body.selectedMovies;
+
+        if (!selectedMovies) {
+            return res.redirect("/movies");
+        }
+
+        const moviesArray = Array.isArray(selectedMovies) ? selectedMovies : [selectedMovies];
+
+        const watchlistItems = moviesArray.map(item => {
+            const [id, source, title, poster] = item.split("|");
+
+            return {
+                userId,
+                movieId: id,
+                movieTitle: title,
+                posterPath: source === "api"
+                    ? poster
+                    : poster.replace("https://image.tmdb.org/t/p/w500", ""),
+                addedAt: new Date()
+            };
+        });
+
+        try {
+            await Watchlist.insertMany(watchlistItems, { ordered: false });
+        } catch (err) {
+            if (err.code !== 11000) throw err;
+        }
+
+        res.redirect("/movies");
+
+    } catch (err) {
+        console.error(err);
+        res.send("Error adding bulk movies.");
     }
 };

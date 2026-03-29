@@ -62,7 +62,6 @@ exports.searchByGenre = async (req, res) => {
 
     try {
         const customMovies = await Movie.find({ genre_ids: genreId });
-        console.log(customMovies)
         const movies = await tmdb.searchByGenre(genreId);
         const searchHistory = userId ? await getHistory(userId) : [];
 

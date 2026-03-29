@@ -47,67 +47,91 @@
             <% } %>
         </div>
 
-        <!-- Community submissions -->
-        <% if (customMovies && customMovies.length > 0) { %>
-            <div class="community-section">
-                <h2>Community Submissions</h2>
-                <table>
-                    <% for (let i = 0; i < customMovies.length; i += 4) { %>
-                        <tr>
-                            <% let cellsInRow = 0; %>
-                            <% for (let j = i; j < i + 4 && j < customMovies.length; j++) { %>
-                                <td>
-                                    <a href="/details?id=<%= customMovies[j]._id %>">
-                                        <img src="<%= customMovies[j].poster_path %>" alt="<%= customMovies[j].title %>" />
-                                    </a>
-                                    <div class="movie-title">
-                                        <a href="/details?id=<%= customMovies[j]._id %>"><%= customMovies[j].title %></a>
-                                    </div>
-                                    <br />
-                                </td>
-                                <% cellsInRow++; %>
-                            <% } %>
-                            <!-- Fill empty cells to maintain 4-column grid -->
-                            <% for (let k = cellsInRow; k < 4; k++) { %>
-                                <td></td>
-                            <% } %>
-                        </tr>
-                    <% } %>
-                </table>
-            </div>
-        <% } %>
+        <!-- Watchlist toggle -->
+        <div class="watchlist-toggle">
+            <button type="button" onclick="toggleSelectMode()">Add to Watchlist</button>
+        </div>
 
-        <!-- TMDB movies -->
-        <h2><%= formattedCategory %></h2>
+        <form method="POST" action="/movies/bulk-add" id="bulkForm">
 
-        <table id="movies-table">
-            <% for (let i = 0; i < movies.length; i += 4) { %>
-                <tr>
-                    <% for (let j = i; j < i + 4 && j < movies.length; j++) { %>
-                        <td>
-                            <a href="/details?id=<%= movies[j].id %>">
-                                <img src="https://image.tmdb.org/t/p/w500<%= movies[j].poster_path %>" alt="<%= movies[j].title %>" width="150" />
-                            </a>
-                            <div class="movie-title">
-                                <a href="/details?id=<%= movies[j].id %>"><%= movies[j].title %></a>
-                            </div>
-                            <br />
-                        </td>
-                    <% } %>
-
-                    <% for (let k = movies.length % 4 !== 0 && i + 4 > movies.length ? movies.length % 4 : 4; k < 4; k++) { %>
-                        <td></td>
-                    <% } %>
-                </tr>
+            <!-- Community submissions -->
+            <% if (customMovies && customMovies.length > 0) { %>
+                <div class="community-section">
+                    <h2>Community Submissions</h2>
+                    <table>
+                        <% for (let i = 0; i < customMovies.length; i += 4) { %>
+                            <tr>
+                                <% let cellsInRow = 0; %>
+                                <% for (let j = i; j < i + 4 && j < customMovies.length; j++) { %>
+                                    <td>
+                                        <label class="select-box checkbox-hidden" style="display: none;">
+                                            <input type="checkbox" name="selectedMovies"
+                                                value="<%= customMovies[j]._id %>|db|<%= customMovies[j].title %>|<%= customMovies[j].poster_path %>">
+                                            Select
+                                        </label>
+                                        <a href="/details?id=<%= customMovies[j]._id %>">
+                                            <img src="<%= customMovies[j].poster_path %>" alt="<%= customMovies[j].title %>" />
+                                        </a>
+                                        <div class="movie-title">
+                                            <a href="/details?id=<%= customMovies[j]._id %>"><%= customMovies[j].title %></a>
+                                        </div>
+                                        <div><small><%= customMovies[j].genre %></small></div>
+                                        <br />
+                                    </td>
+                                    <% cellsInRow++; %>
+                                <% } %>
+                                <% for (let k = cellsInRow; k < 4; k++) { %>
+                                    <td></td>
+                                <% } %>
+                            </tr>
+                        <% } %>
+                    </table>
+                </div>
             <% } %>
-        </table>
+
+            <!-- TMDB movies -->
+            <h2><%= formattedCategory %></h2>
+
+            <table id="movies-table">
+                <% for (let i = 0; i < movies.length; i += 4) { %>
+                    <tr>
+                        <% for (let j = i; j < i + 4 && j < movies.length; j++) { %>
+                            <td>
+                                <label class="select-box checkbox-hidden" style="display: none;">
+                                    <input type="checkbox" name="selectedMovies"
+                                        value="<%= movies[j].id %>|api|<%= movies[j].title %>|<%= movies[j].poster_path %>">
+                                    Select
+                                </label>
+                                <a href="/details?id=<%= movies[j].id %>">
+                                    <img src="https://image.tmdb.org/t/p/w500<%= movies[j].poster_path %>" alt="<%= movies[j].title %>" width="150" />
+                                </a>
+                                <div class="movie-title">
+                                    <a href="/details?id=<%= movies[j].id %>"><%= movies[j].title %></a>
+                                </div>
+                                <br />
+                            </td>
+                        <% } %>
+                        <% for (let k = movies.length % 4 !== 0 && i + 4 > movies.length ? movies.length % 4 : 4; k < 4; k++) { %>
+                            <td></td>
+                        <% } %>
+                    </tr>
+                <% } %>
+            </table>
+
+            <!-- Bulk action buttons -->
+            <div class="bulk-actions checkbox-hidden" id="bulkActions" style="display: none;">
+                <button type="submit" class="clear-btn">Add Selected</button>
+                <button type="button" class="back-btn" onclick="toggleSelectMode()">Cancel</button>
+            </div>
+
+        </form>
 
         <button id="load-more-btn">Load More</button>
 
     </div>
 
     <script>
-        // Load more logic
+        // Load more
         let page = 2;
         const category = '<%= movieCategory %>';
         const btn = document.getElementById('load-more-btn');
@@ -138,7 +162,6 @@
                 }
 
                 page++;
-                // Hide button if no more results
                 if (movies.length === 0) btn.style.display = 'none';
             } catch (err) {
                 console.error('Load more failed:', err);
@@ -158,6 +181,14 @@
                 if (!e.target.closest('.search-wrapper')) {
                     dropdown.style.display = 'none';
                 }
+            });
+        }
+
+        // Watchlist select mode toggle
+        function toggleSelectMode() {
+            const checkboxes = document.querySelectorAll('.checkbox-hidden');
+            checkboxes.forEach(item => {
+                item.style.display = item.style.display === 'none' ? 'block' : 'none';
             });
         }
     </script>

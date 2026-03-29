@@ -72,7 +72,7 @@ body {
 }
 
 /* ── Search ── */
-form {
+/* form {
     width: 100%;
     display: flex;
     gap: 10px;
@@ -119,6 +119,57 @@ form button:hover {
 }
 
 form button:active {
+    transform: scale(0.97);
+} */
+
+/* ── Search ── */
+.search-wrapper form {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    margin-bottom: 36px;
+}
+
+.search-wrapper form input[type="text"] {
+    flex: 1;
+    background-color: var(--surface);
+    color: var(--text);
+    border: 1px solid #2a2a35;
+    border-radius: 40px;
+    padding: 10px 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.search-wrapper form input[type="text"]::placeholder {
+    color: var(--muted);
+}
+
+.search-wrapper form input[type="text"]:focus {
+    border-color: var(--accent);
+}
+
+.search-wrapper form button {
+    background-color: var(--accent);
+    color: #0a0a0f;
+    border: none;
+    border-radius: 40px;
+    padding: 10px 24px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 15px;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    transition: opacity 0.2s ease, transform 0.15s ease;
+}
+
+.search-wrapper form button:hover {
+    opacity: 0.85;
+    transform: scale(1.03);
+}
+
+.search-wrapper form button:active {
     transform: scale(0.97);
 }
 
@@ -331,7 +382,7 @@ body h2 {
 }
 
 /* ── Search Wrapper ── */
-.search-wrapper {
+/* .search-wrapper {
     position: relative;
     width: 100%;
     margin-bottom: 36px;
@@ -339,7 +390,7 @@ body h2 {
 
 .search-wrapper form {
     margin-bottom: 0; /* override the existing form margin-bottom: 36px */
-}
+/*} */
 
 /* ── History Dropdown ── */
 .history-dropdown {
@@ -405,4 +456,34 @@ body h2 {
 .delete-history-btn:hover {
     color: #ef4444;
     background: rgba(239, 68, 68, 0.1);
+}
+
+.select-box {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.watchlist-toggle {
+    margin: 10px 0;
+}
+
+.checkbox-hidden {
+    display: none;
+}
+
+.show-checkbox {
+    display: block;
+}
+
+.bulk-actions {
+    margin-top: 20px;
+    display: none;
+    gap: 10px;
+    align-items: center;
+}
+
+.bulk-actions.show-checkbox {
+    display: flex;
 }
