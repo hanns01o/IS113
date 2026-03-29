@@ -85,27 +85,28 @@
                         <p>
                             <%=movie.overview%>
                         </p>
-
-                        <% if (inWatchlist) { %>
-                            <form method="POST" action="/watchlist/remove/<%= movieId %>">
-                                <button type="submit" class="watchlist-btn remove">Remove from Watchlist</button>
-                            </form>
-                            <% if (!watchedStatus) { %>
-                                <form method="POST" action="/watchlist/updateadd/<%= movieId %>">
-                                    <button type="submit" class="watchlist-btn">Mark as Watched</button>
+                        <% if (!currentUser || currentUser.role !== "admin") {%>
+                            <% if (inWatchlist) { %>
+                                <form method="POST" action="/watchlist/remove/<%= String(movie.id) %>">
+                                    <button type="submit" class="watchlist-btn remove">Remove from Watchlist</button>
                                 </form>
-                                <% } else { %>
-                                    <form method="POST" action="/watchlist/updateremove/<%= movieId %>">
-                                        <button type="submit" class="watchlist-btn remove">Mark as Unwatched</button>
+                                <% if (!watchedStatus) { %>
+                                    <form method="POST" action="/watchlist/updateadd/<%= String(movie.id) %>">
+                                        <button type="submit" class="watchlist-btn">Mark as Watched</button>
                                     </form>
+                                    <% } else { %>
+                                        <form method="POST" action="/watchlist/updateremove/<%= String(movie.id) %>">
+                                            <button type="submit" class="watchlist-btn remove">Mark as Unwatched</button>
+                                        </form>
+                                        <% } %>
+                                            <% } else { %>
+                                                <form method="POST" action="/watchlist/add/<%= String(movie.id) %>">
+                                                    <input type="hidden" name="movieTitle" value="<%= movie.title %>">
+                                                    <input type="hidden" name="posterPath" value="<%= movie.poster_path %>">
+                                                    <button type="submit" class="watchlist-btn">Add to Watchlist</button>
+                                                </form>
+                                                <% } %>
                                     <% } %>
-                                        <% } else { %>
-                                            <form method="POST" action="/watchlist/add/<%= movieId %>">
-                                                <input type="hidden" name="movieTitle" value="<%= movie.title %>">
-                                                <input type="hidden" name="posterPath" value="<%= movie.poster_path %>">
-                                                <button type="submit" class="watchlist-btn">Add to Watchlist</button>
-                                            </form>
-                                            <% } %>
                     </td>
                 </tr>
             </table>

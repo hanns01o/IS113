@@ -48,9 +48,11 @@
         </div>
 
         <!-- Watchlist toggle -->
-        <div class="watchlist-toggle">
-            <button type="button" onclick="toggleSelectMode()">Add to Watchlist</button>
-        </div>
+        <% if (!currentUser || currentUser.role !== "admin") { %>
+            <div class="watchlist-toggle">
+                <button type="button" onclick="toggleSelectMode()">Add to Watchlist</button>
+            </div>
+        <% } %>
 
         <form method="POST" action="/movies/bulk-add" id="bulkForm">
 
@@ -184,7 +186,6 @@
             });
         }
 
-        // Watchlist select mode toggle
         function toggleSelectMode() {
             const checkboxes = document.querySelectorAll('.checkbox-hidden');
             checkboxes.forEach(item => {
