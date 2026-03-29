@@ -95,7 +95,7 @@ exports.getMovieDetails = async (req, res) => {
 
         const watchlistItem = await Watchlist.findOne({
             userId:  req.session.userId,
-            movieId: `movieID`
+            movieId: String(movieID)
         });
 
         const inWatchlist   = !!watchlistItem;
