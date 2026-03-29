@@ -14,6 +14,8 @@
     <%- include("partials/header") %>
 
     <div class="page-content">
+
+        <!-- Nav filters -->
         <nav class="movie-filters">
             <a href="/movies">Popular</a>
             <a href="/movies?category=now_playing">Now Playing</a>
@@ -30,14 +32,13 @@
                 </button>
             </form>
 
-            <!-- History dropdown -->
             <% if (typeof searchHistory !== 'undefined' && searchHistory.length > 0) { %>
                 <ul id="historyDropdown" class="history-dropdown">
                     <% searchHistory.forEach(item => { %>
                         <li class="history-item">
                             <a href="/search?search=<%= item.query %>"><%= item.query %></a>
                             <form action="/search/delete" method="POST">
-                                <input type="hidden" name="id" value="<%= item._id%>">
+                                <input type="hidden" name="id" value="<%= item._id %>">
                                 <button type="submit" class="delete-history-btn">✕</button>
                             </form>
                         </li>
@@ -46,8 +47,7 @@
             <% } %>
         </div>
 
-
-        <!-- Community Results -->
+        <!-- Community submissions -->
         <% if (customMovies && customMovies.length > 0) { %>
             <div class="community-section">
                 <h2>Community Submissions</h2>
@@ -61,13 +61,9 @@
                                         <img src="<%= customMovies[j].posterUrl %>" alt="<%= customMovies[j].title %>" />
                                     </a>
                                     <div class="movie-title">
-                                        <a href="/movies/custom/<%= customMovies[j]._id %>">
-                                            <%= customMovies[j].title %>
-                                        </a>
+                                        <a href="/movies/custom/<%= customMovies[j]._id %>"><%= customMovies[j].title %></a>
                                     </div>
-                                    <div>
-                                        <small><%= customMovies[j].genre %></small>
-                                    </div>
+                                    <div><small><%= customMovies[j].genre %></small></div>
                                     <br />
                                 </td>
                                 <% cellsInRow++; %>
@@ -87,16 +83,18 @@
         <% } else { %>
             <h2>Search Movies</h2>
         <% } %>
-        
+
         <!-- No results state -->
         <% if (!movies || movies.length === 0) { %>
             <p class="empty">
-                <% if (typeof query !== 'undefined' && query) { %>
-                    No results found for "<%= query %>". <a href="/movies">Go back to movies</a>.
+                <!-- BUG FIX #2: was checking `query` but controller passes `searchQuery` -->
+                <% if (typeof searchQuery !== 'undefined' && searchQuery) { %>
+                    No results found for "<%= searchQuery %>". <a href="/movies">Go back to movies</a>.
                 <% } else { %>
                     Type something in the search bar above to find movies.
                 <% } %>
             </p>
+
         <% } else { %>
             <!-- Results grid -->
             <table id="movies-table">
@@ -105,31 +103,75 @@
                         <% for (let j = i; j < i + 4 && j < movies.length; j++) { %>
                             <td>
                                 <a href="/details?id=<%= movies[j].id %>">
-                                    <img
-                                        src="https://image.tmdb.org/t/p/w500<%= movies[j].poster_path %>"
-                                        alt="<%= movies[j].title %>"
-                                    />
+                                    <img src="https://image.tmdb.org/t/p/w500<%= movies[j].poster_path %>" alt="<%= movies[j].title %>" />
                                 </a>
                                 <div class="movie-title">
-                                    <a href="/details?id=<%= movies[j].id %>">
-                                        <%= movies[j].title %>
-                                    </a>
+                                    <a href="/details?id=<%= movies[j].id %>"><%= movies[j].title %></a>
                                 </div>
                                 <br />
                             </td>
                         <% } %>
-                        <!-- Fill empty cells to maintain grid -->
-                        <% for (let k = movies.length - i; k < 4 && i + k < movies.length + 4; k++) { %>
-                            <% if (i + k >= movies.length) { %><td></td><% } %>
+
+                        <% for (let k = movies.length % 4 !== 0 && i + 4 > movies.length ? movies.length % 4 : 4; k < 4; k++) { %>
+                            <td></td>
                         <% } %>
                     </tr>
                 <% } %>
             </table>
+
+            <button id="load-more-btn">Load More</button>
         <% } %>
+
     </div>
 
     <script>
-        // Search history dropdown logic
+        const mode = '<%= typeof mode !== "undefined" ? mode : "search" %>';
+        const searchQuery = '<%= typeof searchQuery !== "undefined" ? searchQuery : "" %>';
+        const genreId = '<%= typeof genreId !== "undefined" ? genreId : "" %>';
+
+        const btn = document.getElementById('load-more-btn');
+        let page = 2;
+
+        if (btn) {
+            btn.addEventListener('click', async () => {
+                try {
+                    const params = mode === 'genre'
+                        ? `mode=genre&tag=${genreId}&page=${page}`
+                        : `mode=search&query=${encodeURIComponent(searchQuery)}&page=${page}`;
+
+                    const res = await fetch(`/search/more?${params}`);
+                    const { movies } = await res.json();
+                    const table = document.getElementById('movies-table');
+
+                    for (let i = 0; i < movies.length; i += 4) {
+                        const row = document.createElement('tr');
+                        for (let j = i; j < i + 4 && j < movies.length; j++) {
+                            const movie = movies[j];
+                            const cell = document.createElement('td');
+                            cell.innerHTML = `
+                                <a href="/details?id=${movie.id}">
+                                    <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}" width="150" />
+                                </a>
+                                <div class="movie-title">
+                                    <a href="/details?id=${movie.id}">${movie.title}</a>
+                                </div>
+                                <br />
+                            `;
+                            row.appendChild(cell);
+                        }
+                        table.appendChild(row);
+                    }
+
+                    page++;
+                    // Hide button if no more results
+                    if (movies.length === 0) btn.style.display = 'none';
+                } catch (err) {
+                    console.error('Load more failed:', err);
+                }
+            });
+        }
+
+        // Search history dropdown
         const searchBar = document.getElementById('searchBar');
         const dropdown = document.getElementById('historyDropdown');
 
@@ -147,5 +189,4 @@
     </script>
 
 </body>
-
 </html>

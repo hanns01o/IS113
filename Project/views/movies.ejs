@@ -13,159 +13,154 @@
 
     <%- include("partials/header") %>
 
-        <div class="page-content">
-            <nav class="movie-filters">
-                <a href="/movies">Popular</a>
-                <a href="/movies?category=now_playing">Now Playing</a>
-                <a href="/movies?category=top_rated">Top Rated</a>
-                <a href="/movies?category=upcoming">Upcoming</a>
-            </nav>
+    <div class="page-content">
 
-            <!-- Search bar with history dropdown -->
-            <div class="search-wrapper">
-                <form action="/search" method="GET">
-                    <input type="text" id="searchBar" name="search" placeholder="Search movies...">
-                    <button>
-                        <img src="../images/search-icon.png" width="25px">
-                    </button>
-                </form>
+        <!-- Nav filters -->
+        <nav class="movie-filters">
+            <a href="/movies">Popular</a>
+            <a href="/movies?category=now_playing">Now Playing</a>
+            <a href="/movies?category=top_rated">Top Rated</a>
+            <a href="/movies?category=upcoming">Upcoming</a>
+        </nav>
 
-                <!-- History dropdown -->
-                <% if (typeof searchHistory !=='undefined' && searchHistory.length> 0) { %>
-                    <ul id="historyDropdown" class="history-dropdown">
-                        <% searchHistory.forEach(item=> { %>
-                            <li class="history-item">
-                                <a href="/search?search=<%= item.query %>">
-                                    <%= item.query %>
-                                </a>
-                                <form action="/search/delete" method="POST">
-                                    <input type="hidden" name="id" value="<%= item._id%>">
-                                    <button type="submit" class="delete-history-btn">✕</button>
-                                </form>
-                            </li>
-                            <% }) %>
-                    </ul>
-                    <% } %>
-            </div>
+        <!-- Search bar with history dropdown -->
+        <div class="search-wrapper">
+            <form action="/search" method="GET">
+                <input type="text" id="searchBar" name="search" placeholder="Search movies...">
+                <button>
+                    <img src="../images/search-icon.png" width="25px">
+                </button>
+            </form>
 
+            <% if (typeof searchHistory !== 'undefined' && searchHistory.length > 0) { %>
+                <ul id="historyDropdown" class="history-dropdown">
+                    <% searchHistory.forEach(item => { %>
+                        <li class="history-item">
+                            <a href="/search?search=<%= item.query %>"><%= item.query %></a>
+                            <form action="/search/delete" method="POST">
+                                <input type="hidden" name="id" value="<%= item._id %>">
+                                <button type="submit" class="delete-history-btn">✕</button>
+                            </form>
+                        </li>
+                    <% }) %>
+                </ul>
+            <% } %>
+        </div>
+
+        <!-- Community submissions -->
+        <% if (customMovies && customMovies.length > 0) { %>
             <div class="community-section">
-                <% if (customMovies && customMovies.length>0) { %>
-                    <h2>Community Submissions</h2>
-                    <table>
-                        <% for (let i=0; i < customMovies.length; i +=4) { %>
-                            <tr>
-                                <% let cellsInRow=0; %>
-                                    <% for (let j=i; j < i + 4 && j < customMovies.length; j++) { %>
-                                        <td>
-                                            <a href="/movies/custom/<%=customMovies[j]._id%>">
-                                                <img src="<%= customMovies[j].posterUrl %>"
-                                                    alt="<%= customMovies[j].title %>" />
-                                            </a>
-                                            <div class="movie-title">
-                                                <a href="/movies/custom/<%=customMovies[j]._id%>">
-                                                    <%= customMovies[j].title %>
-                                                </a>
-                                            </div>
-                                            <div>
-                                                <small>
-                                                    <%= customMovies[j].genre %>
-                                                </small>
-                                            </div>
-                                            <br />
-                                        </td>
-                                        <% cellsInRow++; %>
-                                            <% } %>
-                                                <% for (let k=cellsInRow; k < 4; k++) { %>
-                                                    <td></td>
-                                                    <% } %>
-                            </tr>
-                            <% } %>
-                    </table>
-                    <% } %>
-            </div>
-
-            <h2>
-                <%=formattedCategory%>
-            </h2>
-
-            <table id="movies-table">
-                <% for (let i=0; i < movies.length; i +=4) { %>
-                    <tr>
-                        <% for (let j=i; j < i + 4 && j < movies.length; j++) { %>
-                            <td>
-                                <a href="/details?id=<%=movies[j].id%>" name="movieID" value="">
-                                    <img src="https://image.tmdb.org/t/p/w500<%= movies[j].poster_path %>"
-                                        alt="<%= movies[j].title %>" width="150" />
-                                </a>
-                                <div class="movie-title">
-                                    <a href="/details?id=<%= movies[j].id %>">
-                                        <%= movies[j].title %>
-                                    </a>
-                                </div>
-                                <br />
-                            </td>
-                            <% } %>
-                    </tr>
-                    <% } %>
-            </table>
-
-            <button id="load-more-btn">Load More</button>
-
-            <script>
-                // Load more logic
-                let page = 2;
-                const category = '<%= movieCategory %>';
-                const btn = document.getElementById('load-more-btn');
-
-                btn.addEventListener('click', async () => {
-                    try {
-                        const res = await fetch(`/movies/loadMore?category=${category}&page=${page}`);
-                        const { movies } = await res.json();
-                        const table = document.getElementById('movies-table');
-
-                        for (let i = 0; i < movies.length; i += 4) {
-                            const row = document.createElement('tr');
-                            for (let j = i; j < i + 4 && j < movies.length; j++) {
-                                const movie = movies[j];
-                                const cell = document.createElement('td');
-                                cell.innerHTML = `
-                                    <a href="/details?id=${movie.id}">
-                                        <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}" width="150" />
+                <h2>Community Submissions</h2>
+                <table>
+                    <% for (let i = 0; i < customMovies.length; i += 4) { %>
+                        <tr>
+                            <% let cellsInRow = 0; %>
+                            <% for (let j = i; j < i + 4 && j < customMovies.length; j++) { %>
+                                <td>
+                                    <a href="/details?id=<%= customMovies[j]._id %>">
+                                        <img src="<%= customMovies[j].poster_path %>" alt="<%= customMovies[j].title %>" />
                                     </a>
                                     <div class="movie-title">
-                                        <a href="/details?id=${movie.id}">${movie.title}</a>
+                                        <a href="/details?id=<%= customMovies[j]._id %>"><%= customMovies[j].title %></a>
                                     </div>
                                     <br />
-                                `;
-                                row.appendChild(cell);
-                            }
-                            table.appendChild(row);
-                        }
-                        page++;
-                    } catch (err) {
-                        console.error(err);
+                                </td>
+                                <% cellsInRow++; %>
+                            <% } %>
+                            <!-- Fill empty cells to maintain 4-column grid -->
+                            <% for (let k = cellsInRow; k < 4; k++) { %>
+                                <td></td>
+                            <% } %>
+                        </tr>
+                    <% } %>
+                </table>
+            </div>
+        <% } %>
+
+        <!-- TMDB movies -->
+        <h2><%= formattedCategory %></h2>
+
+        <table id="movies-table">
+            <% for (let i = 0; i < movies.length; i += 4) { %>
+                <tr>
+                    <% for (let j = i; j < i + 4 && j < movies.length; j++) { %>
+                        <td>
+                            <a href="/details?id=<%= movies[j].id %>">
+                                <img src="https://image.tmdb.org/t/p/w500<%= movies[j].poster_path %>" alt="<%= movies[j].title %>" width="150" />
+                            </a>
+                            <div class="movie-title">
+                                <a href="/details?id=<%= movies[j].id %>"><%= movies[j].title %></a>
+                            </div>
+                            <br />
+                        </td>
+                    <% } %>
+
+                    <% for (let k = movies.length % 4 !== 0 && i + 4 > movies.length ? movies.length % 4 : 4; k < 4; k++) { %>
+                        <td></td>
+                    <% } %>
+                </tr>
+            <% } %>
+        </table>
+
+        <button id="load-more-btn">Load More</button>
+
+    </div>
+
+    <script>
+        // Load more logic
+        let page = 2;
+        const category = '<%= movieCategory %>';
+        const btn = document.getElementById('load-more-btn');
+
+        btn.addEventListener('click', async () => {
+            try {
+                const res = await fetch(`/movies/loadMore?category=${category}&page=${page}`);
+                const { movies } = await res.json();
+                const table = document.getElementById('movies-table');
+
+                for (let i = 0; i < movies.length; i += 4) {
+                    const row = document.createElement('tr');
+                    for (let j = i; j < i + 4 && j < movies.length; j++) {
+                        const movie = movies[j];
+                        const cell = document.createElement('td');
+                        cell.innerHTML = `
+                            <a href="/details?id=${movie.id}">
+                                <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}" width="150" />
+                            </a>
+                            <div class="movie-title">
+                                <a href="/details?id=${movie.id}">${movie.title}</a>
+                            </div>
+                            <br />
+                        `;
+                        row.appendChild(cell);
                     }
-                });
-
-                // Search history dropdown logic
-                const searchBar = document.getElementById('searchBar');
-                const dropdown = document.getElementById('historyDropdown');
-
-                if (searchBar && dropdown) {
-                    // Show on focus
-                    searchBar.addEventListener('focus', () => {
-                        dropdown.style.display = 'block';
-                    });
-
-                    // Hide when clicking outside
-                    document.addEventListener('click', (e) => {
-                        if (!e.target.closest('.search-wrapper')) {
-                            dropdown.style.display = 'none';
-                        }
-                    });
+                    table.appendChild(row);
                 }
-            </script>
-        </div>
-</body>
 
+                page++;
+                // Hide button if no more results
+                if (movies.length === 0) btn.style.display = 'none';
+            } catch (err) {
+                console.error('Load more failed:', err);
+            }
+        });
+
+        // Search history dropdown
+        const searchBar = document.getElementById('searchBar');
+        const dropdown = document.getElementById('historyDropdown');
+
+        if (searchBar && dropdown) {
+            searchBar.addEventListener('focus', () => {
+                dropdown.style.display = 'block';
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.search-wrapper')) {
+                    dropdown.style.display = 'none';
+                }
+            });
+        }
+    </script>
+
+</body>
 </html>
