@@ -21,7 +21,8 @@ exports.submitReport = async (req, res) => {
     // Duplicate report (same user already reported this review)
     if (err.code === 11000) {
       const backUrl = req.body.backUrl || "/movies";
-      return res.redirect(backUrl);
+      const separator = backUrl.includes("?") ? "&" : "?";
+      return res.redirect(backUrl + separator + "reported=duplicate");
     }
     console.error(err);
     res.send("Error submitting report.");
@@ -37,7 +38,7 @@ exports.getReports = async (req, res) => {
       .populate("reportedBy", "username email")
       .populate({
         path: "reviewId",
-        populate: { path: "userId", select: "username" }
+        populate: { path: "user", select: "username" }
       })
       .sort({ createdAt: -1 });
 
