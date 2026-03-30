@@ -40,7 +40,22 @@ async function getRecentlyViewed(userId){
     return data[userId] || []; 
 }
 
+async function clearRecentlyViewed(userId){ 
+    let data = {}; 
+
+    try{ 
+        const file = await fs.readFile(filePath, "utf-8"); 
+        data = JSON.parse(file); 
+    } catch { 
+        data = {}; 
+    }
+
+    delete data[userId]; 
+    await fs.writeFile(filePath, JSON.stringify(data, null, 2));
+}
+
 module.exports = { 
     addRecentlyViewed, 
-    getRecentlyViewed
+    getRecentlyViewed, 
+    clearRecentlyViewed
 }

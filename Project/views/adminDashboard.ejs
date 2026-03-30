@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — MovieHub</title>
+  <link rel="stylesheet" href="/header.css">
+  <link rel="stylesheet" href="/admin.css">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+  
+</head>
+<body>
+  <%- include('partials/header') %>
+
+
+  <!-- WELCOME -->
+  <section class="welcome">
+    <p class="welcome-eyebrow">Admin Console</p>
+    <h2>Welcome back, <%= username %></h2>
+  </section>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+
+    <div class="hero-inner">
+      <span class="hero-tag">MovieHub Platform</span>
+
+      <div class="hero-stats">
+        <div>
+          <div class="stat-value">xxx</div>
+          <div class="stat-label">Movies</div>
+        </div>
+        <div>
+          <div class="stat-value">xxx</div>
+          <div class="stat-label">Users</div>
+        </div>
+        <div>
+          <div class="stat-value">xxx</div>
+          <div class="stat-label">Reviews</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CARDS -->
+  <p class="section-label">Management</p>
+
+  <div class="cards">
+
+    <a class="card" href="/admin/reports">
+      <div class="card-icon">🎬</div>
+      <div class="card-title">User reports</div>
+      <span class="card-link">Manage reports →</span>
+    </a>
+
+    <a class="card" href="/admin/submissions">
+      <div class="card-icon">👥</div>
+      <div class="card-title">Movie Submission</div>
+      <span class="card-link">Manage submission →</span>
+    </a>
+
+  </div>
+
+</body>
+</html>

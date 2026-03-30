@@ -7,7 +7,7 @@ const watchlistSchema = new mongoose.Schema({
         required: true
     },
     movieId: {
-        type: Number,
+        type: String,
         required: true
     },
     movieTitle: {
@@ -28,6 +28,6 @@ const watchlistSchema = new mongoose.Schema({
     }
 });
 
-watchlistSchema.index({ userId: 1, movieId: 1 }, { unique: true }); // for unique 
+watchlistSchema.index({ userId: 1, movieId: 1 }, { unique: true }); 
 
 module.exports = mongoose.models.Watchlist || mongoose.model("Watchlist", watchlistSchema);

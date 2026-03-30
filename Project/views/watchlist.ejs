@@ -14,9 +14,12 @@
     <div class="back-row">
         <a href="javascript:history.back()" class="back-btn">← Back</a>
         <% if (watchlistMovies.length !== 0){ %>
-            <form method="POST" action="/watchlist/clear">
-                <button type="submit" class="clear-btn">Clear Watchlist</button>
-            </form>
+            <div class="top-actions">
+                <button type="button" class="clear-btn" onclick="toggleSelectMode()">Clear Selected</button>
+                <form method="POST" action="/watchlist/clear">
+                    <button type="submit" class="clear-btn">Clear All</button>
+                </form>
+            </div>
         <% } %>
     </div>
 
@@ -28,35 +31,61 @@
             Let's add some <a href="/movies">movies</a>!
             </p>
         <% } else { %>
-            <table>
-                <% for (let i = 0; i < watchlistMovies.length; i += 5) { %>
-                    <tr>
-                        <% let cellsInRow = 0; %>
+            <form method="POST" action="/watchlist/clear-selected" id="clearSelectedForm">
+                <table>
+                    <% for (let i = 0; i < watchlistMovies.length; i += 5) { %>
+                        <tr>
+                            <% let cellsInRow = 0; %>
 
-                        <% for (let j = i; j < i + 5 && j < watchlistMovies.length; j++) { %>
-                            <td>
-                                <a href="/details?id=<%= watchlistMovies[j].movieId %>">
-                                    <img src="https://image.tmdb.org/t/p/w500<%= watchlistMovies[j].posterPath %>" 
-                                         alt="<%= watchlistMovies[j].movieTitle %>">
-                                </a>
-
-                                <div class="movie-title">
+                            <% for (let j = i; j < i + 5 && j < watchlistMovies.length; j++) { %>
+                                <td>
+                                    <label class="select-box checkbox-hidden" style="display: none;">
+                                        <input type="checkbox" name="selectedIds" value="<%= watchlistMovies[j]._id %>">
+                                        Select
+                                    </label>                                    
                                     <a href="/details?id=<%= watchlistMovies[j].movieId %>">
-                                        <%= watchlistMovies[j].movieTitle %>
-                                    </a> <br>
-                                    Added on: <%= (watchlistMovies[j].addedAt).toLocaleDateString("en-GB") %>
-                                </div>
-                            </td>
-                            <% cellsInRow++; %>
-                        <% } %>
 
-                        <% for (let k = cellsInRow; k < 5; k++) { %>
-                            <td class="empty-cell"></td>
-                        <% } %>
-                    </tr>
-                <% } %>
-            </table>
+                                        <img src="<%= watchlistMovies[j].posterPath %>" 
+                                            alt="<%= watchlistMovies[j].movieTitle %>">
+                                    </a>
+
+                                    <div class="movie-title">
+                                        <a href="/details?id=<%= watchlistMovies[j].movieId %>">
+                                            <%= watchlistMovies[j].movieTitle %>
+                                        </a> <br>
+                                        Added on: <%= (watchlistMovies[j].addedAt).toLocaleDateString("en-GB") %>
+                                    </div>
+                                </td>
+                                <% cellsInRow++; %>
+                            <% } %>
+
+                            <% for (let k = cellsInRow; k < 5; k++) { %>
+                                <td class="empty-cell"></td>
+                            <% } %>
+                        </tr>
+                    <% } %>
+                </table>
+                <div class="bulk-actions checkbox-hidden" id="bulkActions" style="display: none;">
+                    <button type="submit" class="clear-btn">Delete Selected</button>
+                    <button type="button" class="back-btn" onclick="toggleSelectMode()">Cancel</button>
+                </div>
+            </form>
         <% } %>
     </div>
 </body>
+
+<script>
+    function toggleSelectMode() {
+        const checkboxes = document.querySelectorAll(".checkbox-hidden");
+
+        checkboxes.forEach(item => {
+            if (item.style.display === "none") {
+                item.style.display = "block";
+            } else {
+                item.style.display = "none";
+            }
+        });
+    }
+</script>
+
 </html>

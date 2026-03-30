@@ -24,7 +24,7 @@ exports.getWatchlist = async (req, res) => {
 exports.addToWatchlist = async (req, res) => {  
     try {
         const user = await User.getUserById(req.session.userId);
-        const movieId = Number(req.params.movieId);
+        const movieId = req.params.movieId;
         const { movieTitle, posterPath } = req.body;
 
         if (!user) {
@@ -33,7 +33,7 @@ exports.addToWatchlist = async (req, res) => {
 
         await Watchlist.create({
             userId: req.session.userId,
-            movieId,
+            movieId: String(movieId),
             movieTitle,
             posterPath
         });
@@ -49,7 +49,7 @@ exports.addToWatchlist = async (req, res) => {
 exports.removeFromWatchlist = async (req, res) => { 
     try {
         const user = await User.getUserById(req.session.userId);
-        const movieId = Number(req.params.movieId);
+        const movieId = req.params.movieId; ;
 
         if (!user) {
             return res.redirect("/login");
@@ -57,7 +57,7 @@ exports.removeFromWatchlist = async (req, res) => {
 
         await Watchlist.findOneAndDelete({
             userId: req.session.userId,
-            movieId: movieId
+            movieId: String(movieId)
         });
 
         res.redirect(`/details?id=${movieId}`);
@@ -71,14 +71,14 @@ exports.removeFromWatchlist = async (req, res) => {
 exports.updateAddWatched = async (req, res) => {
     try {
         const user = await User.getUserById(req.session.userId);
-        const movieId = Number(req.params.movieId);
+        const movieId = req.params.movieId; 
 
         if (!user){
             return res.redirect("/login");
         }
 
         await Watchlist.findOneAndUpdate(
-            { userId: req.session.userId, movieId: movieId },
+            { userId: req.session.userId, movieId: String(movieId) },
             { watchedDate: new Date() }
         )
 
@@ -93,14 +93,14 @@ exports.updateAddWatched = async (req, res) => {
 exports.updateRemoveWatched = async (req, res) => {
     try {
         const user = await User.getUserById(req.session.userId);
-        const movieId = Number(req.params.movieId);
+        const movieId = req.params.movieId; 
 
         if (!user){
             return res.redirect("/login");
         }
 
         await Watchlist.findOneAndUpdate(            
-            { userId: req.session.userId, movieId: movieId },
+            { userId: req.session.userId, movieId: String(movieId) },
             { watchedDate: null }
         )
 
@@ -110,6 +110,32 @@ exports.updateRemoveWatched = async (req, res) => {
         res.send("Error updating (remove) watched status of movie.")
     }
 }
+
+exports.clearSelectedWatchlist = async (req, res) => {
+    try {
+        const user = await User.getUserById(req.session.userId);
+
+        if (!user) {
+            return res.redirect("/login");
+        }
+
+        let selectedIds = req.body.selectedIds || [];
+
+        if (!Array.isArray(selectedIds)) {
+            selectedIds = [selectedIds];
+        }
+
+        await Watchlist.deleteMany({
+            _id: { $in: selectedIds },
+            userId: req.session.userId
+        });
+
+        res.redirect("/watchlist");
+    } catch (err) {
+        console.error(err);
+        res.send("Error clearing selected watchlist movies.");
+    }
+};
 
 exports.clearWatchlist = async (req, res) => {
     try {

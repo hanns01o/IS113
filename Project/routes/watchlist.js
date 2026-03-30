@@ -9,5 +9,6 @@ router.post("/watchlist/remove/:movieId", requireLogin, watchlistController.remo
 router.post("/watchlist/updateadd/:movieId", requireLogin, watchlistController.updateAddWatched);
 router.post("/watchlist/updateremove/:movieId", requireLogin, watchlistController.updateRemoveWatched);
 router.post("/watchlist/clear", requireLogin, watchlistController.clearWatchlist);
+router.post("/watchlist/clear-selected", requireLogin, watchlistController.clearSelectedWatchlist);
 
 module.exports = router;

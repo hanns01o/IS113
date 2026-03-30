@@ -1,11 +1,117 @@
 {
-  "69c02ad2f7c3331d357c973d": [
+  "69ba6119494c0639cfec9837": [
+    {
+      "id": 875828,
+      "title": "Peaky Blinders: The Immortal Man",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/gRMalasZEzsZi4w2VFuYusfSfqf.jpg",
+      "genre": "Crime, Drama",
+      "releaseDate": "2026-03-05"
+    },
+    {
+      "id": 1159559,
+      "title": "Scream 7",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/jjyuk0edLiW8vOSnlfwWCCLpbh5.jpg",
+      "genre": "Horror, Mystery, Crime",
+      "releaseDate": "2026-02-25"
+    },
+    {
+      "id": 1290821,
+      "title": "Shelter",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/buPFnHZ3xQy6vZEHxbHgL1Pc6CR.jpg",
+      "genre": "Action, Crime, Thriller",
+      "releaseDate": "2026-01-28"
+    },
     {
       "id": 687163,
       "title": "Project Hail Mary",
       "posterUrl": "https://image.tmdb.org/t/p/w500/yihdXomYb5kTeSivtFndMy5iDmf.jpg",
       "genre": "Science Fiction, Adventure",
       "releaseDate": "2026-03-15"
+    },
+    {
+      "id": 83533,
+      "title": "Avatar: Fire and Ash",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/bRBeSHfGHwkEpImlhxPmOcUsaeg.jpg",
+      "genre": "Science Fiction, Adventure, Fantasy",
+      "releaseDate": "2025-12-17"
+    },
+    {
+      "id": 1598499,
+      "title": "The Under-Zoo",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/dAeKXS2fFpHp3tj3fTXbxPIbNQ.jpg",
+      "genre": "Animation, Science Fiction, Adventure, Comedy, Fantasy",
+      "releaseDate": "2029-06-22"
+    },
+    {
+      "id": 1629462,
+      "title": "In the Meantime",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/nqdvbPR2Yq1bVTwLLRMRNecrimm.jpg",
+      "genre": "Drama, Comedy, Adventure",
+      "releaseDate": "2029-01-01"
+    },
+    {
+      "id": 1638215,
+      "title": "Luciferum",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/otuUJ689QEUVeYUoL6P4KhuFzQZ.jpg",
+      "genre": "Fantasy, Action, Adventure, Drama",
+      "releaseDate": "2031-06-24"
+    },
+    {
+      "id": 1265609,
+      "title": "War Machine",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/tlPgDzwIE7VYYIIAGCTUOnN4wI1.jpg",
+      "genre": "Action, Science Fiction, Thriller",
+      "releaseDate": "2026-02-12"
+    }
+  ],
+  "69c0ddcf19aebc53449d53d1": [
+    {
+      "id": "69c18279b5e44040d316ffec",
+      "title": "chainsaw guy",
+      "posterUrl": "https://m.media-amazon.com/images/M/MV5BODk5ZmMzMjQtMzkwYS00NjJmLTk5MDAtODIzNDdlYjY2MzVhXkEyXkFqcGc@._V1_.jpg",
+      "genre": "Animation",
+      "releaseDate": ""
+    },
+    {
+      "id": "83533",
+      "title": "Avatar: Fire and Ash",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/bRBeSHfGHwkEpImlhxPmOcUsaeg.jpg",
+      "genre": "Science Fiction, Adventure, Fantasy",
+      "releaseDate": "2025-12-17"
+    },
+    {
+      "id": "875828",
+      "title": "Peaky Blinders: The Immortal Man",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/gRMalasZEzsZi4w2VFuYusfSfqf.jpg",
+      "genre": "Crime, Drama",
+      "releaseDate": "2026-03-05"
+    },
+    {
+      "id": "69c1a69afdffbfbf4d0f2cba",
+      "title": "Her",
+      "posterUrl": "https://m.media-amazon.com/images/S/pv-target-images/c9a3ccf3a245f5df023ffc7007d93af8645dddc5a9f6e93412e1b00d7b744836.jpg",
+      "genre": "Romance",
+      "releaseDate": ""
+    },
+    {
+      "id": 83533,
+      "title": "Avatar: Fire and Ash",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/bRBeSHfGHwkEpImlhxPmOcUsaeg.jpg",
+      "genre": "Science Fiction, Adventure, Fantasy",
+      "releaseDate": "2025-12-17"
+    },
+    {
+      "id": 1523145,
+      "title": "Your Heart Will Be Broken",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/iGpMm603GUKH2SiXB2S5m4sZ17t.jpg",
+      "genre": "Romance, Drama",
+      "releaseDate": "2026-03-26"
+    },
+    {
+      "title": "Her",
+      "posterUrl": "https://m.media-amazon.com/images/S/pv-target-images/c9a3ccf3a245f5df023ffc7007d93af8645dddc5a9f6e93412e1b00d7b744836.jpg",
+      "genre": "Romance",
+      "releaseDate": ""
     },
     {
       "id": 875828,
@@ -15,18 +121,27 @@
       "releaseDate": "2026-03-05"
     },
     {
-      "id": 393209,
-      "title": "Avatar 5",
-      "posterUrl": "https://image.tmdb.org/t/p/w500/rtmmvqkIC5zDMEd638Es2woxbz8.jpg",
-      "genre": "Adventure, Science Fiction, Action",
-      "releaseDate": "2031-12-17"
+      "id": 1159559,
+      "title": "Scream 7",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/jjyuk0edLiW8vOSnlfwWCCLpbh5.jpg",
+      "genre": "Horror, Mystery, Crime",
+      "releaseDate": "2026-02-25"
     },
     {
-      "id": 216527,
-      "title": "Avatar 4",
-      "posterUrl": "https://image.tmdb.org/t/p/w500/qzMYKnT4MG1d0gnhwytr4cKhUvS.jpg",
-      "genre": "Science Fiction, Adventure, Action",
-      "releaseDate": "2029-12-19"
+      "id": 1198994,
+      "title": "Send Help",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/mjkS2iAgWj3ik1DTjvI15nHZ7yl.jpg",
+      "genre": "Horror, Thriller, Comedy",
+      "releaseDate": "2026-01-22"
+    }
+  ],
+  "69aab87247bce5a515ef537d": [
+    {
+      "id": 1265609,
+      "title": "War Machine",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/tlPgDzwIE7VYYIIAGCTUOnN4wI1.jpg",
+      "genre": "Action, Science Fiction, Thriller",
+      "releaseDate": "2026-02-12"
     }
   ]
 }
