@@ -3,8 +3,9 @@
     <div class="nav-left">
       <a href="/home" class="logo">MovieHub</a>
       <!-- <a href="/home">Home</a> -->
-
-      <% if (currentUser && currentUser.userId && currentUser.role !== "admin") { %>
+      <a href="/movies">Movies</a>  
+      <a href="/movies/add">Add Movie Review</a>  
+      <% if (currentUser && currentUser.userId && currentUser.role != "admin") { %>
         <a href="/watchlist">My Watchlist</a>
       <% } %>
 
