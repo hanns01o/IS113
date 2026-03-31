@@ -98,17 +98,34 @@
           <h2>You Might Like This</h2>
         </div>
 
-        <div class="movie-row">
-          <% recommendedMovies.forEach(movie => { %>
-            <a href="/details?id=<%= movie.id %>" class="movie-card">
-              <img src="<%= movie.posterUrl %>" alt="<%= movie.title %>">
-              <div class="movie-overlay">
-                <h3><%= movie.title %></h3>
-                <p>⭐ <%= movie.rating.toFixed(1) %></p>
-              </div>
-            </a>
-          <% }) %>
-        </div>
+        <% if(recommendedMovies.length == 0){ %>
+          <p>Add your <a href="/profile">favourite genre</a> to unlock this feature.</p>
+        <% } %>
+
+        <table class="watchlist-preview-table">
+            <tr>
+              <% recommendedMovies.forEach(movie => { %>
+                <td>
+                  <a href="/details?id=<%= movie.id %>">
+                    <img
+                      src="<%= movie.posterUrl %>"
+                      alt="<%= movie.title %>"
+                    >
+                  </a>
+
+                  <div class="movie-title">
+                    <a href="/details?id=<%= movie.id %>">
+                      <%= movie.title %>
+                    </a>
+                  </div>
+                </td>
+              <% }) %>
+              <% for (let i = watchlistMovies.length; i < 5; i++) { %>
+                <td class="empty-cell"></td>
+              <% } %>
+            </tr>
+        </table>
+
       </section>
 
       <section class="content-section">

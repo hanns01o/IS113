@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notifications | MovieHub</title>
+  <link rel="stylesheet" href="/header.css">
+  <link rel="stylesheet" href="/notifications.css">
+</head>
+<body>
+  <%- include("partials/header") %>
+
+  <main class="page-content">
+    <div class="notifications-wrapper">
+      <div class="notifications-header">
+        <h1>Notifications</h1>
+        <% if (notifications.length > 0) { %>
+          <div class="notification-actions">
+            <form action="/notifications/clearAll" method="POST">
+              <button type="submit" class="clear-all-btn">Clear All Read Notifications</button>
+            </form>
+          
+            <form action="/notifications/readAll" method="POST">
+              <button type="submit" class="mark-all-btn">Mark All as Read</button>
+            </form>
+          </div>
+        <% } %>
+      </div>
+
+      <% if (notifications.length > 0) { %>
+        <div class="notification-list">
+          <% notifications.forEach(notification => { %>
+            <div class="notification-card <%= notification.isRead ? 'read' : 'unread' %>">
+              <div class="notification-text">
+                <p><%= notification.message %></p>
+                <span><%= new Date(notification.createdAt).toLocaleString() %></span>
+              </div>
+
+              <% if (!notification.isRead) { %>
+                <form action="/notifications/read/<%= notification._id %>" method="POST">
+                  <button type="submit" class="read-btn">Mark as Read</button>
+                </form>
+              <% } %>
+            </div>
+          <% }) %>
+        </div>
+      <% } else { %>
+        <p class="empty-text">No notifications yet.</p>
+      <% } %>
+    </div>
+  </main>
+</body>
+</html>

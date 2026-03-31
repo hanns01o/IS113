@@ -137,6 +137,48 @@
   ],
   "69aab87247bce5a515ef537d": [
     {
+      "id": "83533",
+      "title": "Avatar: Fire and Ash",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/bRBeSHfGHwkEpImlhxPmOcUsaeg.jpg",
+      "genre": "Science Fiction, Adventure, Fantasy",
+      "releaseDate": "2025-12-17"
+    },
+    {
+      "id": "1198994",
+      "title": "Send Help",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/mjkS2iAgWj3ik1DTjvI15nHZ7yl.jpg",
+      "genre": "Horror, Thriller, Comedy",
+      "releaseDate": "2026-01-22"
+    },
+    {
+      "id": "1290821",
+      "title": "Shelter",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/buPFnHZ3xQy6vZEHxbHgL1Pc6CR.jpg",
+      "genre": "Action, Crime, Thriller",
+      "releaseDate": "2026-01-28"
+    },
+    {
+      "id": "1084187",
+      "title": "Pretty Lethal",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/znTPnXCK3lEQJgqXCvP7e5FUz6f.jpg",
+      "genre": "Action, Thriller",
+      "releaseDate": "2026-03-13"
+    },
+    {
+      "id": "1115544",
+      "title": "Mike & Nick & Nick & Alice",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/7F0jc75HrSkLVcvOXR2FXAIwuEv.jpg",
+      "genre": "Comedy, Science Fiction, Crime",
+      "releaseDate": "2026-03-14"
+    },
+    {
+      "id": "1523145",
+      "title": "Your Heart Will Be Broken",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/7wIBfBl2gejt6xHxNSK0reVIm7E.jpg",
+      "genre": "Romance, Drama",
+      "releaseDate": "2026-03-26"
+    },
+    {
       "id": "373104",
       "title": "Chainsaw",
       "posterUrl": "https://image.tmdb.org/t/p/w500/aWAq7z2U5IGAS4ySIu8T40YB3Ux.jpg",
@@ -151,13 +193,6 @@
       "releaseDate": "2013-12-18"
     },
     {
-      "id": "1115544",
-      "title": "Mike & Nick & Nick & Alice",
-      "posterUrl": "https://image.tmdb.org/t/p/w500/7F0jc75HrSkLVcvOXR2FXAIwuEv.jpg",
-      "genre": "Comedy, Science Fiction, Crime",
-      "releaseDate": "2026-03-14"
-    },
-    {
       "id": 875828,
       "title": "Peaky Blinders: The Immortal Man",
       "posterUrl": "https://image.tmdb.org/t/p/w500/gRMalasZEzsZi4w2VFuYusfSfqf.jpg",
@@ -170,13 +205,6 @@
       "posterUrl": "https://image.tmdb.org/t/p/w500/mjkS2iAgWj3ik1DTjvI15nHZ7yl.jpg",
       "genre": "Horror, Thriller, Comedy",
       "releaseDate": "2026-01-22"
-    },
-    {
-      "id": 1265609,
-      "title": "War Machine",
-      "posterUrl": "https://image.tmdb.org/t/p/w500/tlPgDzwIE7VYYIIAGCTUOnN4wI1.jpg",
-      "genre": "Action, Science Fiction, Thriller",
-      "releaseDate": "2026-02-12"
     }
   ],
   "69c17e3cc7759b8263266c13": [
@@ -200,6 +228,70 @@
       "posterUrl": "https://m.media-amazon.com/images/S/pv-target-images/c9a3ccf3a245f5df023ffc7007d93af8645dddc5a9f6e93412e1b00d7b744836.jpg",
       "genre": "Romance",
       "releaseDate": ""
+    }
+  ],
+  "69bbc56b9b7d474ea5c966bd": [
+    {
+      "id": "83533",
+      "title": "Avatar: Fire and Ash",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/bRBeSHfGHwkEpImlhxPmOcUsaeg.jpg",
+      "genre": "Science Fiction, Adventure, Fantasy",
+      "releaseDate": "2025-12-17"
+    },
+    {
+      "id": "1290821",
+      "title": "Shelter",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/buPFnHZ3xQy6vZEHxbHgL1Pc6CR.jpg",
+      "genre": "Action, Crime, Thriller",
+      "releaseDate": "2026-01-28"
+    },
+    {
+      "id": "1084187",
+      "title": "Pretty Lethal",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/znTPnXCK3lEQJgqXCvP7e5FUz6f.jpg",
+      "genre": "Action, Thriller",
+      "releaseDate": "2026-03-13"
+    },
+    {
+      "id": "1115544",
+      "title": "Mike & Nick & Nick & Alice",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/7F0jc75HrSkLVcvOXR2FXAIwuEv.jpg",
+      "genre": "Comedy, Science Fiction, Crime",
+      "releaseDate": "2026-03-14"
+    },
+    {
+      "id": "1523145",
+      "title": "Your Heart Will Be Broken",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/7wIBfBl2gejt6xHxNSK0reVIm7E.jpg",
+      "genre": "Romance, Drama",
+      "releaseDate": "2026-03-26"
+    },
+    {
+      "id": "1198994",
+      "title": "Send Help",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/mjkS2iAgWj3ik1DTjvI15nHZ7yl.jpg",
+      "genre": "Horror, Thriller, Comedy",
+      "releaseDate": "2026-01-22"
+    },
+    {
+      "id": "875828",
+      "title": "Peaky Blinders: The Immortal Man",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/gRMalasZEzsZi4w2VFuYusfSfqf.jpg",
+      "genre": "Crime, Drama",
+      "releaseDate": "2026-03-05"
+    },
+    {
+      "id": "undefined",
+      "posterUrl": "https://image.tmdb.org/t/p/w500undefined",
+      "genre": "",
+      "releaseDate": ""
+    },
+    {
+      "id": "69cb7fff01402e5f53e7e296",
+      "title": "Chainsaw Man – The Movie: Reze Arc",
+      "posterUrl": "https://preview.redd.it/cleaned-up-key-visual-of-reze-movie-v0-p6nv5kammctf1.png?width=640&crop=smart&auto=webp&s=34a46544561d79e9dc2659cff2db31ab4997ca00",
+      "genre": "Action, Animation, Horror, Romance",
+      "releaseDate": "2025-09-19"
     }
   ]
 }

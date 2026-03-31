@@ -66,6 +66,7 @@ const profile = require("./routes/profile");
 const report = require("./routes/report");
 const admin = require("./routes/admin");
 const search = require('./routes/search');
+const notification = require('./routes/notification')
 
 
 app.use("/", auth);
@@ -78,6 +79,7 @@ app.use('/movies/:movieId/reviews', review);
 app.use("/", report);
 app.use("/", admin);
 app.use('/search', search);
+app.use("/", notification)
 
 
 app.get("/", (req, res) => {
