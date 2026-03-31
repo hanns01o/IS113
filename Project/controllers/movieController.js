@@ -2,7 +2,6 @@ const User = require("../models/User");
 const Review = require("../models/Review");
 const Watchlist = require("../models/Watchlist");
 const Movie = require("../models/Movie");
-const MovieSubmission = require("../models/MovieSubmission");
 const { getHistory } = require('./searchController');
 const { addRecentlyViewed } = require("../utils/recentlyViewedHelper");
 const tmdb = require('../utils/tmdb');
@@ -23,7 +22,7 @@ exports.getMovies = async (req, res) => {
 
     try {
         const movies       = await tmdb.getMovies(movieCategory);
-        const customMovies = await Movie.find().sort({ createdAt: -1 });
+        const customMovies = await Movie.find({ status: "approved" }).sort({ createdAt: -1 });
         const searchHistory = userId ? await getHistory(userId) : [];
 
         res.render("movies", { movies, customMovies, searchHistory, movieCategory, formattedCategory });
@@ -46,11 +45,16 @@ exports.getMovieDetails = async (req, res) => {
             movie = await Movie.findById(movieID).lean();
             if (!movie) return res.status(404).send("Movie not found.");
 
+                movie.poster_path   = movie.posterUrl;
+                movie.backdrop_path = movie.bannerUrl;
+
             // Remap genre_ids: ['28', '12'] → [{ id: 28, name: 'Action' }, ...]
             const allGenres = await tmdb.getGenres();
-            movie.genres = movie.genre_ids
-                .map(id => allGenres.find(g => g.id === parseInt(id)))
-                .filter(Boolean);
+            movie.genres = Array.isArray(movie.genre_ids)
+                ? movie.genre_ids
+                    .map(id => allGenres.find(g => g.id === Number(id)))
+                    .filter(Boolean)
+                : [];
         } else {
             movie = await tmdb.getMovieById(movieID);
             movie.poster_path   = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
@@ -146,31 +150,37 @@ exports.postAddMovieForm = async (req, res) => {
     }
 
     try {
-        const { title, genre, description, posterUrl, bannerUrl } = req.body;
+        const { title, overview, release_date, posterUrl, bannerUrl } = req.body;
+        const genre = Array.isArray(req.body.genre)
+            ? req.body.genre
+            : req.body.genre
+            ? [req.body.genre]
+            : [];
 
-        if (!title || !genre || !description) {
+        if (!title || genre.length === 0 || !overview || !release_date) {
             return res.render("addMovie", {
-                error: "Title, genre, and description are required.",
+                error: "Title, genre, overview and release date are required.",
                 success: null,
                 genres
             });
         }
 
-        if (description.length < 10) {
+        if (overview.length < 10) {
             return res.render("addMovie", {
-                error: "Description must be at least 10 characters long.",
+                error: "Overview must be at least 10 characters long.",
                 success: null,
                 genres
             });
         }
 
-        const newSubmission = new MovieSubmission({
+        const newSubmission = new Movie({
             title,
-            genre,
-            description,
+            genre_ids: genre.map(id => Number(id)),
+            overview,
+            release_date,
             posterUrl:   posterUrl || "/images/default-poster.jpg",
             bannerUrl:   bannerUrl || "/images/default-banner.jpg",
-            submittedBy: req.session.userId,
+            uploadedBy: req.session.userId,
             status:      "pending"
         });
 
@@ -206,79 +216,107 @@ exports.loadMore = async (req, res) => {
 
 exports.getAdminSubmissions = async (req, res) => {
     try {
-        const submissions = await MovieSubmission.find()
-            .populate("submittedBy", "username email")
-            .sort({ submissionDate: -1 });
+        const submissions = await Movie.find()
+            .populate("uploadedBy", "username email")
+            .sort({ createdAt: -1 });
 
-        res.render("adminMovieSubmissions", { submissions });
+        const allGenres = await tmdb.getGenres();
+
+        const submissionsWithGenres = submissions.map(sub => {
+            const subObj = sub.toObject();
+            subObj.genreNames = Array.isArray(sub.genre_ids)
+                ? sub.genre_ids
+                    .map(id => allGenres.find(g => g.id === Number(id)))
+                    .filter(Boolean)
+                    .map(g => g.name)
+                    .join(", ")
+                : "";
+            return subObj;
+        });
+
+        res.render("adminMovieSubmissions", { submissions: submissionsWithGenres, genres: allGenres });
     } catch (error) {
         console.error('Error loading submissions:', error);
         res.status(500).send("Error loading movie submissions.");
     }
 };
 
-exports.approveSubmission = async (req, res) => {
+exports.getEditSubmissionForm = async (req, res) => {
     try {
-        const submission = await MovieSubmission.findById(req.params.id);
+        const submission = await Movie.findById(req.params.id);
         if (!submission) return res.status(404).send("Submission not found.");
 
-        const newMovie = new Movie({
-            title:        submission.title,
-            genre_ids:    submission.genre ? [submission.genre] : [],
-            overview:     submission.description,
-            poster_path:  submission.posterUrl || "/images/default-poster.jpg",
-            backdrop_path: submission.bannerUrl || "/images/default-banner.jpg",
-            uploadedBy:   submission.submittedBy
-        });
+        const genres = await tmdb.getGenres();
+        res.render("editMovie", {
+            title: submission.title,
+            overview: submission.overview,
+            release_date: submission.release_date,
+            posterUrl: submission.posterUrl,
+            bannerUrl: submission.bannerUrl,
+            genre: submission.genre_ids.map(String),
+            formAction: `/admin/submissions/${req.params.id}/edit`,
+            genres,
+            error: null
+});
+    } catch (error) {
+        console.error('Error loading edit form:', error);
+        res.status(500).send("Error loading edit form.");
+    } 
+};
 
-        await newMovie.save();
+exports.editSubmission = async (req, res) => {
+    try {
+        const { title, overview, release_date, posterUrl, bannerUrl } = req.body;
+        const genre = Array.isArray(req.body.genre)
+            ? req.body.genre
+            : req.body.genre ? [req.body.genre] : [];
 
-        submission.status = "approved";
-        await submission.save();
+        const updateData = {
+            title,
+            overview,
+            release_date,
+            posterUrl: posterUrl || "/images/default-poster.jpg",
+            bannerUrl: bannerUrl || "/images/default-banner.jpg",
+        };
+        if (genre.length > 0) updateData.genre_ids = genre.map(id => Number(id));
 
+        await Movie.findByIdAndUpdate(req.params.id, updateData);
         res.redirect("/admin/submissions");
     } catch (error) {
-        console.error('Error approving submission:', error);
+        console.error('Error saving submission:', error);
+        res.status(500).send("Error saving submission.");
+    }
+};
+
+exports.approveSubmission = async (req, res) => {
+    try {
+        await Movie.findByIdAndUpdate(req.params.id, { status: "approved" });
+        res.redirect("/admin/submissions");
+    } catch (error) {
+        console.error("Error approving submission:", error);
         res.status(500).send("Error approving submission.");
     }
 };
 
 exports.rejectSubmission = async (req, res) => {
     try {
-        const submission = await MovieSubmission.findById(req.params.id);
-        if (!submission) return res.status(404).send("Submission not found.");
-
-        submission.status = "rejected";
-        await submission.save();
-
+        await Movie.findByIdAndUpdate(req.params.id, { status: "rejected" });
         res.redirect("/admin/submissions");
     } catch (error) {
-        console.error('Error rejecting submission:', error);
+        console.error("Error rejecting submission:", error);
         res.status(500).send("Error rejecting movie submission.");
     }
 };
 
 exports.deleteSubmission = async (req, res) => {
     try {
-        await MovieSubmission.findByIdAndDelete(req.params.id);
+        const submission = await Movie.findById(req.params.id);
+        if (!submission) return res.redirect("/admin/submissions");
+        await Movie.findByIdAndDelete(req.params.id);
         res.redirect("/admin/submissions");
     } catch (error) {
-        console.error('Error deleting submission:', error);
+        console.error("Error deleting movie submission:", error);
         res.status(500).send("Error deleting movie submission.");
-    }
-};
-
-// ─── Custom Movie Details ─────────────────────────────────────────────────────
-
-exports.getCustomMovieDetails = async (req, res) => {
-    try {
-        const movie = await Movie.findById(req.params.id);
-        if (!movie) return res.status(404).send("Movie not found.");
-
-        res.render("customMovieDetails", { movie });
-    } catch (error) {
-        console.error('Error loading custom movie details:', error);
-        res.status(500).send("Error loading movie details.");
     }
 };
 

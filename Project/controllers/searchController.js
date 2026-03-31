@@ -36,7 +36,7 @@ exports.searchMovies = async (req, res) => {
         }
 
         const customMovies = searchQuery
-            ? await Movie.find({ title: { $regex: searchQuery, $options: 'i' } }).sort({ createdAt: -1 })
+            ? await Movie.find({ title: { $regex: searchQuery, $options: 'i' }, status: "approved" }).sort({ createdAt: -1 })
             : [];
 
         const movies = searchQuery ? await tmdb.searchMovies(searchQuery) : [];
@@ -61,7 +61,7 @@ exports.searchByGenre = async (req, res) => {
     const userId = req.session.userId;
 
     try {
-        const customMovies = await Movie.find({ genre_ids: genreId });
+        const customMovies = await Movie.find({ genre_ids: genreId, status: "approved" });
         const movies = await tmdb.searchByGenre(genreId);
         const searchHistory = userId ? await getHistory(userId) : [];
 

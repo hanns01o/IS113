@@ -143,5 +143,28 @@
       "genre": "Action, Science Fiction, Thriller",
       "releaseDate": "2026-02-12"
     }
+  ],
+  "69c17e3cc7759b8263266c13": [
+    {
+      "id": "1115544",
+      "title": "Mike & Nick & Nick & Alice",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/7F0jc75HrSkLVcvOXR2FXAIwuEv.jpg",
+      "genre": "Comedy, Science Fiction, Crime",
+      "releaseDate": "2026-03-14"
+    },
+    {
+      "id": "69c18279b5e44040d316ffec",
+      "title": "chainsaw guy",
+      "posterUrl": "https://m.media-amazon.com/images/M/MV5BODk5ZmMzMjQtMzkwYS00NjJmLTk5MDAtODIzNDdlYjY2MzVhXkEyXkFqcGc@._V1_.jpg",
+      "genre": "Animation",
+      "releaseDate": ""
+    },
+    {
+      "id": "69c1a69afdffbfbf4d0f2cba",
+      "title": "Her",
+      "posterUrl": "https://m.media-amazon.com/images/S/pv-target-images/c9a3ccf3a245f5df023ffc7007d93af8645dddc5a9f6e93412e1b00d7b744836.jpg",
+      "genre": "Romance",
+      "releaseDate": ""
+    }
   ]
 }
