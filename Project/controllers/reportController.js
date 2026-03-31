@@ -1,4 +1,6 @@
 const Report = require("../models/Report");
+const Review = require("../models/Review");
+const { createNotification } = require("../utils/notificationHelper"); 
 
 // POST /reviews/:reviewId/report
 exports.submitReport = async (req, res) => {
@@ -6,12 +8,22 @@ exports.submitReport = async (req, res) => {
     const { reason, details } = req.body;
     const reviewId = req.params.reviewId;
 
-    await Report.create({
+    const report = await Report.create({
       reviewId: reviewId,
       reportedBy: req.session.userId,
       reason: reason,
       details: details ? details.trim() : ""
     });
+
+    const review = await Review.findById(reviewId);
+    const commentText = review?.comment || "No comment text";
+
+    await createNotification(
+      req.session.userId,
+      `Your report has been submitted successfully on \nComment: ${commentText}`,
+      "report",
+      report._id.toString()
+    );
 
     // Go back to the movie page they were on
     const backUrl = req.body.backUrl || "/movies";
@@ -55,7 +67,23 @@ exports.getReports = async (req, res) => {
 // POST /admin/reports/:id/dismiss
 exports.dismissReport = async (req, res) => {
   try {
-    await Report.findByIdAndUpdate(req.params.id, { status: "dismissed" });
+    // await Report.findByIdAndUpdate(req.params.id, { status: "dismissed" });
+    const report = await Report.findByIdAndUpdate(
+      req.params.id, 
+      {status: "dismissed"}, 
+      { new: true }
+    ).populate("reportedBy").populate("reviewId"); 
+
+    if(report){ 
+      const commentText = report.reviewId?.comment || "No comment";
+      await createNotification(
+        report.reportedBy._id,
+        `Your report has been reviewed and dismissed.\nComment: ${commentText}`,
+        "report",
+        report._id.toString()
+      );
+    }
+
     res.redirect("/admin/reports");
   } catch (err) {
     console.error(err);
@@ -64,6 +92,7 @@ exports.dismissReport = async (req, res) => {
 };
 
 // POST /admin/reports/:id/delete-review
+/*
 exports.deleteReview = async (req, res) => {
   try {
     const report = await Report.findById(req.params.id);
@@ -81,6 +110,67 @@ exports.deleteReview = async (req, res) => {
       { reviewId: report.reviewId, status: "pending" },
       { status: "actioned" }
     );
+
+    res.redirect("/admin/reports");
+
+  } catch (err) {
+    console.error(err);
+    res.send("Error deleting review.");
+  }
+};
+*/
+
+exports.deleteReview = async (req, res) => {
+  try {
+    const selectedReport = await Report.findById(req.params.id).populate("reviewId");
+
+    if (!selectedReport) {
+      return res.send("Report not found.");
+    }
+
+    const review = selectedReport.reviewId;
+
+    if (!review) {
+      return res.send("Review not found.");
+    }
+
+    const commentText = review.comment || "No comment";
+
+    const shortComment =
+      commentText.length > 80
+        ? commentText.substring(0, 80) + "..."
+        : commentText;
+
+    const reviewOwnerId = review.userId; // change if your field name is different
+
+    // Get all reports linked to this review BEFORE deleting anything
+    const relatedReports = await Report.find({ reviewId: review._id });
+
+    // Notify all reporter users
+    for (const report of relatedReports) {
+      await createNotification(
+        report.reportedBy,
+        `Your reported comment has been removed by the admin.\nComment: ${shortComment}`,
+        "report",
+        report._id.toString()
+      );
+    }
+
+    // Notify review owner
+    if (reviewOwnerId) {
+      await createNotification(
+        reviewOwnerId,
+        `Your review has been removed by the admin due to reports from users.\nMovie: ${movieName}\nComment: ${shortComment}`,
+        "report",
+        selectedReport._id.toString()
+      );
+    }
+
+    // Delete the review
+    await Review.findByIdAndDelete(review._id);
+
+    // Delete all reports related to that review
+    await Report.deleteMany({ reviewId: review._id });
 
     res.redirect("/admin/reports");
 

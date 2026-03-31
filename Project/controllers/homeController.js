@@ -57,7 +57,7 @@ exports.getHomePage = async (req, res) => {
       if(recommendData.results){ 
         recommendedMovies = recommendData.results
           .filter(movie => movie.poster_path)
-          .slice(0, 10)
+          .slice(0, 5)
           .map(movie => ({
             id: movie.id,
             title: movie.title,
