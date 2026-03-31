@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const reviewSchema = new mongoose.Schema({
     movie: {
-        type: Number,
+        type: String,
         required: true
     },
     user: {

@@ -72,7 +72,7 @@
                 <td>
                   <a href="/details?id=<%= movie.movieId %>">
                     <img
-                      src="https://image.tmdb.org/t/p/w500<%= movie.posterPath %>"
+                      src="<%= movie.posterPath %>"
                       alt="<%= movie.movieTitle %>"
                     >
                   </a>
@@ -135,42 +135,43 @@
           <% } %>
         </div>
       </section>
+      <% if (currentUser.role !== "admin") { %>
+        <section class="content-section">
+          <div class="section-header">
+            <h2>Recently Watched</h2>
+          </div>
 
-      <section class="content-section">
-        <div class="section-header">
-          <h2>Recently Watched</h2>
-        </div>
-
-        <% if (recentlyWatched.length === 0) { %>
-            <p class="empty">
-            You've not watched any movies yet.  
-            Add some to your <a href="/movies">watchlist</a> and enjoy!
-            </p>          
-        <% } else { %>
-          <table class="watchlist-preview-table">
-            <tr>
-              <% for (let i = 0; i <recentlyWatched.length && i < 5; i++){ %>
-                <td>
-                  <a href="/details?id=<%= recentlyWatched[i].movieId %>">
-                    <img
-                      src="https://image.tmdb.org/t/p/w500<%= recentlyWatched[i].posterPath %>"
-                      alt="<%= recentlyWatched[i].movieTitle %>">
-                  </a>
-
-                  <div class="movie-title">
+          <% if (recentlyWatched.length === 0) { %>
+              <p class="empty">
+              You've not watched any movies yet.  
+              Add some to your <a href="/movies">watchlist</a> and enjoy!
+              </p>          
+          <% } else { %>
+            <table class="watchlist-preview-table">
+              <tr>
+                <% for (let i = 0; i <recentlyWatched.length && i < 5; i++){ %>
+                  <td>
                     <a href="/details?id=<%= recentlyWatched[i].movieId %>">
-                      <%= recentlyWatched[i].movieTitle %>
+                      <img
+                        src="<%= recentlyWatched[i].posterPath %>"
+                        alt="<%= recentlyWatched[i].movieTitle %>">
                     </a>
-                  </div>
-                </td>
-              <% } %>
-              <% for (let i = recentlyWatched.length; i < 5; i++) { %>
-                <td class="empty-cell"></td>
-              <% } %>
-            </tr>
-          </table>
-        <% } %>
-      </section>
+
+                    <div class="movie-title">
+                      <a href="/details?id=<%= recentlyWatched[i].movieId %>">
+                        <%= recentlyWatched[i].movieTitle %>
+                      </a>
+                    </div>
+                  </td>
+                <% } %>
+                <% for (let i = recentlyWatched.length; i < 5; i++) { %>
+                  <td class="empty-cell"></td>
+                <% } %>
+              </tr>
+            </table>
+          <% } %>
+        </section>
+      <% } %>
     </main>
   <% } %>
 

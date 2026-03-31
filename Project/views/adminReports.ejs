@@ -15,7 +15,7 @@
     <div class="page-content">
         <h1>Reported Reviews</h1>
 
-        
+        <!-- Filter tabs -->
         <div class="tabs">
             <a href="/admin/reports?status=pending"
                 class="tab <%= filter === 'pending' ? 'active' : '' %>">
@@ -48,14 +48,14 @@
                         <p class="label">Review content:</p>
                         <% if (report.reviewId) { %>
                             <p class="review-text">
-                                "<%= report.reviewId.text
-                                    ? report.reviewId.text.substring(0, 200)
+                                "<%= report.reviewId.comment
+                                    ? report.reviewId.comment.substring(0, 200)
                                     : "No text" %>"
                             </p>
                             <p class="review-author">
-                                — by <%= report.reviewId.userId
-                                    ? report.reviewId.userId.username
-                                    : "Deleted user" %>
+                                — by <%= report.reviewId.user
+                                    ? report.reviewId.user.username
+                                    : (report.reviewId.username || "Deleted user") %>
                             </p>
                         <% } else { %>
                             <p class="review-text">Review has been deleted.</p>

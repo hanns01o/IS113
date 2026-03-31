@@ -5,10 +5,20 @@
       <!-- <a href="/home">Home</a> -->
       <a href="/movies">Movies</a>  
       <% if (currentUser && currentUser.userId && currentUser.role != "admin") { %>
+
+>>>>>>> 0a06c9728dfc1c8d8b2f13774eba854c752e3996
         <a href="/watchlist">My Watchlist</a>
-        <a href="/movies/add">Add New Movie</a>
+      <% } %>
+
+      <% if (currentUser && currentUser.role === "admin") { %>
+        <a href="/admin/reports">Reports</a>
+      <% } %>
+      <% if (currentUser && currentUser.role === "admin") { %>
+          <a href="/admin/reports">Reports</a>
       <% } %>
     </div>
+
+    
 
     <div class="nav-right">
       <% if (currentUser && currentUser.role === "admin") { %>

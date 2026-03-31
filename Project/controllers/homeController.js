@@ -30,11 +30,6 @@ exports.getHomePage = async (req, res) => {
         .slice(0,5)
     }
 
-    const category = "popular";
-    const response = await fetch(
-      `https://api.themoviedb.org/3/movie/${category}?api_key=${process.env.API_KEY}`
-    );
-
     const movies = await getMovies();
     if (movies) {
       featuredMovies = movies
@@ -77,8 +72,6 @@ exports.getHomePage = async (req, res) => {
       }
 
     }
-
-    // const previewWatchlist = watchlistMovies.slice(0, 5);
 
     res.render("home", {
       featuredMovies,

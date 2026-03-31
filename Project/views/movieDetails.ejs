@@ -11,7 +11,7 @@
     <style>
         .backdrop {
             padding: 50px 25px;
-            background-image: url("https://image.tmdb.org/t/p/w1280<%= movie.backdrop_path %>");
+            background-image: url("<%= movie.backdrop_path %>");
             background-size: cover;
             background-position: center top;
             inset: 0;
@@ -28,7 +28,7 @@
         <div class="backdrop">
             <table>
                 <tr>
-                    <td rowspan="4"><img src="https://image.tmdb.org/t/p/w500<%= movie.poster_path %>"
+                    <td rowspan="4"><img src="<%= movie.poster_path %>"
                             alt="<%= movie.title %>" /></td>
                     <td>
                         <h1>
@@ -39,7 +39,7 @@
                 <tr>
                     <td>
                         <% for(genre of movie.genres){ %>
-                            <a href="/genre?tag=<%=genre.id%>">
+                            <a href="/search/genre?tag=<%=genre.id%>">
                                 <%=genre.name%>
                             </a> &nbsp;
                             <% } %>
@@ -48,8 +48,19 @@
                 <tr>
                     <td>
                         <% 
-                        let totalScore=(movie.vote_average*movie.vote_count); 
-                        let totalCount=movie.vote_count; 
+                        let apiVotes = movie.vote_count ? Number(movie.vote_count) : 0; 
+                        let apiScore = movie.vote_average ? Number(movie.vote_average) : 0;
+
+                        let totalScore;
+                        let totalCount;
+
+                        if (apiVotes > 0) {
+                            totalScore = (movie.vote_average*movie.vote_count); 
+                            totalCount = movie.vote_count;
+                        } else {
+                            totalScore = 0;
+                            totalCount = 0;
+                        }
 
                         if (reviews && reviews.length> 0) {
                             const userTotal = reviews.reduce((sum, r) => sum + r.rating, 0);
@@ -57,7 +68,7 @@
                             totalCount += reviews.length;
                             }
   
-                        let combinedRating = (totalScore / totalCount).toFixed(1);
+                        let combinedRating = totalCount > 0 ? (totalScore / totalCount).toFixed(1) : "N/A";
                         %>
                             <span style="color: #ffc107; font-size: 1.2rem;">★</span>
                             <strong style="font-size: 1.2rem;">
@@ -74,46 +85,44 @@
                         <p>
                             <%=movie.overview%>
                         </p>
-
-                        <% if (inWatchlist) { %>
-                            <form method="POST" action="/watchlist/remove/<%= movie.id %>">
-                                <button type="submit" class="watchlist-btn remove">Remove from Watchlist</button>
-                            </form>
-                            <% if (!watchedStatus) { %>
-                                <form method="POST" action="/watchlist/updateadd/<%= movie.id %>">
-                                    <button type="submit" class="watchlist-btn">Mark as Watched</button>
+                        <% if (!currentUser || currentUser.role !== "admin") {%>
+                            <% if (inWatchlist) { %>
+                                <form method="POST" action="/watchlist/remove/<%= String(movieId) %>">
+                                    <button type="submit" class="watchlist-btn remove">Remove from Watchlist</button>
                                 </form>
-                                <% } else { %>
-                                    <form method="POST" action="/watchlist/updateremove/<%= movie.id %>">
-                                        <button type="submit" class="watchlist-btn remove">Mark as Unwatched</button>
+                                <% if (!watchedStatus) { %>
+                                    <form method="POST" action="/watchlist/updateadd/<%= String(movieId) %>">
+                                        <button type="submit" class="watchlist-btn">Mark as Watched</button>
                                     </form>
+                                    <% } else { %>
+                                        <form method="POST" action="/watchlist/updateremove/<%= String(movieId) %>">
+                                            <button type="submit" class="watchlist-btn remove">Mark as Unwatched</button>
+                                        </form>
+                                        <% } %>
+                                            <% } else { %>
+                                                <form method="POST" action="/watchlist/add/<%= String(movieId) %>">
+                                                    <input type="hidden" name="movieTitle" value="<%= movie.title %>">
+                                                    <input type="hidden" name="posterPath" value="<%= movie.poster_path %>">
+                                                    <button type="submit" class="watchlist-btn">Add to Watchlist</button>
+                                                </form>
+                                                <% } %>
                                     <% } %>
-                                        <% } else { %>
-                                            <form method="POST" action="/watchlist/add/<%= movie.id %>">
-                                                <input type="hidden" name="movieTitle" value="<%= movie.title %>">
-                                                <input type="hidden" name="posterPath" value="<%= movie.poster_path %>">
-                                                <button type="submit" class="watchlist-btn">Add to Watchlist</button>
-                                            </form>
-                                            <% } %>
                     </td>
                 </tr>
             </table>
         </div>
-        <div class="container">
-            <% if (locals.errors && errors.length> 0) { %>
-                <div class="alert alert-danger shadow-sm"
-                    style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 5px solid #dc3545;">
-                    <ul style="margin: 0; padding-left: 20px;">
-                        <% errors.forEach(error=> { %>
-                            <li><strong>Error:</strong>
-                                <%= error.msg %>
-                            </li>
-                            <% }) %>
-                    </ul>
-                </div>
-                <% } %>
-        </div>
-        <br><br>
+        <% if (typeof req !== 'undefined' || true) { %>
+            <script>
+                const params = new URLSearchParams(window.location.search);
+                if (params.get("reported") === "duplicate") {
+                    alert("You have already reported this review.");
+                
+                params.delete("reported");
+                const cleanUrl = window.location.pathname + (params.toString() ? "?" + params.toString() : "");
+                window.history.replaceState({}, "", cleanUrl);
+                }
+            </script>
+        <% } %>
         <h2>Reviews</h2>
         <div class="container mt-5">
             <div class="d-flex justify-content-between align-items-center mb-4">
@@ -128,7 +137,7 @@
                             You have already submitted a review for this movie.
                         </div>
                     <% } else { %>
-                        <a href="/movies/<%= movie.id %>/reviews/new" class="btn btn-primary">+ Write a Review</a>
+                        <a href="/movies/<%= movieId %>/reviews/new" class="btn btn-primary">+ Write a Review</a>
                     <% } %>
                 <% } %>
             <% } else { %>
