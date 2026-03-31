@@ -68,11 +68,11 @@
                                     <td>
                                         <label class="select-box checkbox-hidden" style="display: none;">
                                             <input type="checkbox" name="selectedMovies"
-                                                value="<%= customMovies[j]._id %>|db|<%= customMovies[j].title %>|<%= customMovies[j].poster_path %>">
+                                                value="<%= customMovies[j]._id %>|db|<%= customMovies[j].title %>|<%= customMovies[j].posterUrl %>">
                                             Select
                                         </label>
                                         <a href="/details?id=<%= customMovies[j]._id %>">
-                                            <img src="<%= customMovies[j].poster_path %>" alt="<%= customMovies[j].title %>" />
+                                            <img src="<%= customMovies[j].posterUrl %>" alt="<%= customMovies[j].title %>" />
                                         </a>
                                         <div class="movie-title">
                                             <a href="/details?id=<%= customMovies[j]._id %>"><%= customMovies[j].title %></a>

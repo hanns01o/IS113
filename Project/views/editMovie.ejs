@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Movie Submission</title>
+    <link rel="stylesheet" href="/header.css">
+    <link rel="stylesheet" href="/addMovie.css">
+</head>
+<body>
+    <%- include('partials/header') %>
+
+        <main class="add-movie-page">
+            <section class="add-movie-card">
+                <h1>Edit Movie Submission</h1>
+                
+                <% if (error) { %>
+                    <div class="form-message error"><%= error %>
+                    </div>
+                <% } %>
+
+                <<form action="<%= formAction %>" method="POST" class="add-movie-form">
+                        <label for="title">Movie Title:</label>
+                        <input type="text" id="title" name="title" value="<%= title %>" required>
+                    </div>
+
+                    <label for="genre">Genre:</label>
+                    <div class="genre-container">
+                        <% genres.forEach(g=> { %>
+                            <label class="genre-tag">
+                                <input type="checkbox" name="genre" value="<%= g.id %>" <%= genre && genre.includes(String(g.id)) ? "checked" : "" %>>
+                                <span><%= g.name %></span>
+                            </label>
+                        <% }) %>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="overview">Overview:</label>
+                        <textarea name="overview" rows="5" cols="50" required><%= overview %></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="release_date">Release Date:</label>
+                        <input type="date" id="release_date" name="release_date" value="<%= release_date %>" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="posterUrl">Poster URL:</label>
+                        <input type="text" id="posterUrl" name="posterUrl" value="<%= posterUrl %>" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bannerUrl">Backdrop URL:</label>
+                        <input type="text" id="bannerUrl" name="bannerUrl" value="<%= bannerUrl %>" required>
+                    </div>
+                    <button type="submit">Update Submission</button>
+                    <a href="/admin/submissions" class="btn btn-cancel">Cancel</a>
+                </form>
+            </section>
+        </main>
+</body>
+</html>
