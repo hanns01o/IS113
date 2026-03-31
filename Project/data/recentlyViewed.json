@@ -137,6 +137,27 @@
   ],
   "69aab87247bce5a515ef537d": [
     {
+      "id": "373104",
+      "title": "Chainsaw",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/aWAq7z2U5IGAS4ySIu8T40YB3Ux.jpg",
+      "genre": "Horror",
+      "releaseDate": "2015-10-08"
+    },
+    {
+      "id": "152601",
+      "title": "Her",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/eCOtqtfvn7mxGl6nfmq4b1exJRc.jpg",
+      "genre": "Romance, Science Fiction, Drama",
+      "releaseDate": "2013-12-18"
+    },
+    {
+      "id": "1115544",
+      "title": "Mike & Nick & Nick & Alice",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/7F0jc75HrSkLVcvOXR2FXAIwuEv.jpg",
+      "genre": "Comedy, Science Fiction, Crime",
+      "releaseDate": "2026-03-14"
+    },
+    {
       "id": 875828,
       "title": "Peaky Blinders: The Immortal Man",
       "posterUrl": "https://image.tmdb.org/t/p/w500/gRMalasZEzsZi4w2VFuYusfSfqf.jpg",
