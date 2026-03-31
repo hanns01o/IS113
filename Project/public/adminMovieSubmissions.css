@@ -132,6 +132,34 @@ body {
     background: #16a34a;
 }
 
+.btn-edit {
+    background: #2563eb;
+    text-decoration: none;
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-weight: 700;
+    color: #fff;
+    display: inline-block;
+}
+
+.btn-edit:hover {
+    background: #1d4ed8;
+}
+
+.btn-edit-live {
+    background: #b45309;
+    text-decoration: none;
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-weight: 700;
+    color: #fff;
+    display: inline-block;
+}
+
+.btn-edit-live:hover {
+    background: #92400e;
+}
+
 .btn-reject {
     background: var(--warning);
 }

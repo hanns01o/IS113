@@ -31,17 +31,24 @@
                         </div>
 
                         <div class="submission-meta">
-                            <div><strong>Genre:</strong> <%= submission.genre %></div>
+                            <div><strong>Genre:</strong> <%= submission.genreNames %></div>
                             <div>
                                 <strong>Submitted By:</strong>
-                                <%= submission.submittedBy ? submission.submittedBy.username : "Unknown User" %>
+                                <%= submission.uploadedBy ? submission.uploadedBy.username : "Unknown User" %>
                             </div>
                         </div>
 
-                        <div class="submission-description">
-                            <strong>Description:</strong><br>
-                            <%= submission.description %>
+                        <div class="submission-overview">
+                            <strong>Overview:</strong><br>
+                            <%= submission.overview %>
                         </div>
+
+                        <div><strong>Release Date:</strong> <%= submission.release_date %></div>
+                        <div><strong>Poster URL:</strong> <%= submission.posterUrl %></div>
+                        <div><strong>Backdrop URL:</strong> <%= submission.bannerUrl %></div>
+
+                        <a href="/admin/submissions/<%= submission._id %>/edit" class="btn btn-edit">Edit</a>
+                                        
 
                         <div class="action-row">
                             <% if (submission.status === "pending") { %>
@@ -53,7 +60,6 @@
                                     <button type="submit" class="btn btn-reject">Reject</button>
                                 </form>
                             <% } %>
-
                             <form action="/admin/submissions/<%= submission._id %>/delete" method="POST">
                                 <button type="submit" class="btn btn-delete">Delete</button>
                             </form>

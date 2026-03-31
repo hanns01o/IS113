@@ -1,32 +1,41 @@
 const mongoose = require("mongoose");
 
-// attribute name matches the API field for direct mapping
 const movieSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: true
+        required: true,
+        trim: true
     },
     genre_ids: {
-        type: Array,
+        type: [Number],
         default: [],
-        required: true
     },
     overview: {
         type: String,
-        required: true
+        required: true,
+        trim: true
     },
-    poster_path: {
+    release_date: {
         type: String,
         required: true
-    },
-    backdrop_path: {
+    },    
+    posterUrl: {
         type: String,
-        required: true
+        default: "images/default-poster.jpg"
+    },
+    bannerUrl: {
+        type: String,
+        default: "images/default-banner.jpg"
     },
     uploadedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         required: true
+    },
+    status: {
+        type: String,
+        enum: ["approved", "pending", "rejected"],
+        default: "pending"
     },
     createdAt: {
         type: Date,

@@ -47,6 +47,16 @@
                 </tr>
                 <tr>
                     <td>
+                        <span class="text-secondary">
+                            Release Date:
+                        </span>
+                        <strong>
+                            <%= movie.release_date ? new Date(movie.release_date).toLocaleDateString() : "Unknown" %>
+                        </strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
                         <% 
                         let apiVotes = movie.vote_count ? Number(movie.vote_count) : 0; 
                         let apiScore = movie.vote_average ? Number(movie.vote_average) : 0;
