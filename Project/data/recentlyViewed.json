@@ -137,11 +137,11 @@
   ],
   "69aab87247bce5a515ef537d": [
     {
-      "id": "83533",
-      "title": "Avatar: Fire and Ash",
-      "posterUrl": "https://image.tmdb.org/t/p/w500/bRBeSHfGHwkEpImlhxPmOcUsaeg.jpg",
-      "genre": "Science Fiction, Adventure, Fantasy",
-      "releaseDate": "2025-12-17"
+      "id": "1290821",
+      "title": "Shelter",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/buPFnHZ3xQy6vZEHxbHgL1Pc6CR.jpg",
+      "genre": "Action, Crime, Thriller",
+      "releaseDate": "2026-01-28"
     },
     {
       "id": "1198994",
@@ -151,11 +151,11 @@
       "releaseDate": "2026-01-22"
     },
     {
-      "id": "1290821",
-      "title": "Shelter",
-      "posterUrl": "https://image.tmdb.org/t/p/w500/buPFnHZ3xQy6vZEHxbHgL1Pc6CR.jpg",
-      "genre": "Action, Crime, Thriller",
-      "releaseDate": "2026-01-28"
+      "id": "83533",
+      "title": "Avatar: Fire and Ash",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/bRBeSHfGHwkEpImlhxPmOcUsaeg.jpg",
+      "genre": "Science Fiction, Adventure, Fantasy",
+      "releaseDate": "2025-12-17"
     },
     {
       "id": "1084187",
@@ -232,18 +232,18 @@
   ],
   "69bbc56b9b7d474ea5c966bd": [
     {
-      "id": "83533",
-      "title": "Avatar: Fire and Ash",
-      "posterUrl": "https://image.tmdb.org/t/p/w500/bRBeSHfGHwkEpImlhxPmOcUsaeg.jpg",
-      "genre": "Science Fiction, Adventure, Fantasy",
-      "releaseDate": "2025-12-17"
-    },
-    {
       "id": "1290821",
       "title": "Shelter",
       "posterUrl": "https://image.tmdb.org/t/p/w500/buPFnHZ3xQy6vZEHxbHgL1Pc6CR.jpg",
       "genre": "Action, Crime, Thriller",
       "releaseDate": "2026-01-28"
+    },
+    {
+      "id": "83533",
+      "title": "Avatar: Fire and Ash",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/bRBeSHfGHwkEpImlhxPmOcUsaeg.jpg",
+      "genre": "Science Fiction, Adventure, Fantasy",
+      "releaseDate": "2025-12-17"
     },
     {
       "id": "1084187",
