@@ -141,7 +141,7 @@ exports.deleteReview = async (req, res) => {
         ? commentText.substring(0, 80) + "..."
         : commentText;
 
-    const reviewOwnerId = review.userId; // change if your field name is different
+    const reviewOwnerId = review.user.toString(); // change if your field name is different
 
     // Get all reports linked to this review BEFORE deleting anything
     const relatedReports = await Report.find({ reviewId: review._id });
@@ -160,7 +160,7 @@ exports.deleteReview = async (req, res) => {
     if (reviewOwnerId) {
       await createNotification(
         reviewOwnerId,
-        `Your review has been removed by the admin due to reports from users.\nMovie: ${movieName}\nComment: ${shortComment}`,
+        `Your review has been removed by the admin due to reports from users.\nComment: ${shortComment}`,
         "report",
         selectedReport._id.toString()
       );
