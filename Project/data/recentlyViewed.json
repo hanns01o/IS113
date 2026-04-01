@@ -209,6 +209,13 @@
   ],
   "69c17e3cc7759b8263266c13": [
     {
+      "id": "69cb7fff01402e5f53e7e296",
+      "title": "Chainsaw Man – The Movie: Reze Arc",
+      "posterUrl": "https://preview.redd.it/cleaned-up-key-visual-of-reze-movie-v0-p6nv5kammctf1.png?width=640&crop=smart&auto=webp&s=34a46544561d79e9dc2659cff2db31ab4997ca00",
+      "genre": "Action, Animation, Horror, Romance",
+      "releaseDate": "2025-09-19"
+    },
+    {
       "id": "1115544",
       "title": "Mike & Nick & Nick & Alice",
       "posterUrl": "https://image.tmdb.org/t/p/w500/7F0jc75HrSkLVcvOXR2FXAIwuEv.jpg",
@@ -292,6 +299,21 @@
       "posterUrl": "https://preview.redd.it/cleaned-up-key-visual-of-reze-movie-v0-p6nv5kammctf1.png?width=640&crop=smart&auto=webp&s=34a46544561d79e9dc2659cff2db31ab4997ca00",
       "genre": "Action, Animation, Horror, Romance",
       "releaseDate": "2025-09-19"
+    }
+  ],
+  "69cc8621a215c2d72d732b9d": [
+    {
+      "id": "69cb7fff01402e5f53e7e296",
+      "title": "Chainsaw Man – The Movie: Reze Arc",
+      "posterUrl": "https://preview.redd.it/cleaned-up-key-visual-of-reze-movie-v0-p6nv5kammctf1.png?width=640&crop=smart&auto=webp&s=34a46544561d79e9dc2659cff2db31ab4997ca00",
+      "genre": "Action, Animation, Horror, Romance",
+      "releaseDate": "2025-09-19"
+    },
+    {
+      "id": "undefined",
+      "posterUrl": "https://image.tmdb.org/t/p/w500undefined",
+      "genre": "",
+      "releaseDate": ""
     }
   ]
 }

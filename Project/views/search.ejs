@@ -58,12 +58,11 @@
                             <% for (let j = i; j < i + 4 && j < customMovies.length; j++) { %>
                                 <td>
                                     <a href="/details?id=<%= customMovies[j]._id %>">
-                                        <img src="<%= customMovies[j].poster_path %>" alt="<%= customMovies[j].title %>" />
+                                        <img src="<%= customMovies[j].posterUrl %>" alt="<%= customMovies[j].title %>" />
                                     </a>
                                     <div class="movie-title">
                                         <a href="/details?id=<%= customMovies[j]._id %>"><%= customMovies[j].title %></a>
                                     </div>
-                                    <div><small><%= customMovies[j].genre %></small></div>
                                     <br />
                                 </td>
                                 <% cellsInRow++; %>
